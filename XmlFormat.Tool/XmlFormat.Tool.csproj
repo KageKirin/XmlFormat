@@ -10,6 +10,10 @@
     <ToolCommandName>xf</ToolCommandName>
   </PropertyGroup>
 
+  <PropertyGroup Label="build metadata">
+    <PackageId>KageKirin.XmlFormat.Tool</PackageId>
+  </PropertyGroup>
+
   <ItemGroup Label="package references">
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="TurboXml" />

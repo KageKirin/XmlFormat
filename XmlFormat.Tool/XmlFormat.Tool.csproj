@@ -10,12 +10,12 @@
     <ToolCommandName>xf</ToolCommandName>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="package references">
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="TurboXml" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="project references">
     <ProjectReference Include="..\XmlFormat.Lib\XmlFormat.Lib.csproj" />
   </ItemGroup>
 

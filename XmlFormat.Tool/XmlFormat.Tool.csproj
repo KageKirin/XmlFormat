@@ -12,6 +12,7 @@
 
   <PropertyGroup Label="build metadata">
     <PackageId>KageKirin.XmlFormat.Tool</PackageId>
+    <Title>XmlFormat</Title>
   </PropertyGroup>
 
   <ItemGroup Label="package references">

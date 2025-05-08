@@ -32,7 +32,7 @@ public class Program
 
         using var istream = OpenInputStreamOrStdIn(options);
         using var ostream = OpenOutputStreamOrStdOut(options);
-        using var handler = new XmlReadHandlerBase(stream: ostream, encoding: Encoding.UTF8);
+        using var handler = new FormattingXmlReadHandler(stream: ostream, encoding: Encoding.UTF8);
         XmlParser.Parse(istream, handler);
     }
 

@@ -1,5 +1,8 @@
 using System.Diagnostics;
+using System.Text;
 using CommandLine;
+using TurboXml;
+using XmlFormat;
 
 namespace XmlFormat.Tool;
 
@@ -29,7 +32,8 @@ public class Program
 
         using var istream = OpenInputStreamOrStdIn(options);
         using var ostream = OpenOutputStreamOrStdOut(options);
-        istream.CopyTo(ostream);
+        using var handler = new XmlReadHandlerBase(stream: ostream, encoding: Encoding.UTF8);
+        XmlParser.Parse(istream, handler);
     }
 
     static void HandleParseError(IEnumerable<Error> errs)

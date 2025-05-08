@@ -1,3 +1,10 @@
+<img
+  src="icon.svg"
+  alt="xml format icon"
+  height="200"
+  width="200"
+  align="right" />
+
 # XmlFormat, aka `xf`
 
 XmlFormat (project name), aka `xf` (command name)

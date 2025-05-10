@@ -13,7 +13,7 @@
   <PropertyGroup Label="build metadata">
     <PackageId>KageKirin.XmlFormat.Tool</PackageId>
     <Title>XmlFormat</Title>
-    <Description>XML formatting tool</Description>
+    <Description>CLI tool for formatting XML files</Description>
     <PackageTags>xml;formatting</PackageTags>
     <PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.github.com/KageKirin/XmlFormat/main/Icon.png</PackageIconUrl>

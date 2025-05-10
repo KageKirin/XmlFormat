@@ -10,6 +10,7 @@
   <PropertyGroup Label="build metadata">
     <PackageId>KageKirin.XmlFormat</PackageId>
     <Title>XmlFormat (lib)</Title>
+    <Description>Library for formatting XML data</Description>
   </PropertyGroup>
 
   <ItemGroup>

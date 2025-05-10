@@ -6,6 +6,12 @@
     <PackageVersion Include="TurboXml" Version="2.0.2" />
   </ItemGroup>
 
+  <ItemGroup Label="unit test dependencies">
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageVersion Include="xunit.v3" Version="2.0.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0" />
+  </ItemGroup>
+
   <ItemGroup Label="global package references">
     <!-- enable reproducible builds -->
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" PrivateAssets="All" />

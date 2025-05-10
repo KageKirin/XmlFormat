@@ -7,6 +7,10 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Label="build metadata">
+    <PackageId>KageKirin.XmlFormat</PackageId>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="TurboXml" />
   </ItemGroup>

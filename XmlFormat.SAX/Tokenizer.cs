@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Superpower;
+using Superpower.Display;
+using Superpower.Model;
+using Superpower.Parsers;
+using Superpower.Tokenizers;
+
+namespace XmlFormat.SAX;
+
+public static class XmlTokenizer
+{
+    public enum XmlToken
+    {
+        /// <summary>
+        /// processing instruction, e.g. <?php ... ?>
+        /// NOTE: we are also considering the regular XML header <?xml ...?> as such
+        /// </summary>
+        [Token(Example = "<?pi ... ?>")]
+        ProcessingInstruction,
+
+        /// <summary>
+        /// regular comment
+        /// possibly multiline
+        /// </summary>
+        [Token(Example = "<!-- ... -->")]
+        Comment,
+
+        /// <summary>
+        /// CData content
+        /// possibly multiline
+        /// </summary>
+        [Token(Example = "<![CDATA[ ... ]]>")]
+        CData,
+
+        /// <summary>
+        /// XML element
+        /// currently pertaining to opening <element>, closing </element> and empty <element/>
+        /// might get subdivided later
+        /// </summary>
+        [Token(Example = "<element ... />")]
+        Element,
+
+        /// <summary>
+        /// content text
+        /// basically everything not between <>
+        /// </summary>
+        Content,
+    }
+
+    /// <summary>
+    /// token parser for Processing Instructions
+    /// </summary>
+    static TextParser<Unit> XmlProcessingInstruction { get; } =
+        from open in Span.EqualTo("<?").Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from rest in Span.Except("?>").Many().Value(Unit.Value).Try()
+        from close in Span.EqualTo("?>").Try()
+        select Unit.Value;
+
+    /// <summary>
+    /// token parser for Comments
+    /// </summary>
+    static TextParser<Unit> XmlComment { get; } =
+        from open in Span.EqualTo("<!--").Try()
+        from comment in Span.Except("-->").Many().Value(Unit.Value).Try()
+        from close in Span.EqualTo("-->").Try()
+        select Unit.Value;
+
+    /// <summary>
+    /// token parser for CData elements
+    /// </summary>
+    static TextParser<Unit> XmlCData { get; } =
+        from open in Span.EqualTo("<![CDATA[").Try()
+        from cdata in Span.Except("]]>").Many().Value(Unit.Value).Try()
+        from close in Span.EqualTo("]]>").Try()
+        select Unit.Value;
+
+    /// <summary>
+    /// token parser for elements
+    /// currently pertaining to opening <element>, closing </element> and empty <element/>
+    /// might get subdivided later
+    /// </summary>
+    static TextParser<Unit> XmlElement { get; } =
+        from open in Character.EqualTo('<').Try()
+        from identifier in Character
+            .LetterOrDigit.Or(Character.EqualTo('/'))
+            .AtLeastOnce()
+            .Value(Unit.Value)
+            .Try()
+        from rest in Character.Except('>').Many().Value(Unit.Value).Try()
+        from close in Character.EqualTo('>')
+        select Unit.Value;
+
+    /// <summary>
+    /// token parser for content
+    /// </summary>
+    static TextParser<Unit> XmlContent { get; } =
+        from content in Character.ExceptIn(['<', '>']).Many().Value(Unit.Value).Try()
+        select Unit.Value;
+
+    /// <summary>
+    /// the actual tokenizer instance
+    /// usage: `Instance.Tokenize(string);`
+    /// </summary>
+    public static Tokenizer<XmlToken> Instance { get; } =
+        new TokenizerBuilder<XmlToken>()
+            .Ignore(Span.WhiteSpace)
+            .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
+            .Match(XmlComment, XmlToken.Comment)
+            .Match(XmlCData, XmlToken.CData)
+            .Match(XmlElement, XmlToken.Element)
+            .Match(XmlContent, XmlToken.Content)
+            .Build();
+}

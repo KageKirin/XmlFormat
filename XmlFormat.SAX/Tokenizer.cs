@@ -96,6 +96,16 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
+    /// token parser for closing </element>
+    /// </summary>
+    static TextParser<Unit> XmlElementEnd { get; } =
+        from open in Span.EqualTo("</").Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from rest in Character.Except('>').Many().Value(Unit.Value).Try()
+        from close in Character.EqualTo('>')
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for content
     /// </summary>
     static TextParser<Unit> XmlContent { get; } =
@@ -113,6 +123,7 @@ public static class XmlTokenizer
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
             .Match(XmlElementStartOrEmpty, XmlToken.ElementStartOrEmpty)
+            .Match(XmlElementEnd, XmlToken.ElementEnd)
             .Match(XmlContent, XmlToken.Content)
             .Build();
 }

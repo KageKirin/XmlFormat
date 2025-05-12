@@ -76,11 +76,9 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
-    /// token parser for elements
-    /// currently pertaining to opening <element>, closing </element> and empty <element/>
-    /// might get subdivided later
+    /// token parser for opening <element> and empty <element/>
     /// </summary>
-    static TextParser<Unit> XmlElement { get; } =
+    static TextParser<Unit> XmlElementStartOrEmpty { get; } =
         from open in Character.EqualTo('<').Try()
         from identifier in Character
             .LetterOrDigit.Or(Character.EqualTo('/'))
@@ -108,7 +106,7 @@ public static class XmlTokenizer
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
-            .Match(XmlElement, XmlToken.ElementStartOrEmpty)
+            .Match(XmlElementStartOrEmpty, XmlToken.ElementStartOrEmpty)
             .Match(XmlContent, XmlToken.Content)
             .Build();
 }

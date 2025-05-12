@@ -86,11 +86,7 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlElementStartOrEmpty { get; } =
         from open in Character.EqualTo('<').Try()
-        from identifier in Character
-            .LetterOrDigit.Or(Character.EqualTo('/'))
-            .AtLeastOnce()
-            .Value(Unit.Value)
-            .Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
         from rest in Character.Except('>').Many().Value(Unit.Value).Try()
         from close in Character.EqualTo('>')
         select Unit.Value;

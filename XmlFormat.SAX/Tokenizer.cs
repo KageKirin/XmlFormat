@@ -35,12 +35,10 @@ public static class XmlTokenizer
         CData,
 
         /// <summary>
-        /// XML element
-        /// currently pertaining to opening <element>, closing </element> and empty <element/>
-        /// might get subdivided later
+        /// XML opening <element> or empty <element/>
         /// </summary>
         [Token(Example = "<element ... />")]
-        Element,
+        ElementStartOrEmpty,
 
         /// <summary>
         /// content text
@@ -110,7 +108,7 @@ public static class XmlTokenizer
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
-            .Match(XmlElement, XmlToken.Element)
+            .Match(XmlElement, XmlToken.ElementStartOrEmpty)
             .Match(XmlContent, XmlToken.Content)
             .Build();
 }

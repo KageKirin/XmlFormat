@@ -35,12 +35,16 @@ public static class XmlTokenizer
         CData,
 
         /// <summary>
-        /// XML element
-        /// currently pertaining to opening <element>, closing </element> and empty <element/>
-        /// might get subdivided later
+        /// XML opening <element> or empty <element/>
         /// </summary>
         [Token(Example = "<element ... />")]
-        Element,
+        ElementStartOrEmpty,
+
+        /// <summary>
+        /// XML closing </element>
+        /// </summary>
+        [Token(Example = "</element>")]
+        ElementEnd,
 
         /// <summary>
         /// content text
@@ -78,17 +82,21 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
-    /// token parser for elements
-    /// currently pertaining to opening <element>, closing </element> and empty <element/>
-    /// might get subdivided later
+    /// token parser for opening <element> and empty <element/>
     /// </summary>
-    static TextParser<Unit> XmlElement { get; } =
+    static TextParser<Unit> XmlElementStartOrEmpty { get; } =
         from open in Character.EqualTo('<').Try()
-        from identifier in Character
-            .LetterOrDigit.Or(Character.EqualTo('/'))
-            .AtLeastOnce()
-            .Value(Unit.Value)
-            .Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from rest in Character.Except('>').Many().Value(Unit.Value).Try()
+        from close in Character.EqualTo('>')
+        select Unit.Value;
+
+    /// <summary>
+    /// token parser for closing </element>
+    /// </summary>
+    static TextParser<Unit> XmlElementEnd { get; } =
+        from open in Span.EqualTo("</").Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
         from rest in Character.Except('>').Many().Value(Unit.Value).Try()
         from close in Character.EqualTo('>')
         select Unit.Value;
@@ -110,7 +118,8 @@ public static class XmlTokenizer
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
-            .Match(XmlElement, XmlToken.Element)
+            .Match(XmlElementStartOrEmpty, XmlToken.ElementStartOrEmpty)
+            .Match(XmlElementEnd, XmlToken.ElementEnd)
             .Match(XmlContent, XmlToken.Content)
             .Build();
 }

@@ -85,263 +85,310 @@ public class TokenizerTest
     [Fact]
     public void TestElementNoAttributes()
     {
-        Assert.True(TestHelper.Tokenize("<element/>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element />", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element\n/>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element\n />", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(TestHelper.Tokenize("<element/>", [XmlTokenizer.XmlToken.ElementStartOrEmpty]));
+        Assert.True(
+            TestHelper.Tokenize("<element />", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<element\n/>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<element\n />", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
 
-        Assert.True(TestHelper.Tokenize("<element>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element >", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element\n>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<element\n >", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(TestHelper.Tokenize("<element>", [XmlTokenizer.XmlToken.ElementStartOrEmpty]));
+        Assert.True(TestHelper.Tokenize("<element >", [XmlTokenizer.XmlToken.ElementStartOrEmpty]));
+        Assert.True(
+            TestHelper.Tokenize("<element\n>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<element\n >", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
 
-        Assert.True(TestHelper.Tokenize("</element>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("</element >", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("</element\n>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("</element\n >", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(TestHelper.Tokenize("</element>", [XmlTokenizer.XmlToken.ElementEnd]));
+        Assert.True(TestHelper.Tokenize("</element >", [XmlTokenizer.XmlToken.ElementEnd]));
+        Assert.True(TestHelper.Tokenize("</element\n>", [XmlTokenizer.XmlToken.ElementEnd]));
+        Assert.True(TestHelper.Tokenize("</element\n >", [XmlTokenizer.XmlToken.ElementEnd]));
 
-        Assert.True(TestHelper.Tokenize("<el:em_en-t/>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t />", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t\n/>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t\n />", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t/>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t />", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t\n/>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t\n />", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
 
-        Assert.True(TestHelper.Tokenize("<el:em_en-t>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t >", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t\n>", [XmlTokenizer.XmlToken.Element]));
-        Assert.True(TestHelper.Tokenize("<el:em_en-t\n >", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t >", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t\n>", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
+        Assert.True(
+            TestHelper.Tokenize("<el:em_en-t\n >", [XmlTokenizer.XmlToken.ElementStartOrEmpty])
+        );
 
-        Assert.True(TestHelper.Tokenize("</el:em_en-t>", [XmlTokenizer.XmlToken.Element]));
+        Assert.True(TestHelper.Tokenize("</el:em_en-t>", [XmlTokenizer.XmlToken.ElementEnd]));
     }
 
     [Fact]
     public void TestElementWithAttributes()
     {
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"hogehoge\"/>", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"hogehoge\"/>",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"hogehoge\" />", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"hogehoge\" />",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"{hogehoge}\"/>", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"{hogehoge}\"/>",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\"/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\" />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\" standalone/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\" standalone />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\"/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n/>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n />",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"hogehoge\">", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"hogehoge\">",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"hogehoge\" >", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"hogehoge\" >",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"{hogehoge}\">", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"{hogehoge}\">",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
         Assert.True(
-            TestHelper.Tokenize("<element foobar=\"{hogehoge}\" >", [XmlTokenizer.XmlToken.Element])
+            TestHelper.Tokenize(
+                "<element foobar=\"{hogehoge}\" >",
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
+            )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\">",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\" xyz=\"abc\" >",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" \n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone >",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone \n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\">",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" >",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\"\n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" \n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
 
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"hogehoge\"   xyz=\"abc\" standalone >",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone\n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
         Assert.True(
             TestHelper.Tokenize(
                 "<element foobar=\"{hogehoge}\" xyz=\"abc\" standalone \n>",
-                [XmlTokenizer.XmlToken.Element]
+                [XmlTokenizer.XmlToken.ElementStartOrEmpty]
             )
         );
     }

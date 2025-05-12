@@ -41,6 +41,12 @@ public static class XmlTokenizer
         ElementStartOrEmpty,
 
         /// <summary>
+        /// XML closing </element>
+        /// </summary>
+        [Token(Example = "</element>")]
+        ElementEnd,
+
+        /// <summary>
         /// content text
         /// basically everything not between <>
         /// </summary>

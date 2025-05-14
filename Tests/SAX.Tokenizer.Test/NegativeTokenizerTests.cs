@@ -11,20 +11,10 @@ public class NegativeTokenizerTest
     [Fact]
     public void NegativeTestProcessingInstruction()
     {
-        Assert.False(TestHelper.Tokenize("<?xml>", [XmlTokenizer.XmlToken.ProcessingInstruction]));
-        Assert.False(TestHelper.Tokenize("<?xml ", [XmlTokenizer.XmlToken.ProcessingInstruction]));
-        Assert.False(
-            TestHelper.Tokenize(
-                "<?xml version=\"1.0\" encoding=\"utf-8\">",
-                [XmlTokenizer.XmlToken.ProcessingInstruction]
-            )
-        );
-        Assert.False(
-            TestHelper.Tokenize(
-                "<?xml version=\"1.0\" encoding=\"utf-8\" ",
-                [XmlTokenizer.XmlToken.ProcessingInstruction]
-            )
-        );
+        Assert.False(TestHelper.Tokenize("<?xml>", [XmlTokenizer.XmlToken.Declaration]));
+        Assert.False(TestHelper.Tokenize("<?xml ", [XmlTokenizer.XmlToken.Declaration]));
+        Assert.False(TestHelper.Tokenize("<?xml version=\"1.0\" encoding=\"utf-8\">", [XmlTokenizer.XmlToken.Declaration]));
+        Assert.False(TestHelper.Tokenize("<?xml version=\"1.0\" encoding=\"utf-8\" ", [XmlTokenizer.XmlToken.Declaration]));
         Assert.False(TestHelper.Tokenize("<?php>", [XmlTokenizer.XmlToken.ProcessingInstruction]));
         Assert.False(TestHelper.Tokenize("<?php ", [XmlTokenizer.XmlToken.ProcessingInstruction]));
     }

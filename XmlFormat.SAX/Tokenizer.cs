@@ -112,6 +112,16 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
+    /// token parser for empty <element/>
+    /// </summary>
+    static TextParser<Unit> XmlElementEmpty { get; } =
+        from open in Character.EqualTo('<').Try()
+        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from rest in Span.Except("/>").Many().Value(Unit.Value).Try()
+        from close in Character.EqualTo('/').IgnoreThen(Character.EqualTo('>')).Try()
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for closing </element>
     /// </summary>
     static TextParser<Unit> XmlElementEnd { get; } =
@@ -131,6 +141,7 @@ public static class XmlTokenizer
     /// <summary>
     /// the actual tokenizer instance
     /// usage: `Instance.Tokenize(string);`
+    /// IMPORTANT: order matters
     /// </summary>
     public static Tokenizer<XmlToken> Instance { get; } =
         new TokenizerBuilder<XmlToken>()
@@ -140,6 +151,7 @@ public static class XmlTokenizer
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
             .Match(XmlElementEnd, XmlToken.ElementEnd)
+            .Match(XmlElementEmpty, XmlToken.ElementEmpty)
             .Match(XmlElementStart, XmlToken.ElementStart)
             .Match(XmlContent, XmlToken.Content)
             .Build();

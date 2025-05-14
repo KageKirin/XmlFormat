@@ -59,6 +59,15 @@ public static class XmlTokenizer
     }
 
     /// <summary>
+    /// token parser for XML Declaration
+    /// </summary>
+    static TextParser<Unit> XmlDeclaration { get; } =
+        from open in Span.EqualTo("<?xml").Try()
+        from rest in Span.Except("?>").Many().Value(Unit.Value).Try()
+        from close in Span.EqualTo("?>").Try()
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for Processing Instructions
     /// </summary>
     static TextParser<Unit> XmlProcessingInstruction { get; } =
@@ -120,6 +129,7 @@ public static class XmlTokenizer
     public static Tokenizer<XmlToken> Instance { get; } =
         new TokenizerBuilder<XmlToken>()
             .Ignore(Span.WhiteSpace)
+            .Match(XmlDeclaration, XmlToken.Declaration)
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)

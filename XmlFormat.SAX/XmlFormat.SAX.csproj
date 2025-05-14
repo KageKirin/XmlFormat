@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Superpower" />
+    <PackageReference Include="System.Memory" />
   </ItemGroup>
 
 </Project>

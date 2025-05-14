@@ -46,6 +46,12 @@ public static class XmlTokenizer
         ElementStart,
 
         /// <summary>
+        /// XML empty <element/>
+        /// </summary>
+        [Token(Example = "<element ... />")]
+        ElementEmpty,
+
+        /// <summary>
         /// XML closing </element>
         /// </summary>
         [Token(Example = "</element>")]

@@ -14,8 +14,13 @@ public static class XmlTokenizer
     public enum XmlToken
     {
         /// <summary>
+        /// XML declaration, i.e. <?xml ... ?>
+        /// </summary>
+        [Token(Example = "<?xml ... ?>")]
+        Declaration,
+
+        /// <summary>
         /// processing instruction, e.g. <?php ... ?>
-        /// NOTE: we are also considering the regular XML header <?xml ...?> as such
         /// </summary>
         [Token(Example = "<?pi ... ?>")]
         ProcessingInstruction,

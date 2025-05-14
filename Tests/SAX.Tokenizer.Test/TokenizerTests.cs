@@ -5,10 +5,10 @@ namespace SAX.Tokenizer.Test;
 public class TokenizerTest
 {
     [Theory]
-    [InlineData("<?xml?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
-    [InlineData("<?xml ?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
-    [InlineData("<?xml version=\"1.0\" encoding=\"utf-8\"?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
-    [InlineData("<?xml version=\"1.0\" encoding=\"utf-8\" ?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
+    [InlineData("<?xml?>", XmlTokenizer.XmlToken.Declaration)]
+    [InlineData("<?xml ?>", XmlTokenizer.XmlToken.Declaration)]
+    [InlineData("<?xml version=\"1.0\" encoding=\"utf-8\"?>", XmlTokenizer.XmlToken.Declaration)]
+    [InlineData("<?xml version=\"1.0\" encoding=\"utf-8\" ?>", XmlTokenizer.XmlToken.Declaration)]
     [InlineData("<?php?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
     [InlineData("<?php ?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
     [InlineData(@"<?php print(""hello world"");?>", XmlTokenizer.XmlToken.ProcessingInstruction)]

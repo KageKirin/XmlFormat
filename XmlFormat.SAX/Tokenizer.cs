@@ -14,8 +14,13 @@ public static class XmlTokenizer
     public enum XmlToken
     {
         /// <summary>
+        /// XML declaration, i.e. <?xml ... ?>
+        /// </summary>
+        [Token(Example = "<?xml ... ?>")]
+        Declaration,
+
+        /// <summary>
         /// processing instruction, e.g. <?php ... ?>
-        /// NOTE: we are also considering the regular XML header <?xml ...?> as such
         /// </summary>
         [Token(Example = "<?pi ... ?>")]
         ProcessingInstruction,
@@ -52,6 +57,15 @@ public static class XmlTokenizer
         /// </summary>
         Content,
     }
+
+    /// <summary>
+    /// token parser for XML Declaration
+    /// </summary>
+    static TextParser<Unit> XmlDeclaration { get; } =
+        from open in Span.EqualTo("<?xml").Try()
+        from rest in Span.Except("?>").Many().Value(Unit.Value).Try()
+        from close in Span.EqualTo("?>").Try()
+        select Unit.Value;
 
     /// <summary>
     /// token parser for Processing Instructions
@@ -115,6 +129,7 @@ public static class XmlTokenizer
     public static Tokenizer<XmlToken> Instance { get; } =
         new TokenizerBuilder<XmlToken>()
             .Ignore(Span.WhiteSpace)
+            .Match(XmlDeclaration, XmlToken.Declaration)
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)

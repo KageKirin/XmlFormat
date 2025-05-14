@@ -40,10 +40,10 @@ public static class XmlTokenizer
         CData,
 
         /// <summary>
-        /// XML opening <element> or empty <element/>
+        /// XML opening <element>
         /// </summary>
-        [Token(Example = "<element ... />")]
-        ElementStartOrEmpty,
+        [Token(Example = "<element ... >")]
+        ElementStart,
 
         /// <summary>
         /// XML closing </element>
@@ -133,8 +133,8 @@ public static class XmlTokenizer
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)
             .Match(XmlCData, XmlToken.CData)
-            .Match(XmlElementStartOrEmpty, XmlToken.ElementStartOrEmpty)
             .Match(XmlElementEnd, XmlToken.ElementEnd)
+            .Match(XmlElementStartOrEmpty, XmlToken.ElementStart)
             .Match(XmlContent, XmlToken.Content)
             .Build();
 }

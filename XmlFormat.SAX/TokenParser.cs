@@ -54,4 +54,9 @@ public static class XmlTokenParser
     internal static TextParser<TextSpan> ElementIdentifier { get; } =
         from identifier in Character.EqualTo('<').IgnoreThen(XmlChars)
         select identifier;
+
+    public static TextParser<TextSpan> ElementIdentifierForUnitTestsOnly
+    {
+        get => ElementIdentifier;
+    }
 }

@@ -36,4 +36,14 @@ public static class XmlTokenParser
 
     public static TextParser<TextSpan> XmlChars { get; } =
         Span.WithAll(ch => !Char.IsWhiteSpace(ch) && (Char.IsLetterOrDigit(ch) || ch == '_' || ch == '-' || ch == ':'));
+
+    public static TextParser<TextSpan> QuotedStringWithQuotes { get; } =
+        from lq in Span.EqualTo("\"")
+        from qt in Span.Except("\"").Optional()
+        from rq in Span.EqualTo("\"")
+        select new TextSpan(
+            lq.Source!,
+            new Position(lq.Position.Absolute, lq.Position.Line, lq.Position.Column),
+            2 + (qt?.Length ?? 0) //rq.Position.Absolute - lq.Position.Absolute + 1
+        );
 }

@@ -29,6 +29,7 @@ public static class XmlTokenParser
         };
 
     public static TextParser<TextSpan> TrimCData { get; } = Trim("<![CDATA[", "]]>");
+    public static TextParser<TextSpan> TrimComment { get; } = Trim("<!--", "-->");
 
     public static TextParser<char> XmlChar { get; } =
         Character.LetterOrDigit.Or(Character.EqualTo(':')).Or(Character.EqualTo('_')).Or(Character.EqualTo('-'));

@@ -85,7 +85,7 @@ public class OnElementEmptyTest
                 OnAttributeCallback = (attributeName, attributeValue) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
-                    Assert.Null(attributeValue);
+                    Assert.True(attributeValue.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -131,8 +131,7 @@ public class OnElementEmptyTest
                 OnAttributeCallback = (attributeName, attributeValue) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
-                    Assert.NotNull(attributeValue);
-                    Assert.Empty(attributeValue);
+                    Assert.True(attributeValue.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -169,8 +168,7 @@ public class OnElementEmptyTest
                 OnAttributeCallback = (attributeName, attributeValue) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
-                    Assert.NotNull(attributeValue);
-                    Assert.NotEmpty(attributeValue);
+                    Assert.False(attributeValue.IsEmpty);
                     Assert.Equal(expectedValue, attributeValue);
                 }
             };

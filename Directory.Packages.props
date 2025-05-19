@@ -4,6 +4,7 @@
     <PackageVersion Include="Superpower" Version="3.0.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="TurboXml" Version="2.0.2" />
+    <PackageVersion Include="System.Memory" Version="4.6.3" />
   </ItemGroup>
 
   <ItemGroup Label="unit test dependencies">

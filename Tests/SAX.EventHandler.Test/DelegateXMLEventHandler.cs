@@ -8,64 +8,64 @@ namespace SAX.EventHandler.Test;
 ///</summary>
 public class DelegateXMLEventHandler : IXMLEventHandler
 {
-    public Action<string, string, string> OnXmlDeclarationCallback = (_, __, ___) =>
+    public Action<ReadOnlySpan<char>, ReadOnlySpan<char>, ReadOnlySpan<char>> OnXmlDeclarationCallback = (_, __, ___) =>
     {
         Assert.False(true);
     };
-    public Action<string> OnElementStartCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnElementStartCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string> OnElementEndCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnElementEndCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string> OnElementEmptyCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnElementEmptyCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string, string?> OnAttributeCallback = (_, __) =>
+    public Action<ReadOnlySpan<char>, ReadOnlySpan<char>> OnAttributeCallback = (_, __) =>
     {
         Assert.False(true);
     };
-    public Action<string, string> OnProcessingInstructionCallback = (_, __) =>
+    public Action<ReadOnlySpan<char>, ReadOnlySpan<char>> OnProcessingInstructionCallback = (_, __) =>
     {
         Assert.False(true);
     };
-    public Action<string> OnCDataCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnCDataCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string> OnCommentCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnCommentCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string> OnContentCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnContentCallback = _ =>
     {
         Assert.False(true);
     };
-    public Action<string> OnErrorCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnErrorCallback = _ =>
     {
         Assert.False(true);
     };
 
-    public void OnXmlDeclaration(string version, string encoding, string standalone) => OnXmlDeclarationCallback(version, encoding, standalone);
+    public void OnXmlDeclaration(ReadOnlySpan<char> version, ReadOnlySpan<char> encoding, ReadOnlySpan<char> standalone) => OnXmlDeclarationCallback(version, encoding, standalone);
 
-    public void OnElementStart(string name) => OnElementStartCallback(name);
+    public void OnElementStart(ReadOnlySpan<char> name) => OnElementStartCallback(name);
 
-    public void OnElementEnd(string name) => OnElementEndCallback(name);
+    public void OnElementEnd(ReadOnlySpan<char> name) => OnElementEndCallback(name);
 
-    public void OnElementEmpty(string name) => OnElementEmptyCallback(name);
+    public void OnElementEmpty(ReadOnlySpan<char> name) => OnElementEmptyCallback(name);
 
-    public void OnAttribute(string name, string? value) => OnAttributeCallback(name, value);
+    public void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value) => OnAttributeCallback(name, value);
 
-    public void OnProcessingInstruction(string name, string value) => OnProcessingInstructionCallback(name, value);
+    public void OnProcessingInstruction(ReadOnlySpan<char> name, ReadOnlySpan<char> value) => OnProcessingInstructionCallback(name, value);
 
-    public void OnCData(string cdata) => OnCDataCallback(cdata);
+    public void OnCData(ReadOnlySpan<char> cdata) => OnCDataCallback(cdata);
 
-    public void OnComment(string comment) => OnCommentCallback(comment);
+    public void OnComment(ReadOnlySpan<char> comment) => OnCommentCallback(comment);
 
-    public void OnContent(string text) => OnContentCallback(text);
+    public void OnContent(ReadOnlySpan<char> text) => OnContentCallback(text);
 
-    public void OnError(string message) => OnErrorCallback(message);
+    public void OnError(ReadOnlySpan<char> message) => OnErrorCallback(message);
 }

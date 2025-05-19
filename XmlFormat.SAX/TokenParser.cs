@@ -61,4 +61,9 @@ public static class XmlTokenParser
     }
 
     public record struct Attribute(TextSpan Name, TextSpan? Value = default);
+
+    internal static TextParser<Attribute> ElementAttribute { get; } =
+        from identifier in XmlChars
+        from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        select new Attribute(identifier, value);
 }

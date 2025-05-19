@@ -1,5 +1,9 @@
 <Project>
 
+  <ItemGroup Label="hosting dependencies">
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
+  </ItemGroup>
+
   <ItemGroup Label="functionality dependencies">
     <PackageVersion Include="Superpower" Version="3.0.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />

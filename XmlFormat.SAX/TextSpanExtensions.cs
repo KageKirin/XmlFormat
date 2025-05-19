@@ -14,4 +14,6 @@ public static class TextSpanExtensions
         );
 
     public static TextSpan TrimCData(this TextSpan span) => span.Trim("<![CDATA[", "]]>");
+
+    public static TextSpan TrimComment(this TextSpan span) => span.Trim("<!--", "-->");
 }

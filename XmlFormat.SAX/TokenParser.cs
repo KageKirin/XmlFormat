@@ -28,6 +28,8 @@ public static class XmlTokenParser
             return Result.Value(trimmed, input, remainder);
         };
 
+    public static TextParser<TextSpan> TrimCData { get; } = Trim("<![CDATA[", "]]>");
+
     public static TextParser<char> XmlChar { get; } =
         Character.LetterOrDigit.Or(Character.EqualTo(':')).Or(Character.EqualTo('_')).Or(Character.EqualTo('-'));
 

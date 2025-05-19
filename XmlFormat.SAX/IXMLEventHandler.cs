@@ -7,17 +7,17 @@ namespace XmlFormat.SAX;
 ///</summary>
 public interface IXMLEventHandler
 {
-    void OnXmlDeclaration(string version, string encoding, string standalone);
+    void OnXmlDeclaration(ReadOnlySpan<char> version, ReadOnlySpan<char> encoding, ReadOnlySpan<char> standalone);
 
-    void OnElementStart(string name);
-    void OnElementEnd(string name);
-    void OnElementEmpty(string name);
-    void OnAttribute(string name, string? value);
+    void OnElementStart(ReadOnlySpan<char> name);
+    void OnElementEnd(ReadOnlySpan<char> name);
+    void OnElementEmpty(ReadOnlySpan<char> name);
+    void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value);
 
-    void OnProcessingInstruction(string identifier, string contents);
-    void OnCData(string cdata);
-    void OnComment(string comment);
-    void OnContent(string text);
+    void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents);
+    void OnCData(ReadOnlySpan<char> cdata);
+    void OnComment(ReadOnlySpan<char> comment);
+    void OnContent(ReadOnlySpan<char> text);
 
-    void OnError(string message);
+    void OnError(ReadOnlySpan<char> message);
 }

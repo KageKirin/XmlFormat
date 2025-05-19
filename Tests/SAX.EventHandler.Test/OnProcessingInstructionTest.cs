@@ -18,7 +18,7 @@ public class OnProcessingInstructionTest
                 OnProcessingInstructionCallback = (identifier, contents) =>
                 {
                     Assert.Equal(expected, identifier);
-                    Assert.NotNull(contents);
+                    Assert.False(contents.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -35,7 +35,7 @@ public class OnProcessingInstructionTest
                 OnProcessingInstructionCallback = (identifier, contents) =>
                 {
                     Assert.Equal(expectedIdentifier, identifier);
-                    Assert.NotNull(contents);
+                    Assert.False(contents.IsEmpty);
                     Assert.Equal(expectedContents, contents.Trim());
                 }
             };

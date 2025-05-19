@@ -21,6 +21,7 @@
 
   <ItemGroup Label="package references">
     <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="TurboXml" />
   </ItemGroup>

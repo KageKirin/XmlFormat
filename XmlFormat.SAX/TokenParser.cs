@@ -46,4 +46,8 @@ public static class XmlTokenParser
             new Position(lq.Position.Absolute, lq.Position.Line, lq.Position.Column),
             2 + (qt?.Length ?? 0) //rq.Position.Absolute - lq.Position.Absolute + 1
         );
+
+    public static TextParser<TextSpan> QuotedString { get; } =
+        from qs in QuotedStringWithQuotes
+        select qs.Trim("\"", "\"");
 }

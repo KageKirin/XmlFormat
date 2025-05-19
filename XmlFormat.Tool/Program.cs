@@ -42,7 +42,7 @@ public class Program
 
         using var istream = OpenInputStreamOrStdIn(options);
         using var ostream = OpenOutputStreamOrStdOut(options);
-        XmlFormat.Format(istream, ostream);
+        XmlFormat.Format(istream, ostream, options: formattingOptions);
     }
 
     static void HandleParseError(IEnumerable<Error> errs)

@@ -97,4 +97,32 @@ public static class XmlTokenParser
         from identifier in Span.EqualTo("</").IgnoreThen(XmlChars)
         from closing in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>'))
         select identifier;
+
+    public static TextParser<Attribute> NamedAttribute(string name) =>
+        from identifier in Span.EqualTo(name)
+        from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        select new Attribute(identifier, value);
+
+    public static TextParser<TextSpan?> NamedAttributeValue(string name) =>
+        from identifier in Span.EqualTo(name)
+        from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        select value;
+
+    public record struct XmlDeclaration(TextSpan? Version, TextSpan? Encoding, TextSpan? Standalone);
+
+    public static TextParser<XmlDeclaration> Declaration { get; } =
+        from identifier in Span.EqualTo("<?xml")
+        from version in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("version").OptionalOrDefault())
+        from encoding in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("encoding").OptionalOrDefault())
+        from standalone in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("standalone").OptionalOrDefault())
+        from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("?>"))
+        select new XmlDeclaration(version, encoding, standalone);
+
+    public record struct ProcessingInstructionData(TextSpan Identifier, TextSpan? Contents);
+
+    public static TextParser<ProcessingInstructionData> ProcessingInstruction { get; } =
+        from identifier in Span.EqualTo("<?").IgnoreThen(XmlChars)
+        from contents in Span.Except("?>").OptionalOrDefault()
+        from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("?>"))
+        select new ProcessingInstructionData(identifier, contents);
 }

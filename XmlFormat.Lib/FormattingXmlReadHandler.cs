@@ -8,6 +8,8 @@ namespace XmlFormat;
 
 public class FormattingXmlReadHandler : XmlReadHandlerBase
 {
+    public FormattingOptions Options { get; private set; }
+
     public readonly record struct Attribute(string Name, string Value)
     {
         const string xmlns = "xmlns";
@@ -58,13 +60,14 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     private bool requireClosingPreviousElementTag = false;
     private List<Attribute>? currentAttributes = default;
 
-    public FormattingXmlReadHandler(Stream stream, Encoding encoding)
-        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }) { }
+    public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
+        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }, options) { }
 
-    public FormattingXmlReadHandler(StreamWriter streamWriter)
+    public FormattingXmlReadHandler(StreamWriter streamWriter, FormattingOptions options)
         : base(streamWriter)
     {
-        this.textWriter = new IndentedTextWriter(writer, tabString: "".PadLeft(2)); //TODO param
+        this.Options = options;
+        this.textWriter = new IndentedTextWriter(writer, tabString: Options.Tabs.Repeat(Options.TabsRepeat));
     }
 
     protected override void Dispose(bool disposing)
@@ -106,7 +109,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (currentAttributes != null)
         {
             currentAttributes.Sort(Attribute.Compare);
-            if (currentAttributes.SingleLineLength() > 80) //TODO param
+            if (currentAttributes.SingleLineLength() > Options.LineLength)
             {
                 textWriter.WriteLine("");
                 textWriter.Indent++;
@@ -138,7 +141,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnEndTagEmpty()
     {
         requireClosingPreviousElementTag = false;
-        bool multiLineAttributes = currentAttributes?.SingleLineLength() > 80; // TODO param
+        bool multiLineAttributes = currentAttributes?.SingleLineLength() > Options.LineLength;
         OnBeginTagClose();
         textWriter.Indent--;
 
@@ -181,7 +184,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (requireClosingPreviousElementTag)
             OnBeginTagClose();
 
-        if (comment.Length < 80) // TODO param
+        if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim()} -->");
         }

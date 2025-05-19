@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using CommandLine;
+using Microsoft.Extensions.Configuration;
 using TurboXml;
 using XmlFormat;
 
@@ -27,12 +28,21 @@ public class Program
 
     static void RunOptions(Options options)
     {
+        IConfiguration config = new ConfigurationBuilder()
+            .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
+            .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
+            .Build();
+
         Console.WriteLine($"options.Inline: {options.Inline}");
         Console.WriteLine($"options.InputFile: {options.InputFile}");
 
+        FormattingOptions formattingOptions = new(240, " ", 4);
+        config.Bind(formattingOptions);
+        Console.WriteLine($"formattingOptions: {formattingOptions}");
+
         using var istream = OpenInputStreamOrStdIn(options);
         using var ostream = OpenOutputStreamOrStdOut(options);
-        XmlFormat.Format(istream, ostream);
+        XmlFormat.Format(istream, ostream, options: formattingOptions);
     }
 
     static void HandleParseError(IEnumerable<Error> errs)

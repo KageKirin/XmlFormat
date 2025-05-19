@@ -71,4 +71,6 @@ public static class XmlTokenParser
     {
         get => ElementAttribute;
     }
+
+    public static TextParser<Attribute[]> ManyElementAttributesForUnitTestsOnly { get; } = ElementAttribute.Many();
 }

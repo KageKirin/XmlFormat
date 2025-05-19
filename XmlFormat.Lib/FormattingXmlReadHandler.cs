@@ -67,7 +67,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         : base(streamWriter)
     {
         this.Options = options;
-        this.textWriter = new IndentedTextWriter(writer, tabString: "".PadLeft(2)); //TODO param
+        this.textWriter = new IndentedTextWriter(writer, tabString: Options.Tabs.Repeat(Options.TabsRepeat));
     }
 
     protected override void Dispose(bool disposing)
@@ -109,7 +109,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (currentAttributes != null)
         {
             currentAttributes.Sort(Attribute.Compare);
-            if (currentAttributes.SingleLineLength() > 80) //TODO param
+            if (currentAttributes.SingleLineLength() > Options.LineLength)
             {
                 textWriter.WriteLine("");
                 textWriter.Indent++;
@@ -141,7 +141,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnEndTagEmpty()
     {
         requireClosingPreviousElementTag = false;
-        bool multiLineAttributes = currentAttributes?.SingleLineLength() > 80; // TODO param
+        bool multiLineAttributes = currentAttributes?.SingleLineLength() > Options.LineLength;
         OnBeginTagClose();
         textWriter.Indent--;
 
@@ -184,7 +184,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (requireClosingPreviousElementTag)
             OnBeginTagClose();
 
-        if (comment.Length < 80) // TODO param
+        if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim()} -->");
         }

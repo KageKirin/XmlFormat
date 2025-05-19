@@ -8,6 +8,8 @@ namespace XmlFormat;
 
 public class FormattingXmlReadHandler : XmlReadHandlerBase
 {
+    public FormattingOptions Options { get; private set; }
+
     public readonly record struct Attribute(string Name, string Value)
     {
         const string xmlns = "xmlns";
@@ -58,12 +60,13 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     private bool requireClosingPreviousElementTag = false;
     private List<Attribute>? currentAttributes = default;
 
-    public FormattingXmlReadHandler(Stream stream, Encoding encoding)
-        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }) { }
+    public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
+        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }, options) { }
 
-    public FormattingXmlReadHandler(StreamWriter streamWriter)
+    public FormattingXmlReadHandler(StreamWriter streamWriter, FormattingOptions options)
         : base(streamWriter)
     {
+        this.Options = options;
         this.textWriter = new IndentedTextWriter(writer, tabString: "".PadLeft(2)); //TODO param
     }
 

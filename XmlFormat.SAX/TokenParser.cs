@@ -102,4 +102,9 @@ public static class XmlTokenParser
         from identifier in Span.EqualTo(name)
         from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
         select new Attribute(identifier, value);
+
+    public static TextParser<TextSpan?> NamedAttributeValue(string name) =>
+        from identifier in Span.EqualTo(name)
+        from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        select value;
 }

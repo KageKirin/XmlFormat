@@ -13,4 +13,7 @@ public static class XmlTokenParser
 {
     public static TextParser<char> XmlChar { get; } =
         Character.LetterOrDigit.Or(Character.EqualTo(':')).Or(Character.EqualTo('_')).Or(Character.EqualTo('-'));
+
+    public static TextParser<TextSpan> XmlChars { get; } =
+        Span.WithAll(ch => !Char.IsWhiteSpace(ch) && (Char.IsLetterOrDigit(ch) || ch == '_' || ch == '-' || ch == ':'));
 }

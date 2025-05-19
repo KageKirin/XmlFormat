@@ -15,14 +15,11 @@ public class OnXmlDeclarationTest
             {
                 OnXmlDeclarationCallback = (version, encoding, standalone) =>
                 {
-                    Assert.NotNull(version);
-                    Assert.Empty(version);
+                    Assert.True(version.IsEmpty);
 
-                    Assert.NotNull(encoding);
-                    Assert.Empty(encoding);
+                    Assert.True(encoding.IsEmpty);
 
-                    Assert.NotNull(standalone);
-                    Assert.Empty(standalone);
+                    Assert.True(standalone.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -38,15 +35,11 @@ public class OnXmlDeclarationTest
             {
                 OnXmlDeclarationCallback = (version, encoding, standalone) =>
                 {
-                    Assert.NotNull(version);
-                    Assert.NotEmpty(version);
+                    Assert.False(version.IsEmpty);
                     Assert.Equal(expected, version);
 
-                    Assert.NotNull(encoding);
-                    Assert.Empty(encoding);
-
-                    Assert.NotNull(standalone);
-                    Assert.Empty(standalone);
+                    Assert.True(encoding.IsEmpty);
+                    Assert.True(standalone.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -62,16 +55,13 @@ public class OnXmlDeclarationTest
             {
                 OnXmlDeclarationCallback = (version, encoding, standalone) =>
                 {
-                    Assert.NotNull(version);
-                    Assert.NotEmpty(version);
+                    Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);
 
-                    Assert.NotNull(encoding);
-                    Assert.NotEmpty(encoding);
+                    Assert.False(encoding.IsEmpty);
                     Assert.Equal(expectedEncoding, encoding);
 
-                    Assert.NotNull(standalone);
-                    Assert.Empty(standalone);
+                    Assert.True(standalone.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);
@@ -87,16 +77,13 @@ public class OnXmlDeclarationTest
             {
                 OnXmlDeclarationCallback = (version, encoding, standalone) =>
                 {
-                    Assert.NotNull(version);
-                    Assert.NotEmpty(version);
+                    Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);
 
-                    Assert.NotNull(encoding);
-                    Assert.NotEmpty(encoding);
+                    Assert.False(encoding.IsEmpty);
                     Assert.Equal(expectedEncoding, encoding);
 
-                    Assert.NotNull(standalone);
-                    Assert.NotEmpty(standalone);
+                    Assert.False(standalone.IsEmpty);
                     Assert.Equal(expectedStandalone, standalone);
                 }
             };
@@ -113,16 +100,13 @@ public class OnXmlDeclarationTest
             {
                 OnXmlDeclarationCallback = (version, encoding, standalone) =>
                 {
-                    Assert.NotNull(version);
-                    Assert.NotEmpty(version);
+                    Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);
 
-                    Assert.NotNull(encoding);
-                    Assert.NotEmpty(encoding);
+                    Assert.False(encoding.IsEmpty);
                     Assert.Equal(expectedEncoding, encoding);
 
-                    Assert.NotNull(standalone);
-                    Assert.Empty(standalone);
+                    Assert.True(standalone.IsEmpty);
                 }
             };
         SaxParser.Parse(input, handler);

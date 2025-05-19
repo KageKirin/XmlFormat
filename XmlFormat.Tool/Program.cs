@@ -36,6 +36,10 @@ public class Program
         Console.WriteLine($"options.Inline: {options.Inline}");
         Console.WriteLine($"options.InputFile: {options.InputFile}");
 
+        FormattingOptions formattingOptions = new(240, " ", 4);
+        config.Bind(formattingOptions);
+        Console.WriteLine($"formattingOptions: {formattingOptions}");
+
         using var istream = OpenInputStreamOrStdIn(options);
         using var ostream = OpenOutputStreamOrStdOut(options);
         XmlFormat.Format(istream, ostream);

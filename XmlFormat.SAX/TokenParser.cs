@@ -59,4 +59,6 @@ public static class XmlTokenParser
     {
         get => ElementIdentifier;
     }
+
+    public record struct Attribute(TextSpan Name, TextSpan? Value = default);
 }

@@ -50,4 +50,8 @@ public static class XmlTokenParser
     public static TextParser<TextSpan> QuotedString { get; } =
         from qs in QuotedStringWithQuotes
         select qs.Trim("\"", "\"");
+
+    internal static TextParser<TextSpan> ElementIdentifier { get; } =
+        from identifier in Character.EqualTo('<').IgnoreThen(XmlChars)
+        select identifier;
 }

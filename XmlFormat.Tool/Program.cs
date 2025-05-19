@@ -30,6 +30,7 @@ public class Program
     {
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
+            .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");

@@ -12,4 +12,8 @@ public static class TextSpanExtensions
             new Position(span.Position.Absolute + left.Length, span.Position.Line, span.Position.Column + left.Length),
             span.Length - left.Length - right.Length
         );
+
+    public static TextSpan TrimCData(this TextSpan span) => span.Trim("<![CDATA[", "]]>");
+
+    public static TextSpan TrimComment(this TextSpan span) => span.Trim("<!--", "-->");
 }

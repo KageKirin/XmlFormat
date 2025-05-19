@@ -109,4 +109,12 @@ public static class XmlTokenParser
         select value;
 
     public record struct XmlDeclaration(TextSpan? Version, TextSpan? Encoding, TextSpan? Standalone);
+
+    public static TextParser<XmlDeclaration> Declaration { get; } =
+        from identifier in Span.EqualTo("<?xml")
+        from version in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("version").OptionalOrDefault())
+        from encoding in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("encoding").OptionalOrDefault())
+        from standalone in Character.WhiteSpace.Many().IgnoreThen(NamedAttributeValue("standalone").OptionalOrDefault())
+        from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("?>"))
+        select new XmlDeclaration(version, encoding, standalone);
 }

@@ -97,4 +97,9 @@ public static class XmlTokenParser
         from identifier in Span.EqualTo("</").IgnoreThen(XmlChars)
         from closing in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>'))
         select identifier;
+
+    public static TextParser<Attribute> NamedAttribute(string name) =>
+        from identifier in Span.EqualTo(name)
+        from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        select new Attribute(identifier, value);
 }

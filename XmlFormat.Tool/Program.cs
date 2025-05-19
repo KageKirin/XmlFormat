@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using CommandLine;
+using Microsoft.Extensions.Configuration;
 using TurboXml;
 using XmlFormat;
 
@@ -27,6 +28,10 @@ public class Program
 
     static void RunOptions(Options options)
     {
+        IConfiguration config = new ConfigurationBuilder()
+            .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
+            .Build();
+
         Console.WriteLine($"options.Inline: {options.Inline}");
         Console.WriteLine($"options.InputFile: {options.InputFile}");
 

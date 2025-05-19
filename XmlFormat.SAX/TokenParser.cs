@@ -92,4 +92,9 @@ public static class XmlTokenParser
         from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
         from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("/>"))
         select new Element(identifier, attributes);
+
+    public static TextParser<TextSpan> ElementEnd { get; } =
+        from identifier in Span.EqualTo("</").IgnoreThen(XmlChars)
+        from closing in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>'))
+        select identifier;
 }

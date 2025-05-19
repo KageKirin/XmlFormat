@@ -119,4 +119,10 @@ public static class XmlTokenParser
         select new XmlDeclaration(version, encoding, standalone);
 
     public record struct ProcessingInstructionData(TextSpan Identifier, TextSpan? Contents);
+
+    public static TextParser<ProcessingInstructionData> ProcessingInstruction { get; } =
+        from identifier in Span.EqualTo("<?").IgnoreThen(XmlChars)
+        from contents in Span.Except("?>").OptionalOrDefault()
+        from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("?>"))
+        select new ProcessingInstructionData(identifier, contents);
 }

@@ -107,4 +107,6 @@ public static class XmlTokenParser
         from identifier in Span.EqualTo(name)
         from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
         select value;
+
+    public record struct XmlDeclaration(TextSpan? Version, TextSpan? Encoding, TextSpan? Standalone);
 }

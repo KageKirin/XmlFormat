@@ -32,4 +32,8 @@
     <ProjectReference Include="..\XmlFormat.Lib\XmlFormat.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup Label="configuration files">
+    <Content Include="$(MSBuildThisFileDirectory)\xmlformat.toml" Link="xmlformat.toml" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\" />
+  </ItemGroup>
+
 </Project>

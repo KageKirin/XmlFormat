@@ -75,4 +75,9 @@ public static class XmlTokenParser
     public static TextParser<Attribute[]> ManyElementAttributesForUnitTestsOnly { get; } = ElementAttribute.Many();
 
     public record struct Element(TextSpan Identifier, Attribute[] Attributes);
+
+    public static TextParser<Element> ElementAndAttributesForUnitTestsOnly { get; } =
+        from identifier in ElementIdentifier
+        from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
+        select new Element(identifier, attributes);
 }

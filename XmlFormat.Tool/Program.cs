@@ -14,6 +14,9 @@ public class Program
         [Option('i', "inline", Required = false, HelpText = "Process input files inline.")]
         public bool Inline { get; set; } = false;
 
+        [Option('p', "profile", Required = false, HelpText = "Specify the XML formatting profile to use instead of the file extension.")]
+        public string? Profile { get; set; } = default;
+
         [Value(0, MetaName = "inputs", HelpText = "Input files.")]
         public IEnumerable<string>? InputFiles { get; set; } = default;
     }
@@ -47,7 +50,7 @@ public class Program
         foreach (var inputFile in inputFiles!)
         {
             FormattingOptions actualFormattingOptions = formattingOptions with { };
-            string? profile = Path.GetExtension(inputFile)?.Trim('.');
+            string? profile = options.Profile ?? Path.GetExtension(inputFile)?.Trim('.');
             Console.WriteLine($"profile: {profile}");
 
             if (!string.IsNullOrEmpty(profile))

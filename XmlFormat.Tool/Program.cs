@@ -44,7 +44,7 @@ public class Program
         if (inputFiles?.Count() == 0)
             inputFiles = [""];
 
-        foreach (var inputFile in inputFiles)
+        foreach (var inputFile in inputFiles!)
         {
             using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
             using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))

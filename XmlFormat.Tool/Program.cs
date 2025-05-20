@@ -55,6 +55,7 @@ public class Program
             if (options.Inline)
             {
                 File.Copy(inputFile + ".tmp", inputFile, overwrite: true);
+                File.Delete(inputFile + ".tmp");
             }
         }
     }

@@ -12,7 +12,7 @@ public interface IXMLEventHandler
     void OnElementStart(ReadOnlySpan<char> name, int line, int column);
     void OnElementEnd(ReadOnlySpan<char> name, int line, int column);
     void OnElementEmpty(ReadOnlySpan<char> name, int line, int column);
-    void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int line, int column);
+    void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int nameLine, int nameColumn, int valueLine, int valueColumn);
 
     void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column);
     void OnCData(ReadOnlySpan<char> cdata, int line, int column);

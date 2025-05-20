@@ -73,7 +73,7 @@ public static class SaxParser
                     break;
 
                 case XmlTokenizer.XmlToken.Content:
-                    handler.OnContent(token.Span.ToReadOnlySpan());
+                    handler.OnText(token.Span.ToReadOnlySpan());
                     break;
 
                 default:

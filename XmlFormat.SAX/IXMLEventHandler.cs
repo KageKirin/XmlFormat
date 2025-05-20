@@ -17,7 +17,7 @@ public interface IXMLEventHandler
     void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents);
     void OnCData(ReadOnlySpan<char> cdata);
     void OnComment(ReadOnlySpan<char> comment);
-    void OnContent(ReadOnlySpan<char> text);
+    void OnText(ReadOnlySpan<char> text);
 
     void OnError(ReadOnlySpan<char> message);
 }

@@ -26,7 +26,7 @@ public class LoggingXMLEventHandler : IXMLEventHandler
 
     public virtual void OnComment(ReadOnlySpan<char> comment) => Console.WriteLine($"XML Comment `{comment.ToString()}`");
 
-    public virtual void OnContent(ReadOnlySpan<char> text) => Console.WriteLine($"XML Content {text.ToString()}");
+    public virtual void OnText(ReadOnlySpan<char> text) => Console.WriteLine($"XML Content {text.ToString()}");
 
     public virtual void OnError(ReadOnlySpan<char> message) => Console.Error.WriteLine($"XML Error: {message.ToString()}");
 }

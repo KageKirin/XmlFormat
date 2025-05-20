@@ -40,7 +40,7 @@ public class DelegateXMLEventHandler : IXMLEventHandler
     {
         Assert.False(true);
     };
-    public Action<ReadOnlySpan<char>> OnContentCallback = _ =>
+    public Action<ReadOnlySpan<char>> OnTextCallback = _ =>
     {
         Assert.False(true);
     };
@@ -65,7 +65,7 @@ public class DelegateXMLEventHandler : IXMLEventHandler
 
     public void OnComment(ReadOnlySpan<char> comment) => OnCommentCallback(comment);
 
-    public void OnContent(ReadOnlySpan<char> text) => OnContentCallback(text);
+    public void OnText(ReadOnlySpan<char> text) => OnTextCallback(text);
 
     public void OnError(ReadOnlySpan<char> message) => OnErrorCallback(message);
 }

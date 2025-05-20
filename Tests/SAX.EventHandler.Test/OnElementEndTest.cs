@@ -37,9 +37,9 @@ public class OnElementEndTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementEndCallback = cdata =>
+                OnElementEndCallback = (element, line, column) =>
                 {
-                    Assert.Equal(expected, cdata);
+                    Assert.Equal(expected, element);
                 }
             };
         SaxParser.Parse(input, handler);

@@ -21,7 +21,7 @@ public class OnCDataTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnCDataCallback = cdata =>
+                OnCDataCallback = (cdata, line, column) =>
                 {
                     Assert.Equal(expected, cdata);
                 }

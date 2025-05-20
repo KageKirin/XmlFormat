@@ -15,7 +15,7 @@ public class OnProcessingInstructionTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnProcessingInstructionCallback = (identifier, contents) =>
+                OnProcessingInstructionCallback = (identifier, contents, line, column) =>
                 {
                     Assert.Equal(expected, identifier);
                     Assert.False(contents.IsEmpty);
@@ -32,7 +32,7 @@ public class OnProcessingInstructionTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnProcessingInstructionCallback = (identifier, contents) =>
+                OnProcessingInstructionCallback = (identifier, contents, line, column) =>
                 {
                     Assert.Equal(expectedIdentifier, identifier);
                     Assert.False(contents.IsEmpty);

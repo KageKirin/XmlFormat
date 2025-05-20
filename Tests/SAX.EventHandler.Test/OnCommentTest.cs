@@ -21,7 +21,7 @@ public class OnCommentTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnCommentCallback = comment =>
+                OnCommentCallback = (comment, line, column) =>
                 {
                     Assert.Equal(expected, comment);
                 }

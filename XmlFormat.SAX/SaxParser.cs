@@ -13,15 +13,11 @@ public static class SaxParser
                 case XmlTokenizer.XmlToken.Declaration:
                     var tempDeclaration = XmlTokenParser.Declaration(token.Span);
                     handler.OnXmlDeclaration(
-                        tempDeclaration.Value.Version == null
-                            ? ReadOnlySpan<char>.Empty
-                            : ((TextSpan)tempDeclaration.Value.Version!).ToReadOnlySpan(),
-                        tempDeclaration.Value.Encoding == null
-                            ? ReadOnlySpan<char>.Empty
-                            : ((TextSpan)tempDeclaration.Value.Encoding!).ToReadOnlySpan(),
-                        tempDeclaration.Value.Standalone == null
-                            ? ReadOnlySpan<char>.Empty
-                            : ((TextSpan)tempDeclaration.Value.Standalone!).ToReadOnlySpan()
+                        tempDeclaration.Value.Version == null ? [] : ((TextSpan)tempDeclaration.Value.Version!).ToReadOnlySpan(),
+                        tempDeclaration.Value.Encoding == null ? [] : ((TextSpan)tempDeclaration.Value.Encoding!).ToReadOnlySpan(),
+                        tempDeclaration.Value.Standalone == null ? [] : ((TextSpan)tempDeclaration.Value.Standalone!).ToReadOnlySpan(),
+                        token.Span.Position.Line,
+                        token.Span.Position.Column
                     );
                     break;
 
@@ -29,55 +25,73 @@ public static class SaxParser
                     var tempPI = XmlTokenParser.ProcessingInstruction(token.Span);
                     handler.OnProcessingInstruction(
                         tempPI.Value.Identifier.ToReadOnlySpan(),
-                        tempPI.Value.Contents == null ? ReadOnlySpan<char>.Empty : ((TextSpan)tempPI.Value.Contents!).ToReadOnlySpan()
+                        tempPI.Value.Contents == null ? [] : ((TextSpan)tempPI.Value.Contents!).ToReadOnlySpan(),
+                        token.Span.Position.Line,
+                        token.Span.Position.Column
                     );
                     break;
 
                 case XmlTokenizer.XmlToken.Comment:
                     var tempComment = XmlTokenParser.TrimComment(token.Span);
-                    handler.OnComment(tempComment.Value.ToReadOnlySpan());
+                    handler.OnComment(tempComment.Value.ToReadOnlySpan(), token.Span.Position.Line, token.Span.Position.Column);
                     break;
 
                 case XmlTokenizer.XmlToken.CData:
                     var tempCData = XmlTokenParser.TrimCData(token.Span);
-                    handler.OnCData(tempCData.Value.ToReadOnlySpan());
+                    handler.OnCData(tempCData.Value.ToReadOnlySpan(), token.Span.Position.Line, token.Span.Position.Column);
                     break;
 
                 case XmlTokenizer.XmlToken.ElementStart:
                     var tempElementStart = XmlTokenParser.ElementStart(token.Span);
-                    handler.OnElementStart(tempElementStart.Value.Identifier.ToReadOnlySpan());
+                    handler.OnElementStart(
+                        tempElementStart.Value.Identifier.ToReadOnlySpan(),
+                        token.Span.Position.Line,
+                        token.Span.Position.Column
+                    );
                     foreach (var attribute in tempElementStart.Value.Attributes)
                     {
                         handler.OnAttribute(
                             attribute.Name.ToReadOnlySpan(),
-                            attribute.Value == null ? ReadOnlySpan<char>.Empty : ((TextSpan)attribute.Value!).ToReadOnlySpan()
+                            attribute.Value == null ? [] : ((TextSpan)attribute.Value!).ToReadOnlySpan(),
+                            attribute.Name.Position.Line,
+                            attribute.Name.Position.Column,
+                            attribute.Value == null ? -1 : ((TextSpan)attribute.Value!).Position.Line,
+                            attribute.Value == null ? -1 : ((TextSpan)attribute.Value!).Position.Column
                         );
                     }
                     break;
 
                 case XmlTokenizer.XmlToken.ElementEmpty:
                     var tempElementEmpty = XmlTokenParser.ElementEmpty(token.Span);
-                    handler.OnElementEmpty(tempElementEmpty.Value.Identifier.ToReadOnlySpan());
+                    handler.OnElementEmpty(
+                        tempElementEmpty.Value.Identifier.ToReadOnlySpan(),
+                        token.Span.Position.Line,
+                        token.Span.Position.Column
+                    );
                     foreach (var attribute in tempElementEmpty.Value.Attributes)
                     {
                         handler.OnAttribute(
                             attribute.Name.ToReadOnlySpan(),
-                            attribute.Value == null ? ReadOnlySpan<char>.Empty : ((TextSpan)attribute.Value!).ToReadOnlySpan()
+                            attribute.Value == null ? [] : ((TextSpan)attribute.Value!).ToReadOnlySpan(),
+                            attribute.Name.Position.Line,
+                            attribute.Name.Position.Column,
+                            attribute.Value == null ? -1 : ((TextSpan)attribute.Value!).Position.Line,
+                            attribute.Value == null ? -1 : ((TextSpan)attribute.Value!).Position.Column
                         );
                     }
                     break;
 
                 case XmlTokenizer.XmlToken.ElementEnd:
                     var tempElementEnd = XmlTokenParser.ElementEnd(token.Span);
-                    handler.OnElementEnd(tempElementEnd.Value.ToReadOnlySpan());
+                    handler.OnElementEnd(tempElementEnd.Value.ToReadOnlySpan(), token.Span.Position.Line, token.Span.Position.Column);
                     break;
 
                 case XmlTokenizer.XmlToken.Content:
-                    handler.OnContent(token.Span.ToReadOnlySpan());
+                    handler.OnText(token.Span.ToReadOnlySpan(), token.Span.Position.Line, token.Span.Position.Column);
                     break;
 
                 default:
-                    handler.OnError(token.Span.ToReadOnlySpan());
+                    handler.OnError(token.ToString(), token.Span.Position.Line, token.Span.Position.Column);
                     break;
             }
         }

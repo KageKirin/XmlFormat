@@ -37,7 +37,7 @@ public class OnElementEmptyTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementEmptyCallback = elementIdentifier =>
+                OnElementEmptyCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expected, elementIdentifier);
                 }
@@ -78,11 +78,11 @@ public class OnElementEmptyTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementEmptyCallback = elementIdentifier =>
+                OnElementEmptyCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
-                OnAttributeCallback = (attributeName, attributeValue) =>
+                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.True(attributeValue.IsEmpty);
@@ -124,11 +124,11 @@ public class OnElementEmptyTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementEmptyCallback = elementIdentifier =>
+                OnElementEmptyCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
-                OnAttributeCallback = (attributeName, attributeValue) =>
+                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.True(attributeValue.IsEmpty);
@@ -161,11 +161,11 @@ public class OnElementEmptyTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementEmptyCallback = elementIdentifier =>
+                OnElementEmptyCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
-                OnAttributeCallback = (attributeName, attributeValue) =>
+                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
                 {
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.False(attributeValue.IsEmpty);

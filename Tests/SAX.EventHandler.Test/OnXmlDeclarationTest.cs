@@ -13,7 +13,7 @@ public class OnXmlDeclarationTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnXmlDeclarationCallback = (version, encoding, standalone) =>
+                OnXmlDeclarationCallback = (version, encoding, standalone, line, column) =>
                 {
                     Assert.True(version.IsEmpty);
 
@@ -33,7 +33,7 @@ public class OnXmlDeclarationTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnXmlDeclarationCallback = (version, encoding, standalone) =>
+                OnXmlDeclarationCallback = (version, encoding, standalone, line, column) =>
                 {
                     Assert.False(version.IsEmpty);
                     Assert.Equal(expected, version);
@@ -53,7 +53,7 @@ public class OnXmlDeclarationTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnXmlDeclarationCallback = (version, encoding, standalone) =>
+                OnXmlDeclarationCallback = (version, encoding, standalone, line, column) =>
                 {
                     Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);
@@ -75,7 +75,7 @@ public class OnXmlDeclarationTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnXmlDeclarationCallback = (version, encoding, standalone) =>
+                OnXmlDeclarationCallback = (version, encoding, standalone, line, column) =>
                 {
                     Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);
@@ -98,7 +98,7 @@ public class OnXmlDeclarationTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnXmlDeclarationCallback = (version, encoding, standalone) =>
+                OnXmlDeclarationCallback = (version, encoding, standalone, line, column) =>
                 {
                     Assert.False(version.IsEmpty);
                     Assert.Equal(expectedVersion, version);

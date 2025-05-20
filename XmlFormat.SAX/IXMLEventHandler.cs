@@ -19,5 +19,5 @@ public interface IXMLEventHandler
     void OnComment(ReadOnlySpan<char> comment, int line, int column);
     void OnText(ReadOnlySpan<char> text, int line, int column);
 
-    void OnError(ReadOnlySpan<char> message);
+    void OnError(string message, int line, int column);
 }

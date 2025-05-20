@@ -46,10 +46,22 @@ public class Program
 
         foreach (var inputFile in inputFiles!)
         {
+            FormattingOptions actualFormattingOptions = formattingOptions with { };
+            string? profile = Path.GetExtension(inputFile)?.Trim('.');
+            Console.WriteLine($"profile: {profile}");
+
+            if (!string.IsNullOrEmpty(profile))
+            {
+                var configSection = config.GetSection(profile);
+                configSection.Bind(actualFormattingOptions);
+            }
+            Console.WriteLine($"actual formattingOptions: {actualFormattingOptions}");
+
+
             using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
             using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))
             {
-                XmlFormat.Format(istream, ostream, options: formattingOptions);
+                XmlFormat.Format(istream, ostream, options: actualFormattingOptions);
             }
 
             if (options.Inline)

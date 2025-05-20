@@ -25,7 +25,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="CommandLineParser" />
-    <PackageReference Include="TurboXml" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

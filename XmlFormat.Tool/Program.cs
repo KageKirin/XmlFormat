@@ -12,10 +12,10 @@ public class Program
     public class Options
     {
         [Option('i', "inline", Required = false, HelpText = "Process input files inline.")]
-        public bool Inline { get; set; }
+        public bool Inline { get; set; } = false;
 
         [Value(0, MetaName = "inputs", HelpText = "Input files.")]
-        public IEnumerable<string>? InputFiles { get; set; }
+        public IEnumerable<string>? InputFiles { get; set; } = default;
     }
 
     public static void Main(string[] args)

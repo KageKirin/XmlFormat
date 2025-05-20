@@ -11,11 +11,11 @@ public class Program
 {
     public class Options
     {
-        [Option('i', "inline", Required = false, HelpText = "Process input file inline.")]
-        public bool Inline { get; set; }
+        [Option('i', "inline", Required = false, HelpText = "Process input files inline.")]
+        public bool Inline { get; set; } = false;
 
-        [Value(0, MetaName = "input", HelpText = "Input file.")]
-        public string? InputFile { get; set; }
+        [Value(0, MetaName = "inputs", HelpText = "Input files.")]
+        public IEnumerable<string>? InputFiles { get; set; } = default;
     }
 
     public static void Main(string[] args)
@@ -34,15 +34,29 @@ public class Program
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");
-        Console.WriteLine($"options.InputFile: {options.InputFile}");
+        Console.WriteLine($"options.InputFiles: {options.InputFiles}");
 
         FormattingOptions formattingOptions = new(240, " ", 4);
         config.Bind(formattingOptions);
         Console.WriteLine($"formattingOptions: {formattingOptions}");
 
-        using var istream = OpenInputStreamOrStdIn(options);
-        using var ostream = OpenOutputStreamOrStdOut(options);
-        XmlFormat.Format(istream, ostream, options: formattingOptions);
+        var inputFiles = options.InputFiles ?? [""];
+        if (inputFiles?.Count() == 0)
+            inputFiles = [""];
+
+        foreach (var inputFile in inputFiles!)
+        {
+            using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
+            using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))
+            {
+                XmlFormat.Format(istream, ostream, options: formattingOptions);
+            }
+
+            if (options.Inline)
+            {
+                File.Copy(inputFile + ".tmp", inputFile, overwrite: true);
+            }
+        }
     }
 
     static void HandleParseError(IEnumerable<Error> errs)
@@ -50,13 +64,13 @@ public class Program
         //handle errors
     }
 
-    static Stream OpenInputStreamOrStdIn(Options options)
+    static Stream OpenInputStreamOrStdIn(string? inputFile, bool inline)
     {
-        if (string.IsNullOrEmpty(options.InputFile))
+        if (string.IsNullOrEmpty(inputFile))
         {
-            if (options.Inline)
+            if (inline)
             {
-                throw new InvalidOperationException("option -i/--inline requires an input file");
+                throw new InvalidOperationException("option -i/--inline requires at least one input file.");
             }
 
             MemoryStream stream = new();
@@ -65,16 +79,16 @@ public class Program
             return stream;
         }
 
-        return File.Open(options.InputFile, FileMode.Open, FileAccess.Read);
+        return File.Open(inputFile, FileMode.Open, FileAccess.Read);
     }
 
-    static Stream OpenOutputStreamOrStdOut(Options options)
+    static Stream OpenOutputStreamOrStdOut(string? inputFile, bool inline)
     {
-        if (string.IsNullOrEmpty(options.InputFile))
+        if (string.IsNullOrEmpty(inputFile) || !inline)
         {
             return Console.OpenStandardOutput();
         }
 
-        return File.Open(options.InputFile + ".tmp", FileMode.Create, FileAccess.Write);
+        return File.Open(inputFile + ".tmp", FileMode.Create, FileAccess.Write);
     }
 }

@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XmlFormat.SAX\XmlFormat.SAX.csproj" />
   </ItemGroup>
 
 </Project>

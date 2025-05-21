@@ -65,6 +65,26 @@ public static class XmlTokenizer
     }
 
     /// <summary>
+    /// sub parser for XML characters
+    /// </summary>
+    public static TextParser<Unit> XmlChar { get; } =
+        Character.LetterOrDigit.Or(Character.EqualTo(':')).Or(Character.EqualTo('_')).Or(Character.EqualTo('-')).Value(Unit.Value);
+
+    /// <summary>
+    /// sub parser for several XML characters
+    /// </summary>
+    public static TextParser<Unit> XmlChars { get; } = XmlChar.AtLeastOnce().Value(Unit.Value);
+
+    /// <summary>
+    /// sub parser for several XML characters
+    /// </summary>
+    public static TextParser<Unit> QuotedStringWithQuotes { get; } =
+        from lq in Span.EqualTo("\"")
+        from qt in Span.Except("\"").Optional().Value(Unit.Value)
+        from rq in Span.EqualTo("\"")
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for XML Declaration
     /// </summary>
     static TextParser<Unit> XmlDeclaration { get; } =
@@ -78,7 +98,7 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlProcessingInstruction { get; } =
         from open in Span.EqualTo("<?").Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from identifier in XmlChars.Value(Unit.Value).Try()
         from rest in Span.Except("?>").Many().Value(Unit.Value).Try()
         from close in Span.EqualTo("?>").Try()
         select Unit.Value;
@@ -102,13 +122,21 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
+    /// sub token parser for attribute="value"
+    /// </summary>
+    static TextParser<Unit> XmlAttribute { get; } =
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from value in Span.EqualTo("=").IgnoreThen(QuotedStringWithQuotes).Optional()
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for opening <element>
     /// </summary>
     static TextParser<Unit> XmlElementStart { get; } =
         from open in Character.EqualTo('<').Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
-        from rest in Character.Except('>').Many().Value(Unit.Value).Try()
-        from close in Character.EqualTo('>').Try()
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from attributes in Span.WhiteSpace.IgnoreThen(XmlAttribute).Many().Try()
+        from close in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>')).Try()
         select Unit.Value;
 
     /// <summary>
@@ -116,9 +144,9 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlElementEmpty { get; } =
         from open in Character.EqualTo('<').Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
-        from rest in Span.Except("/>").Many().Value(Unit.Value).Try()
-        from close in Character.EqualTo('/').IgnoreThen(Character.EqualTo('>')).Try()
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from attributes in Span.WhiteSpace.IgnoreThen(XmlAttribute).Many().Try()
+        from close in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("/>")).Try()
         select Unit.Value;
 
     /// <summary>
@@ -126,9 +154,8 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlElementEnd { get; } =
         from open in Span.EqualTo("</").Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
-        from rest in Character.Except('>').Many().Value(Unit.Value).Try()
-        from close in Character.EqualTo('>')
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from close in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>')).Try()
         select Unit.Value;
 
     /// <summary>

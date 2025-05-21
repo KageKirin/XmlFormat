@@ -29,18 +29,10 @@ public class NegativeTokenizerTest
         Assert.False(TestHelper.Tokenize("<!--comment --", [XmlTokenizer.XmlToken.Comment]));
         Assert.False(TestHelper.Tokenize("<!-- comment>", [XmlTokenizer.XmlToken.Comment]));
         Assert.False(TestHelper.Tokenize("<!-- comment ", [XmlTokenizer.XmlToken.Comment]));
-        Assert.False(
-            TestHelper.Tokenize("<!--\ncomment\nmore comment\n", [XmlTokenizer.XmlToken.Comment])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<!--\ncomment\nmore comment\n ", [XmlTokenizer.XmlToken.Comment])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<!-- \ncomment\nmore comment\n->", [XmlTokenizer.XmlToken.Comment])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<!-- \ncomment\nmore comment\n >", [XmlTokenizer.XmlToken.Comment])
-        );
+        Assert.False(TestHelper.Tokenize("<!--\ncomment\nmore comment\n", [XmlTokenizer.XmlToken.Comment]));
+        Assert.False(TestHelper.Tokenize("<!--\ncomment\nmore comment\n ", [XmlTokenizer.XmlToken.Comment]));
+        Assert.False(TestHelper.Tokenize("<!-- \ncomment\nmore comment\n->", [XmlTokenizer.XmlToken.Comment]));
+        Assert.False(TestHelper.Tokenize("<!-- \ncomment\nmore comment\n >", [XmlTokenizer.XmlToken.Comment]));
     }
 
     [Fact]
@@ -53,18 +45,10 @@ public class NegativeTokenizerTest
         Assert.False(TestHelper.Tokenize("<![CDATA[foobar >", [XmlTokenizer.XmlToken.CData]));
         Assert.False(TestHelper.Tokenize("<![CDATA[ foobar]]", [XmlTokenizer.XmlToken.CData]));
         Assert.False(TestHelper.Tokenize("<![CDATA[ foobar ", [XmlTokenizer.XmlToken.CData]));
-        Assert.False(
-            TestHelper.Tokenize("<![CDATA[\nfoobar\nhoge\n]>", [XmlTokenizer.XmlToken.CData])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<![CDATA[\nfoobar\nhoge\n ]]", [XmlTokenizer.XmlToken.CData])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<![CDATA[ \nfoobar\nhoge\n] >", [XmlTokenizer.XmlToken.CData])
-        );
-        Assert.False(
-            TestHelper.Tokenize("<![CDATA[ \nfoobar\nhoge\n ", [XmlTokenizer.XmlToken.CData])
-        );
+        Assert.False(TestHelper.Tokenize("<![CDATA[\nfoobar\nhoge\n]>", [XmlTokenizer.XmlToken.CData]));
+        Assert.False(TestHelper.Tokenize("<![CDATA[\nfoobar\nhoge\n ]]", [XmlTokenizer.XmlToken.CData]));
+        Assert.False(TestHelper.Tokenize("<![CDATA[ \nfoobar\nhoge\n] >", [XmlTokenizer.XmlToken.CData]));
+        Assert.False(TestHelper.Tokenize("<![CDATA[ \nfoobar\nhoge\n ", [XmlTokenizer.XmlToken.CData]));
     }
 
     [Fact]

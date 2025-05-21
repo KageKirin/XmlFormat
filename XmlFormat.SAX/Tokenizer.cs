@@ -76,6 +76,15 @@ public static class XmlTokenizer
     public static TextParser<Unit> XmlChars { get; } = XmlChar.AtLeastOnce().Value(Unit.Value);
 
     /// <summary>
+    /// sub parser for several XML characters
+    /// </summary>
+    public static TextParser<Unit> QuotedStringWithQuotes { get; } =
+        from lq in Span.EqualTo("\"")
+        from qt in Span.Except("\"").Optional().Value(Unit.Value)
+        from rq in Span.EqualTo("\"")
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for XML Declaration
     /// </summary>
     static TextParser<Unit> XmlDeclaration { get; } =

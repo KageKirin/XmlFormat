@@ -65,6 +65,12 @@ public static class XmlTokenizer
     }
 
     /// <summary>
+    /// sub parser for XML characters
+    /// </summary>
+    public static TextParser<Unit> XmlChar { get; } =
+        Character.LetterOrDigit.Or(Character.EqualTo(':')).Or(Character.EqualTo('_')).Or(Character.EqualTo('-')).Value(Unit.Value);
+
+    /// <summary>
     /// token parser for XML Declaration
     /// </summary>
     static TextParser<Unit> XmlDeclaration { get; } =

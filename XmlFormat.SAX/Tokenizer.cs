@@ -144,9 +144,9 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlElementEmpty { get; } =
         from open in Character.EqualTo('<').Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
-        from rest in Span.Except("/>").Many().Value(Unit.Value).Try()
-        from close in Character.EqualTo('/').IgnoreThen(Character.EqualTo('>')).Try()
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from attributes in Span.WhiteSpace.IgnoreThen(XmlAttribute).Many().Try()
+        from close in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("/>")).Try()
         select Unit.Value;
 
     /// <summary>

@@ -131,4 +131,22 @@ public class TokenizerTest
     {
         Assert.True(TestHelper.Tokenize(input, [expectedToken]));
     }
+
+    [Theory]
+    [InlineData("<aaa/><bbb/>", XmlTokenizer.XmlToken.ElementEmpty, XmlTokenizer.XmlToken.ElementEmpty)]
+    [InlineData("<aaa><bbb/>", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.ElementEmpty)]
+    [InlineData("<aaa><bbb>", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.ElementStart)]
+    [InlineData("<aaa></aaa>", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.ElementEnd)]
+    [InlineData("<aaa>Hello World", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.Content)]
+    [InlineData("<aaa><!-- Hello World -->", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.Comment)]
+    [InlineData("<aaa><![CDATA[ Hello World ]]>", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.CData)]
+    [InlineData(
+        "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  ",
+        XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.ElementStart
+    )]
+    public void Test2Elements(string input, XmlTokenizer.XmlToken expectedToken1, XmlTokenizer.XmlToken expectedToken2)
+    {
+        Assert.True(TestHelper.Tokenize(input, [expectedToken1, expectedToken2]));
+    }
 }

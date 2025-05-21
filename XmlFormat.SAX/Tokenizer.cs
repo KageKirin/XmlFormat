@@ -122,6 +122,14 @@ public static class XmlTokenizer
         select Unit.Value;
 
     /// <summary>
+    /// sub token parser for attribute="value"
+    /// </summary>
+    static TextParser<Unit> XmlAttribute { get; } =
+        from identifier in XmlChars.Value(Unit.Value).Try()
+        from value in Span.EqualTo("=").IgnoreThen(QuotedStringWithQuotes).Optional()
+        select Unit.Value;
+
+    /// <summary>
     /// token parser for opening <element>
     /// </summary>
     static TextParser<Unit> XmlElementStart { get; } =

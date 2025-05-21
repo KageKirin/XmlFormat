@@ -2,7 +2,6 @@ using System;
 using System.CodeDom.Compiler;
 using System.Linq;
 using System.Text;
-using TurboXml;
 
 namespace XmlFormat;
 
@@ -95,16 +94,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.WriteLine("");
     }
 
-    public override void OnBeginTag(ReadOnlySpan<char> name, int line, int column)
+    public override void OnElementStart(ReadOnlySpan<char> name, int line, int column)
     {
         if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
+            OnElementStartClose(inline: false);
 
         requireClosingPreviousElementTag = true;
         textWriter.Write($"<{name}");
     }
 
-    public virtual void OnBeginTagClose()
+    public virtual void OnElementStartClose(bool inline = false)
     {
         if (currentAttributes != null)
         {
@@ -131,24 +130,27 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         if (requireClosingPreviousElementTag)
         {
-            textWriter.WriteLine(">");
+            if (inline)
+                textWriter.Write(">");
+            else
+                textWriter.WriteLine(">");
             requireClosingPreviousElementTag = false;
         }
 
         textWriter.Indent++;
     }
 
-    public override void OnEndTagEmpty()
+    public override void OnElementEmpty(ReadOnlySpan<char> name, int line, int column)
     {
         requireClosingPreviousElementTag = false;
         bool multiLineAttributes = currentAttributes?.SingleLineLength() > Options.LineLength;
-        OnBeginTagClose();
+        OnElementStartClose();
         textWriter.Indent--;
 
         textWriter.WriteLine($"{(multiLineAttributes ? "" : " ")}/>");
     }
 
-    public override void OnEndTag(ReadOnlySpan<char> name, int line, int column)
+    public override void OnElementEnd(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;
         textWriter.WriteLine($"</{name}>");
@@ -169,20 +171,29 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
+        bool inlineContents = text.ToString().Split('\n').Length <= 2; //< 1 empty line = 2x \n, 2 empty lines = 3x \n
+        bool addExtraLine = text.ToString().Split('\n').Length > 2; //< 1 empty line = 2x \n, 2 empty lines = 3x \n
+
         if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
+            OnElementStartClose(inlineContents);
 
         var trimText = text.ToString().Trim();
         if (!string.IsNullOrEmpty(trimText))
-            writer.WriteLine(trimText);
-        if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
+        {
+            if (inlineContents)
+                textWriter.Write(trimText);
+            else
+                textWriter.WriteLine(trimText);
+        }
+
+        if (addExtraLine)
             writer.WriteLine("");
     }
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
         if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
+            OnElementStartClose();
 
         if (comment.Length < Options.LineLength)
         {
@@ -201,7 +212,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
         if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
+            OnElementStartClose();
 
         textWriter.Indent++;
         textWriter.Write("<![CDATA[");
@@ -215,7 +226,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
 internal static class IEnumerableOfAttributesExtensions
 {
-    public static int SingleLineLength(
-        this IEnumerable<FormattingXmlReadHandler.Attribute> attributes
-    ) => attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
+    public static int SingleLineLength(this IEnumerable<FormattingXmlReadHandler.Attribute> attributes) =>
+        attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
 }

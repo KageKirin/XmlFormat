@@ -98,7 +98,7 @@ public static class XmlTokenizer
     /// </summary>
     static TextParser<Unit> XmlProcessingInstruction { get; } =
         from open in Span.EqualTo("<?").Try()
-        from identifier in Character.LetterOrDigit.AtLeastOnce().Value(Unit.Value).Try()
+        from identifier in XmlChars.Value(Unit.Value).Try()
         from rest in Span.Except("?>").Many().Value(Unit.Value).Try()
         from close in Span.EqualTo("?>").Try()
         select Unit.Value;

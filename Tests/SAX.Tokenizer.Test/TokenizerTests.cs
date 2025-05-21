@@ -30,6 +30,8 @@ public class TokenizerTest
     [InlineData("<!--\ncomment\nmore comment\n -->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!-- \ncomment\nmore comment\n-->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!-- \ncomment\nmore comment\n -->", XmlTokenizer.XmlToken.Comment)]
+    [InlineData("<!-- <comment>\n<more comment>\n -->", XmlTokenizer.XmlToken.Comment)]
+    [InlineData("<!-- <comment/>\n<more comment/>\n -->", XmlTokenizer.XmlToken.Comment)]
     public void TestComment(string input, XmlTokenizer.XmlToken expectedToken)
     {
         Assert.True(TestHelper.Tokenize(input, [expectedToken]));

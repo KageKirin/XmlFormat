@@ -35,6 +35,7 @@
 
   <ItemGroup Label="project dependencies">
     <ProjectReference Include="..\..\XmlFormat.SAX\XmlFormat.SAX.csproj" />
+    <ProjectReference Include="..\XmlFormat.Test.Assets\XmlFormat.Test.Assets.csproj" />
   </ItemGroup>
 
 </Project>

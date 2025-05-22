@@ -69,7 +69,7 @@ public static class XmlTokenParser
         select new Attribute(identifier, value);
 
     internal static TextParser<Attribute[]> ManyElementAttributes { get; } =
-        ElementAttribute.Many();
+        Span.WhiteSpace.Many().IgnoreThen(ElementAttribute).Many();
 
     public static TextParser<Attribute> ElementAttributeForUnitTestsOnly
     {

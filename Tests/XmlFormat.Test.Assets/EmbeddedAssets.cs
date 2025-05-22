@@ -26,4 +26,6 @@ public static class EmbeddedAssets
 
         return null;
     }
+
+    public static string? GetEmbeddedResourceString(string resourceName) => GetEmbeddedResourceStream(resourceName)?.AsString();
 }

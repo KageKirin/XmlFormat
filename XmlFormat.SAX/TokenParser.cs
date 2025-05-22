@@ -89,7 +89,7 @@ public static class XmlTokenParser
 
     public static TextParser<Element> ElementStart { get; } =
         from identifier in ElementIdentifier
-        from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
+        from attributes in Character.WhiteSpace.Many().IgnoreThen(ManyElementAttributes)
         from closing in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>'))
         select new Element(identifier, attributes);
 

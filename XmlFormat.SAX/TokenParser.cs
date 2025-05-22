@@ -67,6 +67,9 @@ public static class XmlTokenParser
         from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
         select new Attribute(identifier, value);
 
+    internal static TextParser<Attribute[]> ManyElementAttributes { get; } =
+        ElementAttribute.Many();
+
     public static TextParser<Attribute> ElementAttributeForUnitTestsOnly
     {
         get => ElementAttribute;

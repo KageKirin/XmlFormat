@@ -65,31 +65,38 @@ public static class XmlTokenParser
     internal static TextParser<Attribute> ElementAttribute { get; } =
         from identifier in XmlChars
         from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        from trailing in Span.WhiteSpace.Many()
         select new Attribute(identifier, value);
+
+    internal static TextParser<Attribute[]> ManyElementAttributes { get; } =
+        Span.WhiteSpace.Many().IgnoreThen(ElementAttribute).Many();
 
     public static TextParser<Attribute> ElementAttributeForUnitTestsOnly
     {
         get => ElementAttribute;
     }
 
-    public static TextParser<Attribute[]> ManyElementAttributesForUnitTestsOnly { get; } = ElementAttribute.Many();
+    public static TextParser<Attribute[]> ManyElementAttributesForUnitTestsOnly
+    {
+        get => ManyElementAttributes;
+    }
 
     public record struct Element(TextSpan Identifier, Attribute[] Attributes);
 
     public static TextParser<Element> ElementAndAttributesForUnitTestsOnly { get; } =
         from identifier in ElementIdentifier
-        from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
+        from attributes in Character.WhiteSpace.Many().IgnoreThen(ManyElementAttributes)
         select new Element(identifier, attributes);
 
     public static TextParser<Element> ElementStart { get; } =
         from identifier in ElementIdentifier
-        from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
+        from attributes in Character.WhiteSpace.Many().IgnoreThen(ManyElementAttributes)
         from closing in Character.WhiteSpace.Many().IgnoreThen(Character.EqualTo('>'))
         select new Element(identifier, attributes);
 
     public static TextParser<Element> ElementEmpty { get; } =
         from identifier in ElementIdentifier
-        from attributes in Character.WhiteSpace.Many().IgnoreThen(ElementAttribute.Many())
+        from attributes in Character.WhiteSpace.Many().IgnoreThen(ManyElementAttributes)
         from closing in Character.WhiteSpace.Many().IgnoreThen(Span.EqualTo("/>"))
         select new Element(identifier, attributes);
 

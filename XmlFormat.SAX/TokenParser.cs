@@ -65,6 +65,7 @@ public static class XmlTokenParser
     internal static TextParser<Attribute> ElementAttribute { get; } =
         from identifier in XmlChars
         from value in Span.EqualTo("=").IgnoreThen(QuotedString).Optional()
+        from trailing in Span.WhiteSpace.Many()
         select new Attribute(identifier, value);
 
     internal static TextParser<Attribute[]> ManyElementAttributes { get; } =

@@ -20,6 +20,7 @@
 
   <ItemGroup Label="embeded files">
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)test.xml"/>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)idtest.xml"/>
   </ItemGroup>
 
   <ItemGroup>

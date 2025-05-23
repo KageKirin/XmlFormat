@@ -13,8 +13,10 @@ public static class TestHelper
             Assert.Equal(expectedTypes.Length, tokens.Count());
             for (int i = 0; i < expectedTypes.Length; i++)
             {
-                Assert.True(tokens.ElementAt(i).HasValue);
-                Assert.Equal(expectedTypes[i], tokens.ElementAt(i).Kind);
+                var token = tokens.ElementAt(i);
+                Assert.True(token.HasValue);
+                Assert.Equal(expectedTypes[i], token.Kind);
+                Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
             }
 
             return expectedTypes.Length == tokens.Count();

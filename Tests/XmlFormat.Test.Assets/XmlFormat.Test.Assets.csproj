@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>SAX.Tokenizer.Test</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-
     <!--
     To enable the Microsoft Testing Platform 'dotnet test' experience, add property:
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+      <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
 
     To enable the Microsoft Testing Platform native command line experience, add property:
       <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
@@ -20,8 +18,8 @@
     -->
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  <ItemGroup Label="embeded files">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)test.xml"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -29,14 +27,7 @@
   </ItemGroup>
 
   <ItemGroup Label="package dependencies">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit.v3" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-  </ItemGroup>
-
-  <ItemGroup Label="project dependencies">
-    <ProjectReference Include="..\..\XmlFormat.SAX\XmlFormat.SAX.csproj" />
-    <ProjectReference Include="..\XmlFormat.Test.Assets\XmlFormat.Test.Assets.csproj" />
+    <PackageReference Include=" xunit.v3.assert" />
   </ItemGroup>
 
 </Project>

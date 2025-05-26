@@ -84,15 +84,24 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         int column
     )
     {
-        textWriter.Write(@$"<?xml version=""{version}"" encoding=""{encoding}""");
+        textWriter.WriteNoTabs(@$"<?xml");
+
+        if (!version.IsEmpty)
+        {
+            textWriter.WriteNoTabs(@$" version=""{version}""");
+        }
+
+        if (!encoding.IsEmpty)
+        {
+            textWriter.WriteNoTabs(@$" encoding=""{encoding}""");
+        }
 
         if (!standalone.IsEmpty)
         {
-            textWriter.Write(@$" standalone=""{standalone}""");
+            textWriter.WriteNoTabs(@$" standalone=""{standalone}""");
         }
 
-        textWriter.WriteLine(" ?>");
-        textWriter.WriteLine("");
+        textWriter.WriteLineNoTabs(" ?>");
     }
 
     public override void OnBeginTag(ReadOnlySpan<char> name, int line, int column)

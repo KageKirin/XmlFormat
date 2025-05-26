@@ -102,6 +102,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.WriteLineNoTabs(" ?>");
+        textWriter.Flush();
     }
 
     public override void OnBeginTag(ReadOnlySpan<char> name, int line, int column)
@@ -111,6 +112,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         requireClosingPreviousElementTag = true;
         textWriter.Write($"<{name}");
+        textWriter.Flush();
     }
 
     public virtual void OnBeginTagClose()
@@ -145,6 +147,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.Indent++;
+        textWriter.Flush();
     }
 
     public override void OnEndTagEmpty()
@@ -155,12 +158,14 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Indent--;
 
         textWriter.WriteLine($"{(multiLineAttributes ? "" : " ")}/>");
+        textWriter.Flush();
     }
 
     public override void OnEndTag(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;
         textWriter.WriteLine($"</{name}>");
+        textWriter.Flush();
     }
 
     public override void OnAttribute(
@@ -186,6 +191,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             writer.WriteLine(trimText);
         if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
             writer.WriteLine("");
+        textWriter.Flush();
     }
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
@@ -205,6 +211,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             textWriter.Indent--;
             textWriter.WriteLine("-->");
         }
+        textWriter.Flush();
     }
 
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
@@ -217,6 +224,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.WriteLine(cdata);
         textWriter.WriteLine("]]>");
         textWriter.Indent--;
+        textWriter.Flush();
     }
 
     #endregion

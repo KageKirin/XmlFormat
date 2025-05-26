@@ -10,11 +10,7 @@ public static class XmlFormat
 
     public static void Format(Stream inputStream, Stream outputStream, FormattingOptions options)
     {
-        using var handler = new FormattingXmlReadHandler(
-            stream: outputStream,
-            encoding: Encoding.UTF8,
-            options: options
-        );
+        var handler = new FormattingXmlReadHandler(stream: outputStream, encoding: encoding, options: options);
         XmlParser.Parse(inputStream, handler, options: new XmlParserOptions(Encoding: encoding));
     }
 

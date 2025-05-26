@@ -231,7 +231,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
 internal static class IEnumerableOfAttributesExtensions
 {
-    public static int SingleLineLength(
-        this IEnumerable<FormattingXmlReadHandler.Attribute> attributes
-    ) => attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
+    public static int SingleLineLength(this IEnumerable<FormattingXmlReadHandler.Attribute> attributes) =>
+        attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
 }

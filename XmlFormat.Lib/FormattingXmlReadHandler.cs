@@ -122,7 +122,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             currentAttributes.Sort(Attribute.Compare);
             if (currentAttributes.SingleLineLength() > Options.LineLength)
             {
-                textWriter.WriteLine("");
+                textWriter.WriteLine();
                 textWriter.Indent++;
                 foreach (var attribute in currentAttributes)
                 {
@@ -190,7 +190,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (!string.IsNullOrEmpty(trimText))
             writer.WriteLine(trimText);
         if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
-            writer.WriteLine("");
+            textWriter.WriteLineNoTabs();
         textWriter.Flush();
     }
 

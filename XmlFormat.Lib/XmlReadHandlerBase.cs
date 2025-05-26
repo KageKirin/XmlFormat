@@ -9,7 +9,7 @@ public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
     protected readonly StreamWriter writer;
 
     public XmlReadHandlerBase(Stream stream, Encoding encoding)
-        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }) { }
+        : this(new StreamWriter(stream, encoding, leaveOpen: true) { AutoFlush = true, }) { }
 
     public XmlReadHandlerBase(StreamWriter streamWriter)
     {

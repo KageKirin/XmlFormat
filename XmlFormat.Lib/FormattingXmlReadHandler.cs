@@ -219,11 +219,10 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (requireClosingPreviousElementTag)
             OnBeginTagClose();
 
-        textWriter.Indent++;
-        textWriter.Write("<![CDATA[");
-        textWriter.WriteLine(cdata);
+        textWriter.WriteLine("<![CDATA[");
+        textWriter.WriteLineNoTabs(cdata.ToString().Trim('\n').TrimEnd());
+        textWriter.WriteTabs();
         textWriter.WriteLine("]]>");
-        textWriter.Indent--;
         textWriter.Flush();
     }
 

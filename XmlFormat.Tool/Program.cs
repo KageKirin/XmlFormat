@@ -60,7 +60,6 @@ public class Program
             }
             Console.WriteLine($"actual formattingOptions: {actualFormattingOptions}");
 
-
             using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
             using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))
             {

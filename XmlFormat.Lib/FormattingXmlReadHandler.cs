@@ -84,15 +84,25 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         int column
     )
     {
-        textWriter.Write(@$"<?xml version=""{version}"" encoding=""{encoding}""");
+        textWriter.WriteNoTabs(@$"<?xml");
+
+        if (!version.IsEmpty)
+        {
+            textWriter.WriteNoTabs(@$" version=""{version}""");
+        }
+
+        if (!encoding.IsEmpty)
+        {
+            textWriter.WriteNoTabs(@$" encoding=""{encoding}""");
+        }
 
         if (!standalone.IsEmpty)
         {
-            textWriter.Write(@$" standalone=""{standalone}""");
+            textWriter.WriteNoTabs(@$" standalone=""{standalone}""");
         }
 
-        textWriter.WriteLine(" ?>");
-        textWriter.WriteLine("");
+        textWriter.WriteLineNoTabs(" ?>");
+        textWriter.Flush();
     }
 
     public override void OnBeginTag(ReadOnlySpan<char> name, int line, int column)
@@ -102,6 +112,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         requireClosingPreviousElementTag = true;
         textWriter.Write($"<{name}");
+        textWriter.Flush();
     }
 
     public virtual void OnBeginTagClose()
@@ -111,7 +122,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             currentAttributes.Sort(Attribute.Compare);
             if (currentAttributes.SingleLineLength() > Options.LineLength)
             {
-                textWriter.WriteLine("");
+                textWriter.WriteLine();
                 textWriter.Indent++;
                 foreach (var attribute in currentAttributes)
                 {
@@ -136,6 +147,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.Indent++;
+        textWriter.Flush();
     }
 
     public override void OnEndTagEmpty()
@@ -146,12 +158,14 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Indent--;
 
         textWriter.WriteLine($"{(multiLineAttributes ? "" : " ")}/>");
+        textWriter.Flush();
     }
 
     public override void OnEndTag(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;
         textWriter.WriteLine($"</{name}>");
+        textWriter.Flush();
     }
 
     public override void OnAttribute(
@@ -174,9 +188,10 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         var trimText = text.ToString().Trim();
         if (!string.IsNullOrEmpty(trimText))
-            writer.WriteLine(trimText);
+            textWriter.WriteLineNoTabs(trimText);
         if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
-            writer.WriteLine("");
+            textWriter.WriteLineNoTabs();
+        textWriter.Flush();
     }
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
@@ -196,6 +211,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             textWriter.Indent--;
             textWriter.WriteLine("-->");
         }
+        textWriter.Flush();
     }
 
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
@@ -203,11 +219,11 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (requireClosingPreviousElementTag)
             OnBeginTagClose();
 
-        textWriter.Indent++;
-        textWriter.Write("<![CDATA[");
-        textWriter.WriteLine(cdata);
+        textWriter.WriteLine("<![CDATA[");
+        textWriter.WriteLineNoTabs(cdata.ToString().Trim('\n').TrimEnd());
+        textWriter.WriteTabs();
         textWriter.WriteLine("]]>");
-        textWriter.Indent--;
+        textWriter.Flush();
     }
 
     #endregion
@@ -215,7 +231,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
 internal static class IEnumerableOfAttributesExtensions
 {
-    public static int SingleLineLength(
-        this IEnumerable<FormattingXmlReadHandler.Attribute> attributes
-    ) => attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
+    public static int SingleLineLength(this IEnumerable<FormattingXmlReadHandler.Attribute> attributes) =>
+        attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
 }

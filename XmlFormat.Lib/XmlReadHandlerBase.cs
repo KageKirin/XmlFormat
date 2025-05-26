@@ -9,7 +9,7 @@ public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
     protected readonly StreamWriter writer;
 
     public XmlReadHandlerBase(Stream stream, Encoding encoding)
-        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }) { }
+        : this(new StreamWriter(stream, encoding, leaveOpen: true) { AutoFlush = true, }) { }
 
     public XmlReadHandlerBase(StreamWriter streamWriter)
     {
@@ -56,10 +56,7 @@ public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
         int nameColumn,
         int valueLine,
         int valueColumn
-    ) =>
-        writer.WriteLine(
-            $"Attribute({nameLine + 1}:{nameColumn + 1})-({valueLine + 1}:{valueColumn + 1}): {name}=\"{value}\""
-        );
+    ) => writer.WriteLine($"Attribute({nameLine + 1}:{nameColumn + 1})-({valueLine + 1}:{valueColumn + 1}): {name}=\"{value}\"");
 
     public virtual void OnText(ReadOnlySpan<char> text, int line, int column) =>
         writer.WriteLine($"Content({line + 1}:{column + 1}): {text}");

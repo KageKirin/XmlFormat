@@ -1,10 +1,9 @@
-using Superpower.Parsers;
 using System.Diagnostics.CodeAnalysis;
+using Superpower.Parsers;
 using XmlFormat.SAX;
 using XmlFormat.Test.Assets;
 
 [assembly: SuppressMessage("xUnit", "xUnit1013", Justification = "Test class is correctly implementing an interface.")]
-
 
 namespace SAX.EventHandler.Test;
 

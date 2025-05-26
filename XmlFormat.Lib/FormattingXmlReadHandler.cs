@@ -188,7 +188,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         var trimText = text.ToString().Trim();
         if (!string.IsNullOrEmpty(trimText))
-            writer.WriteLine(trimText);
+            textWriter.WriteLineNoTabs(trimText);
         if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
             textWriter.WriteLineNoTabs();
         textWriter.Flush();

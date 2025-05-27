@@ -50,8 +50,11 @@ public class XmlReadHandlerBase : IXMLEventHandler, IDisposable
     public virtual void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) =>
         writer.WriteLine($"ElementStart close({line}:{column}): {name}");
 
-    public virtual void OnElementEmpty(ReadOnlySpan<char> name, int line, int column) =>
-        writer.WriteLine($"ElementEmpty({line}:{column}): {name}");
+    public virtual void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementEmpty open({line}:{column}): {name}");
+
+    public virtual void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementEmpty close({line}:{column}): {name}");
 
     //public virtual void OnEndTagEmpty() => writer.WriteLine($"EndTagEmpty");
 

@@ -12,7 +12,8 @@ public interface IXMLEventHandler
     void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column);
     void OnElementStartClose(ReadOnlySpan<char> name, int line, int column);
     void OnElementEnd(ReadOnlySpan<char> name, int line, int column);
-    void OnElementEmpty(ReadOnlySpan<char> name, int line, int column);
+    void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column);
+    void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column);
     void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int nameLine, int nameColumn, int valueLine, int valueColumn);
 
     void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column);

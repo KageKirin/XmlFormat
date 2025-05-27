@@ -36,12 +36,19 @@ public class ResourceTest : IXMLEventHandler
     }
 
     private static string[] startingElements = ["Window", "StackPanel", "InlineContents", "Code", "LongText",];
-    private IEnumerator<string> startingElementEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
+    private IEnumerator<string> startingElementOpenEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
+    private IEnumerator<string> startingElementCloseEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
 
-    public void OnElementStart(ReadOnlySpan<char> name, int line, int column)
+    public void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        startingElementEnumerator.MoveNext();
-        Assert.Equal(startingElementEnumerator.Current, name);
+        startingElementOpenEnumerator.MoveNext();
+        Assert.Equal(startingElementOpenEnumerator.Current, name);
+    }
+
+    public void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
+    {
+        startingElementCloseEnumerator.MoveNext();
+        Assert.Equal(startingElementCloseEnumerator.Current, name);
     }
 
     private static string[] endingElements = ["StackPanel", "InlineContents", "Code", "LongText", "Window",];

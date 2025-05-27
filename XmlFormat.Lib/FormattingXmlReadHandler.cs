@@ -104,7 +104,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
-    public override void OnElementStart(ReadOnlySpan<char> name, int line, int column)
+    public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
         if (requireClosingPreviousElementTag)
             OnElementStartClose(inline: false);
@@ -114,8 +114,9 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
-    public virtual void OnElementStartClose(bool inline = false)
+    public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
     {
+        bool inline = false;
         if (currentAttributes != null)
         {
             currentAttributes.Sort(Attribute.Compare);

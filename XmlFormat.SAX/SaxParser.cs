@@ -43,7 +43,7 @@ public static class SaxParser
 
                 case XmlTokenizer.XmlToken.ElementStart:
                     var tempElementStart = XmlTokenParser.ElementStart(token.Span);
-                    handler.OnElementStart(
+                    handler.OnElementStartOpen(
                         tempElementStart.Value.Identifier.ToReadOnlySpan(),
                         token.Span.Position.Line,
                         token.Span.Position.Column
@@ -59,6 +59,11 @@ public static class SaxParser
                             attribute.Value == null ? -1 : ((TextSpan)attribute.Value!).Position.Column
                         );
                     }
+                    handler.OnElementStartClose(
+                        tempElementStart.Value.Identifier.ToReadOnlySpan(),
+                        token.Span.Position.Line,
+                        token.Span.Position.Column + token.Span.Length - 1
+                    );
                     break;
 
                 case XmlTokenizer.XmlToken.ElementEmpty:

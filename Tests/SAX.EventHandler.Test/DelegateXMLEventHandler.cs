@@ -12,7 +12,11 @@ public class DelegateXMLEventHandler : IXMLEventHandler
     {
         Assert.False(true);
     };
-    public Action<ReadOnlySpan<char>, int, int> OnElementStartCallback = (_, line, column) =>
+    public Action<ReadOnlySpan<char>, int, int> OnElementStartOpenCallback = (_, line, column) =>
+    {
+        Assert.False(true);
+    };
+    public Action<ReadOnlySpan<char>, int, int> OnElementStartCloseCallback = (_, line, column) =>
     {
         Assert.False(true);
     };
@@ -51,7 +55,9 @@ public class DelegateXMLEventHandler : IXMLEventHandler
 
     public void OnXmlDeclaration(ReadOnlySpan<char> version, ReadOnlySpan<char> encoding, ReadOnlySpan<char> standalone, int line, int column) => OnXmlDeclarationCallback(version, encoding, standalone, line, column);
 
-    public void OnElementStart(ReadOnlySpan<char> name, int line, int column) => OnElementStartCallback(name, line, column);
+    public void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column) => OnElementStartOpenCallback(name, line, column);
+
+    public void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) => OnElementStartCloseCallback(name, line, column);
 
     public void OnElementEnd(ReadOnlySpan<char> name, int line, int column) => OnElementEndCallback(name, line, column);
 

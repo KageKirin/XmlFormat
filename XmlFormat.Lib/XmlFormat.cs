@@ -11,7 +11,7 @@ public static class XmlFormat
     public static void Format(Stream inputStream, Stream outputStream, FormattingOptions options)
     {
         using StreamReader reader = new(inputStream);
-        using var handler = new FormattingXmlReadHandler(stream: outputStream, encoding: Encoding.UTF8, options: options);
+        var handler = new FormattingXmlReadHandler(stream: outputStream, encoding: encoding, options: options);
 
         SaxParser.Parse(reader.ReadToEnd(), handler);
     }

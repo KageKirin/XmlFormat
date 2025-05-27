@@ -44,8 +44,11 @@ public class XmlReadHandlerBase : IXMLEventHandler, IDisposable
     public virtual void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column) =>
         writer.WriteLine($"PI({line}:{column}): {identifier} {contents}");
 
-    public virtual void OnElementStart(ReadOnlySpan<char> name, int line, int column) =>
-        writer.WriteLine($"ElementStart({line}:{column}): {name}");
+    public virtual void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementStart open({line}:{column}): {name}");
+
+    public virtual void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementStart close({line}:{column}): {name}");
 
     public virtual void OnElementEmpty(ReadOnlySpan<char> name, int line, int column) =>
         writer.WriteLine($"ElementEmpty({line}:{column}): {name}");

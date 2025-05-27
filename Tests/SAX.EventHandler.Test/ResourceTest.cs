@@ -61,12 +61,19 @@ public class ResourceTest : IXMLEventHandler
     }
 
     private static string[] emptyElements = ["DataGrid", "EmptyElement", "Foobar", "PocketMonsters",];
-    private IEnumerator<string> emptyElementEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
+    private IEnumerator<string> emptyElementOpenEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
+    private IEnumerator<string> emptyElementCloseEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
 
-    public void OnElementEmpty(ReadOnlySpan<char> name, int line, int column)
+    public void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        emptyElementEnumerator.MoveNext();
-        Assert.Equal(emptyElementEnumerator.Current, name);
+        emptyElementOpenEnumerator.MoveNext();
+        Assert.Equal(emptyElementOpenEnumerator.Current, name);
+    }
+
+    public void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)
+    {
+        emptyElementCloseEnumerator.MoveNext();
+        Assert.Equal(emptyElementCloseEnumerator.Current, name);
     }
 
     public void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int nameLine, int nameColumn, int valueLine, int valueColumn) { }

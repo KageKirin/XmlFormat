@@ -17,4 +17,9 @@ public static class XmlTokenParserExtension
         sb.Append("]");
         return sb.ToString();
     }
+
+    public static string ToString(this XmlTokenParser.Attribute[] attributes)
+    {
+        return ((IEnumerable<XmlTokenParser.Attribute>)attributes).ToString();
+    }
 }

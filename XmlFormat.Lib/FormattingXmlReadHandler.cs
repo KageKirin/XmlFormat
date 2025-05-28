@@ -110,6 +110,13 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
+    {
+        textWriter.Write($"<{name}");
+        textWriter.Flush();
+        textWriter.Indent++;
+    }
+
     public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Write($"<{name}");

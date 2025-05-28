@@ -122,6 +122,24 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         OnElementOpen(name, line, column);
     }
 
+    public virtual void OnWriteElementAttribute(bool multiline, ReadOnlySpan<char> name, ReadOnlySpan<char> value)
+    {
+        if (multiline)
+        {
+            if (value.IsEmpty)
+                textWriter.WriteLine(@$"{name}");
+            else
+                textWriter.WriteLine(@$"{name}=""{value}""");
+        }
+        else
+        {
+            if (value.IsEmpty)
+                textWriter.Write(@$" {name}");
+            else
+                textWriter.Write(@$" {name}=""{value}""");
+        }
+    }
+
     public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
     {
         bool inline = false;

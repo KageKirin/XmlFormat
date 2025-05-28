@@ -172,12 +172,25 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)
     {
-        requireClosingPreviousElementTag = false;
-        bool multiLineAttributes = currentAttributes?.SingleLineLength() > Options.LineLength;
-        OnElementStartClose();
-        textWriter.Indent--;
+        bool multiline = false;
+        if (currentAttributes != null)
+        {
+            multiline = currentAttributes.SingleLineLength() > Options.LineLength;
+            // newline after element empty open
+            if (multiline)
+                textWriter.WriteLine();
 
-        textWriter.WriteLine($"{(multiLineAttributes ? "" : " ")}/>");
+            currentAttributes.Sort(Attribute.Compare);
+            foreach (var attribute in currentAttributes)
+            {
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
+            }
+
+            currentAttributes = null;
+        }
+
+        textWriter.Indent--;
+        textWriter.WriteLine($"{(multiline ? "" : " ")}/>");
         textWriter.Flush();
     }
 

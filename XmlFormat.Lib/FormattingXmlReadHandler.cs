@@ -112,12 +112,9 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnElementStartClose(inline: false);
-
-        requireClosingPreviousElementTag = true;
         textWriter.Write($"<{name}");
         textWriter.Flush();
+        textWriter.Indent++;
     }
 
     public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)

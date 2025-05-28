@@ -23,7 +23,9 @@ public class FormatterTest
     [InlineData("<element > ", "<element>")]
     [InlineData("<element/> ", "<element />")]
     [InlineData("<element /> ", "<element />")]
+    [InlineData("<element attribute=\"1\"/> ", "<element attribute=\"1\" />")]
     [InlineData("<element>test</element> ", "<element>\ntest\n</element>")]
+    [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">\ntest\n</element>")]
     public void IdentityTest(string input, string expected)
     {
         var formatted = XmlFormat.XmlFormat.Format(input, new FormattingOptions(80, "", 1));
@@ -57,7 +59,9 @@ public class FormatterTest
     [InlineData("<element > ", "<element>")]
     [InlineData("<element/> ", "<element />")]
     [InlineData("<element /> ", "<element />")]
+    [InlineData("<element attribute=\"1\"/> ", "<element attribute=\"1\" />")]
     [InlineData("<element>test</element> ", "<element>\ntest\n</element>")]
+    [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">\ntest\n</element>")]
     public void IdentityTestStream(string input, string expected)
     {
         Encoding encoding = new UTF8Encoding(true);

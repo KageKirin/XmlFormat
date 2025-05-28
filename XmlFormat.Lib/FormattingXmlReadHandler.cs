@@ -56,7 +56,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     private readonly IndentedTextWriter textWriter;
 
-    private bool requireClosingPreviousElementTag = false;
     private List<Attribute>? currentAttributes = default;
 
     public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
@@ -226,9 +225,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnElementStartClose();
-
         if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim()} -->");
@@ -246,9 +242,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnElementStartClose();
-
         textWriter.WriteLine("<![CDATA[");
         textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd()}");
         textWriter.WriteTabs();

@@ -142,41 +142,27 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
     {
-        bool inline = false;
         if (currentAttributes != null)
         {
-            currentAttributes.Sort(Attribute.Compare);
-            if (currentAttributes.SingleLineLength() > Options.LineLength)
-            {
+            bool multiline = currentAttributes.SingleLineLength() > Options.LineLength;
+
+            // newline after element start open
+            if (multiline)
                 textWriter.WriteLine();
-                textWriter.Indent++;
-                foreach (var attribute in currentAttributes)
-                {
-                    textWriter.WriteLine(@$"{attribute.Name}=""{attribute.Value}""");
-                }
-                textWriter.Indent--;
-            }
-            else
+
+            currentAttributes.Sort(Attribute.Compare);
+            foreach (var attribute in currentAttributes)
             {
-                foreach (var attribute in currentAttributes)
-                {
-                    textWriter.Write(@$" {attribute.Name}=""{attribute.Value}""");
-                }
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
             }
+
             currentAttributes = null;
         }
 
-        if (requireClosingPreviousElementTag)
-        {
-            if (inline)
-                textWriter.Write(">");
-            else
-                textWriter.WriteLine(">");
-            requireClosingPreviousElementTag = false;
-        }
-
-        textWriter.Indent++;
+        textWriter.Indent--;
+        textWriter.WriteLine(">");
         textWriter.Flush();
+        textWriter.Indent++;
     }
 
     public override void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)

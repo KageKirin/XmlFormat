@@ -61,4 +61,23 @@ public static class ReadOnlySpanCharExtensions
 
         return span.Slice(start);
     }
+
+    /// <summary>
+    /// Removes all trailing characters matching the `match` delegate from the span.
+    /// </summary>
+    /// <param name="span">The source span from which the characters are removed.</param>
+    /// <param name="match">Delegate match function.</param>
+    public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
+    {
+        int end = span.Length - 1;
+        for (; end >= 0; end--)
+        {
+            if (!match(span[end]))
+            {
+                break;
+            }
+        }
+
+        return span.Slice(0, end + 1);
+    }
 }

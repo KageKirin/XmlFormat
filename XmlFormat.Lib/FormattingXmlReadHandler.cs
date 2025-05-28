@@ -250,7 +250,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             OnElementStartClose();
 
         textWriter.WriteLine("<![CDATA[");
-        textWriter.WriteLineNoTabs(cdata.ToString().Trim('\n').TrimEnd());
+        textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd()}");
         textWriter.WriteTabs();
         textWriter.WriteLine("]]>");
         textWriter.Flush();

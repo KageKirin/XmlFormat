@@ -104,6 +104,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    public override void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column)
+    {
+        textWriter.WriteLine(@$"<?{identifier}{contents}?>");
+        textWriter.Flush();
+    }
+
     public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
         if (requireClosingPreviousElementTag)

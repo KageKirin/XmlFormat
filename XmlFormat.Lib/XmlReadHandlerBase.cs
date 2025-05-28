@@ -1,10 +1,10 @@
 using System;
 using System.Text;
-using TurboXml;
+using XmlFormat.SAX;
 
 namespace XmlFormat;
 
-public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
+public class XmlReadHandlerBase : IXMLEventHandler, IDisposable
 {
     protected readonly StreamWriter writer;
 
@@ -39,15 +39,27 @@ public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
         ReadOnlySpan<char> standalone,
         int line,
         int column
-    ) => writer.WriteLine($"Xml({line + 1}:{column + 1}): {version} {encoding} {standalone}");
+    ) => writer.WriteLine($"Xml({line}:{column}): {version} {encoding} {standalone}");
 
-    public virtual void OnBeginTag(ReadOnlySpan<char> name, int line, int column) =>
-        writer.WriteLine($"BeginTag({line + 1}:{column + 1}): {name}");
+    public virtual void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column) =>
+        writer.WriteLine($"PI({line}:{column}): {identifier} {contents}");
 
-    public virtual void OnEndTagEmpty() => writer.WriteLine($"EndTagEmpty");
+    public virtual void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementStart open({line}:{column}): {name}");
 
-    public virtual void OnEndTag(ReadOnlySpan<char> name, int line, int column) =>
-        writer.WriteLine($"EndTag({line + 1}:{column + 1}): {name}");
+    public virtual void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementStart close({line}:{column}): {name}");
+
+    public virtual void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementEmpty open({line}:{column}): {name}");
+
+    public virtual void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementEmpty close({line}:{column}): {name}");
+
+    //public virtual void OnEndTagEmpty() => writer.WriteLine($"EndTagEmpty");
+
+    public virtual void OnElementEnd(ReadOnlySpan<char> name, int line, int column) =>
+        writer.WriteLine($"ElementEnd({line}:{column}): {name}");
 
     public virtual void OnAttribute(
         ReadOnlySpan<char> name,
@@ -56,19 +68,16 @@ public class XmlReadHandlerBase : IXmlReadHandler, IDisposable
         int nameColumn,
         int valueLine,
         int valueColumn
-    ) => writer.WriteLine($"Attribute({nameLine + 1}:{nameColumn + 1})-({valueLine + 1}:{valueColumn + 1}): {name}=\"{value}\"");
+    ) => writer.WriteLine($"Attribute({nameLine}:{nameColumn})-({valueLine}:{valueColumn}): {name}=\"{value}\"");
 
-    public virtual void OnText(ReadOnlySpan<char> text, int line, int column) =>
-        writer.WriteLine($"Content({line + 1}:{column + 1}): {text}");
+    public virtual void OnText(ReadOnlySpan<char> text, int line, int column) => writer.WriteLine($"Content({line}:{column}): {text}");
 
     public virtual void OnComment(ReadOnlySpan<char> comment, int line, int column) =>
-        writer.WriteLine($"Comment({line + 1}:{column + 1}): {comment}");
+        writer.WriteLine($"Comment({line}:{column}): {comment}");
 
-    public virtual void OnCData(ReadOnlySpan<char> cdata, int line, int column) =>
-        writer.WriteLine($"CDATA({line + 1}:{column + 1}): {cdata}");
+    public virtual void OnCData(ReadOnlySpan<char> cdata, int line, int column) => writer.WriteLine($"CDATA({line}:{column}): {cdata}");
 
-    public virtual void OnError(string message, int line, int column) =>
-        Console.Error.WriteLine($"ERROR({line + 1}:{column + 1}): {message}");
+    public virtual void OnError(string message, int line, int column) => Console.Error.WriteLine($"ERROR({line}:{column}): {message}");
 
     #endregion
 }

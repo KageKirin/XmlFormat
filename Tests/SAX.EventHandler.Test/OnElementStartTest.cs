@@ -37,10 +37,14 @@ public class OnElementStartTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementStartCallback = (elementIdentifier, line, column) =>
+                OnElementStartOpenCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expected, elementIdentifier);
-                }
+                },
+                OnElementStartCloseCallback = (elementIdentifier, line, column) =>
+                {
+                    Assert.Equal(expected, elementIdentifier);
+                },
             };
         SaxParser.Parse(input, handler);
     }
@@ -78,7 +82,7 @@ public class OnElementStartTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementStartCallback = (elementIdentifier, line, column) =>
+                OnElementStartOpenCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
@@ -86,7 +90,11 @@ public class OnElementStartTest
                 {
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.True(attributeValue.IsEmpty);
-                }
+                },
+                OnElementStartCloseCallback = (elementIdentifier, line, column) =>
+                {
+                    Assert.Equal(expectedElement, elementIdentifier);
+                },
             };
         SaxParser.Parse(input, handler);
     }
@@ -124,7 +132,7 @@ public class OnElementStartTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementStartCallback = (elementIdentifier, line, column) =>
+                OnElementStartOpenCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
@@ -132,7 +140,11 @@ public class OnElementStartTest
                 {
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.True(attributeValue.IsEmpty);
-                }
+                },
+                OnElementStartCloseCallback = (elementIdentifier, line, column) =>
+                {
+                    Assert.Equal(expectedElement, elementIdentifier);
+                },
             };
         SaxParser.Parse(input, handler);
     }
@@ -161,7 +173,7 @@ public class OnElementStartTest
         DelegateXMLEventHandler handler =
             new()
             {
-                OnElementStartCallback = (elementIdentifier, line, column) =>
+                OnElementStartOpenCallback = (elementIdentifier, line, column) =>
                 {
                     Assert.Equal(expectedElement, elementIdentifier);
                 },
@@ -170,7 +182,11 @@ public class OnElementStartTest
                     Assert.Equal(expectedAttribute, attributeName);
                     Assert.False(attributeValue.IsEmpty);
                     Assert.Equal(expectedValue, attributeValue);
-                }
+                },
+                OnElementStartCloseCallback = (elementIdentifier, line, column) =>
+                {
+                    Assert.Equal(expectedElement, elementIdentifier);
+                },
             };
         SaxParser.Parse(input, handler);
     }

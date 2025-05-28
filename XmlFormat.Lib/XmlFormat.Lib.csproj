@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TurboXml" />
+    <ProjectReference Include="..\XmlFormat.SAX\XmlFormat.SAX.csproj" />
   </ItemGroup>
 
 </Project>

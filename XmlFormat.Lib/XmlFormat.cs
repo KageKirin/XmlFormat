@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using TurboXml;
+using XmlFormat.SAX;
 
 namespace XmlFormat;
 
@@ -10,8 +10,10 @@ public static class XmlFormat
 
     public static void Format(Stream inputStream, Stream outputStream, FormattingOptions options)
     {
+        using StreamReader reader = new(inputStream);
         var handler = new FormattingXmlReadHandler(stream: outputStream, encoding: encoding, options: options);
-        XmlParser.Parse(inputStream, handler, options: new XmlParserOptions(Encoding: encoding));
+
+        SaxParser.Parse(reader.ReadToEnd(), handler);
     }
 
     public static string Format(string xml, FormattingOptions options)

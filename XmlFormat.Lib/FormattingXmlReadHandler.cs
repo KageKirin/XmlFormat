@@ -2,7 +2,6 @@ using System;
 using System.CodeDom.Compiler;
 using System.Linq;
 using System.Text;
-using TurboXml;
 
 namespace XmlFormat;
 
@@ -57,7 +56,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     private readonly IndentedTextWriter textWriter;
 
-    private bool requireClosingPreviousElementTag = false;
     private List<Attribute>? currentAttributes = default;
 
     public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
@@ -105,63 +103,97 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
-    public override void OnBeginTag(ReadOnlySpan<char> name, int line, int column)
+    public override void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
-
-        requireClosingPreviousElementTag = true;
-        textWriter.Write($"<{name}");
+        textWriter.WriteLine(@$"<?{identifier}{contents}?>");
         textWriter.Flush();
     }
 
-    public virtual void OnBeginTagClose()
+    public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
+    {
+        textWriter.Write($"<{name}");
+        textWriter.Flush();
+        textWriter.Indent++;
+    }
+
+    public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
+    {
+        OnElementOpen(name, line, column);
+    }
+
+    public virtual void OnWriteElementAttribute(bool multiline, ReadOnlySpan<char> name, ReadOnlySpan<char> value)
+    {
+        if (multiline)
+        {
+            if (value.IsEmpty)
+                textWriter.WriteLine(@$"{name}");
+            else
+                textWriter.WriteLine(@$"{name}=""{value}""");
+        }
+        else
+        {
+            if (value.IsEmpty)
+                textWriter.Write(@$" {name}");
+            else
+                textWriter.Write(@$" {name}=""{value}""");
+        }
+    }
+
+    public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
     {
         if (currentAttributes != null)
         {
-            currentAttributes.Sort(Attribute.Compare);
-            if (currentAttributes.SingleLineLength() > Options.LineLength)
-            {
+            bool multiline = currentAttributes.SingleLineLength() > Options.LineLength;
+
+            // newline after element start open
+            if (multiline)
                 textWriter.WriteLine();
-                textWriter.Indent++;
-                foreach (var attribute in currentAttributes)
-                {
-                    textWriter.WriteLine(@$"{attribute.Name}=""{attribute.Value}""");
-                }
-                textWriter.Indent--;
-            }
-            else
+
+            currentAttributes.Sort(Attribute.Compare);
+            foreach (var attribute in currentAttributes)
             {
-                foreach (var attribute in currentAttributes)
-                {
-                    textWriter.Write(@$" {attribute.Name}=""{attribute.Value}""");
-                }
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
             }
+
             currentAttributes = null;
         }
 
-        if (requireClosingPreviousElementTag)
+        textWriter.Indent--;
+        textWriter.WriteLine(">");
+        textWriter.Flush();
+        textWriter.Indent++;
+    }
+
+    public override void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)
+    {
+        OnElementOpen(name, line, column);
+    }
+
+    public override void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)
+    {
+        bool multiline = false;
+        if (currentAttributes != null)
         {
-            textWriter.WriteLine(">");
-            requireClosingPreviousElementTag = false;
+            multiline = currentAttributes.SingleLineLength() > Options.LineLength;
+            // newline after element empty open
+            if (multiline)
+                textWriter.WriteLine();
+
+            currentAttributes.Sort(Attribute.Compare);
+            foreach (var attribute in currentAttributes)
+            {
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
+            }
+
+            currentAttributes = null;
         }
 
-        textWriter.Indent++;
-        textWriter.Flush();
-    }
-
-    public override void OnEndTagEmpty()
-    {
-        requireClosingPreviousElementTag = false;
-        bool multiLineAttributes = currentAttributes?.SingleLineLength() > Options.LineLength;
-        OnBeginTagClose();
         textWriter.Indent--;
-
-        textWriter.WriteLine($"{(multiLineAttributes ? "" : " ")}/>");
+        textWriter.WriteLine($"{(multiline ? "" : " ")}/>");
         textWriter.Flush();
     }
 
-    public override void OnEndTag(ReadOnlySpan<char> name, int line, int column)
+    public override void OnElementEnd(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;
         textWriter.WriteLine($"</{name}>");
@@ -183,22 +215,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
-
-        var trimText = text.ToString().Trim();
-        if (!string.IsNullOrEmpty(trimText))
-            textWriter.WriteLineNoTabs(trimText);
-        if (text.ToString().Split('\n').Length > 2) //< 1 empty line = 2x \n, 2 empty lines = 3x \n
+        var trimText = text.Trim();
+        if (trimText.IsEmpty && text.IsWhiteSpace())
             textWriter.WriteLineNoTabs();
+        else
+            textWriter.WriteLine(trimText);
         textWriter.Flush();
     }
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
-
         if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim()} -->");
@@ -216,11 +242,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
-        if (requireClosingPreviousElementTag)
-            OnBeginTagClose();
-
         textWriter.WriteLine("<![CDATA[");
-        textWriter.WriteLineNoTabs(cdata.ToString().Trim('\n').TrimEnd());
+        textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd()}");
         textWriter.WriteTabs();
         textWriter.WriteLine("]]>");
         textWriter.Flush();

@@ -7,23 +7,25 @@ namespace SAX.Formatter.Test;
 public class FormatterTest
 {
     [Theory]
-    //[InlineData("<?xml?>", "")]
-    //[InlineData("<?xml ?>", "")]
+    [InlineData("<?xml?>", "<?xml ?>")]
+    [InlineData("<?xml ?>", "<?xml ?>")]
     [InlineData(@"<?xml version=""1.0""?>", @"<?xml version=""1.0"" ?>")]
     [InlineData(@"<?xml version=""1.0"" ?>", @"<?xml version=""1.0"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8""?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" ?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true""?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>")]
-    //[InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""false"" ?>")]
-    //[InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone ?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""false"" ?>")]
-    [InlineData("<?php ?", "")]
-    [InlineData("<?pi ?", "")]
+    [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
+    [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone ?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
+    [InlineData("<?php ?>", "<?php ?>")]
+    [InlineData("<?pi ?>", "<?pi ?>")]
     [InlineData("<element> ", "<element>")]
     [InlineData("<element > ", "<element>")]
     [InlineData("<element/> ", "<element />")]
     [InlineData("<element /> ", "<element />")]
+    [InlineData("<element attribute=\"1\"/> ", "<element attribute=\"1\" />")]
     [InlineData("<element>test</element> ", "<element>\ntest\n</element>")]
+    [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">\ntest\n</element>")]
     public void IdentityTest(string input, string expected)
     {
         var formatted = XmlFormat.XmlFormat.Format(input, new FormattingOptions(80, "", 1));
@@ -41,23 +43,25 @@ public class FormatterTest
     }
 
     [Theory]
-    //[InlineData("<?xml?>", "")]
-    //[InlineData("<?xml ?>", "")]
+    [InlineData("<?xml?>", "<?xml ?>")]
+    [InlineData("<?xml ?>", "<?xml ?>")]
     [InlineData(@"<?xml version=""1.0""?>", @"<?xml version=""1.0"" ?>")]
     [InlineData(@"<?xml version=""1.0"" ?>", @"<?xml version=""1.0"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8""?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" ?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true""?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>")]
     [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""true"" ?>")]
-    //[InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""false"" ?>")]
-    //[InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone ?>", @"<?xml version=""1.0"" encoding=""utf-8"" standalone=""false"" ?>")]
-    [InlineData("<?php ?", "")]
-    [InlineData("<?pi ?", "")]
+    [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
+    [InlineData(@"<?xml version=""1.0"" encoding=""utf-8"" standalone ?>", @"<?xml version=""1.0"" encoding=""utf-8"" ?>")]
+    [InlineData("<?php ?>", "<?php ?>")]
+    [InlineData("<?pi ?>", "<?pi ?>")]
     [InlineData("<element> ", "<element>")]
     [InlineData("<element > ", "<element>")]
     [InlineData("<element/> ", "<element />")]
     [InlineData("<element /> ", "<element />")]
+    [InlineData("<element attribute=\"1\"/> ", "<element attribute=\"1\" />")]
     [InlineData("<element>test</element> ", "<element>\ntest\n</element>")]
+    [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">\ntest\n</element>")]
     public void IdentityTestStream(string input, string expected)
     {
         Encoding encoding = new UTF8Encoding(true);

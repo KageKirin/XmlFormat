@@ -12,7 +12,11 @@ public class DelegateXMLEventHandler : IXMLEventHandler
     {
         Assert.False(true);
     };
-    public Action<ReadOnlySpan<char>, int, int> OnElementStartCallback = (_, line, column) =>
+    public Action<ReadOnlySpan<char>, int, int> OnElementStartOpenCallback = (_, line, column) =>
+    {
+        Assert.False(true);
+    };
+    public Action<ReadOnlySpan<char>, int, int> OnElementStartCloseCallback = (_, line, column) =>
     {
         Assert.False(true);
     };
@@ -20,7 +24,11 @@ public class DelegateXMLEventHandler : IXMLEventHandler
     {
         Assert.False(true);
     };
-    public Action<ReadOnlySpan<char>, int, int> OnElementEmptyCallback = (_, line, column) =>
+    public Action<ReadOnlySpan<char>, int, int> OnElementEmptyOpenCallback = (_, line, column) =>
+    {
+        Assert.False(true);
+    };
+    public Action<ReadOnlySpan<char>, int, int> OnElementEmptyCloseCallback = (_, line, column) =>
     {
         Assert.False(true);
     };
@@ -51,11 +59,15 @@ public class DelegateXMLEventHandler : IXMLEventHandler
 
     public void OnXmlDeclaration(ReadOnlySpan<char> version, ReadOnlySpan<char> encoding, ReadOnlySpan<char> standalone, int line, int column) => OnXmlDeclarationCallback(version, encoding, standalone, line, column);
 
-    public void OnElementStart(ReadOnlySpan<char> name, int line, int column) => OnElementStartCallback(name, line, column);
+    public void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column) => OnElementStartOpenCallback(name, line, column);
+
+    public void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) => OnElementStartCloseCallback(name, line, column);
 
     public void OnElementEnd(ReadOnlySpan<char> name, int line, int column) => OnElementEndCallback(name, line, column);
 
-    public void OnElementEmpty(ReadOnlySpan<char> name, int line, int column) => OnElementEmptyCallback(name, line, column);
+    public void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column) => OnElementEmptyOpenCallback(name, line, column);
+
+    public void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column) => OnElementEmptyCloseCallback(name, line, column);
 
     public void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int nameLine, int nameColumn, int valueLine, int valueColumn) => OnAttributeCallback(name, value, nameLine, nameColumn, valueLine, valueColumn);
 

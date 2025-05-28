@@ -15,14 +15,20 @@ public class LoggingXMLEventHandler : IXMLEventHandler
         int column
     ) => Console.WriteLine($"XML Declaration {version.ToString()}, {encoding.ToString()}, {standalone.ToString()}, {line}:{column}");
 
-    public virtual void OnElementStart(ReadOnlySpan<char> name, int line, int column) =>
-        Console.WriteLine($"XML Element Start `{name.ToString()}`, {line}:{column}");
+    public virtual void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column) =>
+        Console.WriteLine($"XML Element Start (open) `{name.ToString()}`, {line}:{column}");
+
+    public virtual void OnElementStartClose(ReadOnlySpan<char> name, int line, int column) =>
+        Console.WriteLine($"XML Element Start (close) `{name.ToString()}`, {line}:{column}");
 
     public virtual void OnElementEnd(ReadOnlySpan<char> name, int line, int column) =>
         Console.WriteLine($"XML Element End `{name.ToString()}`, {line}:{column}");
 
-    public virtual void OnElementEmpty(ReadOnlySpan<char> name, int line, int column) =>
-        Console.WriteLine($"XML Element Empty `{name.ToString()}`, {line}:{column}");
+    public virtual void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column) =>
+        Console.WriteLine($"XML Element Empty (open) `{name.ToString()}`, {line}:{column}");
+
+    public virtual void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column) =>
+        Console.WriteLine($"XML Element Empty (close) `{name.ToString()}`, {line}:{column}");
 
     public virtual void OnAttribute(
         ReadOnlySpan<char> name,

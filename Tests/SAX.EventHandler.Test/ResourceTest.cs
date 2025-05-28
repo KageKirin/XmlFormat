@@ -36,12 +36,19 @@ public class ResourceTest : IXMLEventHandler
     }
 
     private static string[] startingElements = ["Window", "StackPanel", "InlineContents", "Code", "LongText",];
-    private IEnumerator<string> startingElementEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
+    private IEnumerator<string> startingElementOpenEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
+    private IEnumerator<string> startingElementCloseEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
 
-    public void OnElementStart(ReadOnlySpan<char> name, int line, int column)
+    public void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        startingElementEnumerator.MoveNext();
-        Assert.Equal(startingElementEnumerator.Current, name);
+        startingElementOpenEnumerator.MoveNext();
+        Assert.Equal(startingElementOpenEnumerator.Current, name);
+    }
+
+    public void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
+    {
+        startingElementCloseEnumerator.MoveNext();
+        Assert.Equal(startingElementCloseEnumerator.Current, name);
     }
 
     private static string[] endingElements = ["StackPanel", "InlineContents", "Code", "LongText", "Window",];
@@ -54,12 +61,19 @@ public class ResourceTest : IXMLEventHandler
     }
 
     private static string[] emptyElements = ["DataGrid", "EmptyElement", "Foobar", "PocketMonsters",];
-    private IEnumerator<string> emptyElementEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
+    private IEnumerator<string> emptyElementOpenEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
+    private IEnumerator<string> emptyElementCloseEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
 
-    public void OnElementEmpty(ReadOnlySpan<char> name, int line, int column)
+    public void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        emptyElementEnumerator.MoveNext();
-        Assert.Equal(emptyElementEnumerator.Current, name);
+        emptyElementOpenEnumerator.MoveNext();
+        Assert.Equal(emptyElementOpenEnumerator.Current, name);
+    }
+
+    public void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)
+    {
+        emptyElementCloseEnumerator.MoveNext();
+        Assert.Equal(emptyElementCloseEnumerator.Current, name);
     }
 
     public void OnAttribute(ReadOnlySpan<char> name, ReadOnlySpan<char> value, int nameLine, int nameColumn, int valueLine, int valueColumn) { }

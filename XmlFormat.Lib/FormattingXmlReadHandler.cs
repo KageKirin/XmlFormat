@@ -163,9 +163,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        textWriter.Write($"<{name}");
-        textWriter.Flush();
-        textWriter.Indent++;
+        OnElementOpen(name, line, column);
     }
 
     public override void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)

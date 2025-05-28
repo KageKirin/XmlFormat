@@ -216,23 +216,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
-        bool inlineContents = text.ToString().Split('\n').Length <= 2; //< 1 empty line = 2x \n, 2 empty lines = 3x \n
-        bool addExtraLine = text.ToString().Split('\n').Length > 2; //< 1 empty line = 2x \n, 2 empty lines = 3x \n
-
-        if (requireClosingPreviousElementTag)
-            OnElementStartClose(inlineContents);
-
-        var trimText = text.ToString().Trim();
-        if (!string.IsNullOrEmpty(trimText))
-        {
-            if (inlineContents)
-                textWriter.Write(trimText);
-            else
-                textWriter.WriteLine(trimText);
-        }
-
-        if (addExtraLine)
-            writer.WriteLine("");
+        var trimText = text.Trim();
+        if (trimText.IsEmpty && text.IsWhiteSpace())
+            textWriter.WriteLineNoTabs();
+        else
+            textWriter.WriteLine(trimText);
+        textWriter.Flush();
     }
 
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)

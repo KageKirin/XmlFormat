@@ -117,4 +117,23 @@ public static class ReadOnlySpanCharExtensions
         }
         return start;
     }
+
+    /// <summary>Counts the number of times the specified delegate <paramref name="match"/> returns true before returning false
+    /// starting at the end of the <paramref name="span"/>.
+    /// </summary>
+    /// <param name="span">The span to search.</param>
+    /// <param name="match">The delegate for which to search.</param>
+    /// <returns>The number of times <paramref name="match"/> returned true in the <paramref name="span"/>.</returns>
+    public static int CountEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
+    {
+        int end = span.Length - 1;
+        for (; end >= 0; end--)
+        {
+            if (!match(span[end]))
+            {
+                break;
+            }
+        }
+        return span.Length - 1 - end;
+    }
 }

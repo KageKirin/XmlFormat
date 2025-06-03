@@ -216,11 +216,35 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
-        var trimText = text.Trim();
-        if (trimText.IsEmpty && text.IsWhiteSpace())
+        var trimText = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
+
+        if (trimText.IsEmpty)
+            return;
+
+        int totalNewlines = trimText.Count(c => c == '\n');
+        int leadingNewlines = trimText.CountStart(c => c == '\n');
+        int trailingNewlines = trimText.CountEnd(c => c == '\n');
+
+        // eat newlines: text is just newlines, and reduce any amount of newlines to max 2
+        if (trimText.IsWhiteSpace() && totalNewlines == leadingNewlines && leadingNewlines == trailingNewlines)
+        {
+            for (int i = 0; i < Math.Min(totalNewlines, 2); i++)
+                textWriter.WriteLineNoTabs();
+
+            return;
+        }
+
+        // eat leading newlines
+        for (int i = 0; i < Math.Min(leadingNewlines, 2); i++)
             textWriter.WriteLineNoTabs();
-        else
-            textWriter.WriteLine(trimText);
+
+        textWriter.WriteLine(trimText.Trim());
+
+        // eat trailing newlines
+        // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline
+        for (int i = 0; i < Math.Min(trailingNewlines - 1, 1); i++)
+            textWriter.WriteLineNoTabs();
+
         textWriter.Flush();
     }
 

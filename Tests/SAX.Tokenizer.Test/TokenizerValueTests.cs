@@ -13,12 +13,6 @@ public class TokenizerValueTest
     [InlineData("<?php ?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
     [InlineData(@"<?php print(""hello world"");?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
     [InlineData(@"<?php print(""hello world""); ?>", XmlTokenizer.XmlToken.ProcessingInstruction)]
-    public void TestProcessingInstruction(string input, XmlTokenizer.XmlToken expectedToken)
-    {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
-    }
-
-    [Theory]
     [InlineData("<!---->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!-- -->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!--\n-->", XmlTokenizer.XmlToken.Comment)]
@@ -32,12 +26,6 @@ public class TokenizerValueTest
     [InlineData("<!-- \ncomment\nmore comment\n -->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!-- <comment>\n<more comment>\n -->", XmlTokenizer.XmlToken.Comment)]
     [InlineData("<!-- <comment/>\n<more comment/>\n -->", XmlTokenizer.XmlToken.Comment)]
-    public void TestComment(string input, XmlTokenizer.XmlToken expectedToken)
-    {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
-    }
-
-    [Theory]
     [InlineData("<![CDATA[]]>", XmlTokenizer.XmlToken.CData)]
     [InlineData("<![CDATA[ ]]>", XmlTokenizer.XmlToken.CData)]
     [InlineData("<![CDATA[\n]]>", XmlTokenizer.XmlToken.CData)]
@@ -49,12 +37,6 @@ public class TokenizerValueTest
     [InlineData("<![CDATA[\nfoobar\nhoge\n ]]>", XmlTokenizer.XmlToken.CData)]
     [InlineData("<![CDATA[ \nfoobar\nhoge\n]]>", XmlTokenizer.XmlToken.CData)]
     [InlineData("<![CDATA[ \nfoobar\nhoge\n ]]>", XmlTokenizer.XmlToken.CData)]
-    public void TestCData(string input, XmlTokenizer.XmlToken expectedToken)
-    {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
-    }
-
-    [Theory]
     [InlineData("<element/>", XmlTokenizer.XmlToken.ElementEmpty)]
     [InlineData("<element />", XmlTokenizer.XmlToken.ElementEmpty)]
     [InlineData("<element\n/>", XmlTokenizer.XmlToken.ElementEmpty)]
@@ -76,12 +58,6 @@ public class TokenizerValueTest
     [InlineData("<el:em_en-t\n>", XmlTokenizer.XmlToken.ElementStart)]
     [InlineData("<el:em_en-t\n >", XmlTokenizer.XmlToken.ElementStart)]
     [InlineData("</el:em_en-t>", XmlTokenizer.XmlToken.ElementEnd)]
-    public void TestElementNoAttributes(string input, XmlTokenizer.XmlToken expectedToken)
-    {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
-    }
-
-    [Theory]
     [InlineData("<element foobar=\"hogehoge\"/>", XmlTokenizer.XmlToken.ElementEmpty)]
     [InlineData("<element foobar=\"hogehoge\" />", XmlTokenizer.XmlToken.ElementEmpty)]
     [InlineData("<element foobar=\"{hogehoge}\"/>", XmlTokenizer.XmlToken.ElementEmpty)]
@@ -120,14 +96,8 @@ public class TokenizerValueTest
         "<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n/>",
         XmlTokenizer.XmlToken.ElementEmpty
     )]
-    public void TestElementWithAttributes(string input, XmlTokenizer.XmlToken expectedToken)
-    {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
-    }
-
-    [Theory]
     [InlineData("The quick brown fox jumped over the lazy dog.", XmlTokenizer.XmlToken.Content)]
-    public void TestContent(string input, XmlTokenizer.XmlToken expectedToken)
+    public void TestSingleTokenContent(string input, XmlTokenizer.XmlToken expectedToken)
     {
         Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
     }

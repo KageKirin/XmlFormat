@@ -7,6 +7,15 @@ public static class TestHelper
         Assert.NotNull(input);
         Assert.NotEmpty(input);
 
+        Assert.NotRaisedAny(
+            _ => { },
+            _ => { },
+            () =>
+            {
+                XmlTokenizer.Instance.Tokenize(input);
+            }
+        );
+
         try
         {
             var tokens = XmlTokenizer.Instance.Tokenize(input);
@@ -34,6 +43,15 @@ public static class TestHelper
     {
         Assert.NotNull(input);
         Assert.NotEmpty(input);
+
+        Assert.NotRaisedAny(
+            _ => { },
+            _ => { },
+            () =>
+            {
+                XmlTokenizer.Instance.Tokenize(input);
+            }
+        );
 
         try
         {

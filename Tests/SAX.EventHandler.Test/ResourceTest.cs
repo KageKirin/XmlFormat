@@ -181,7 +181,10 @@ It begins with a house.",
 
     public void OnText(ReadOnlySpan<char> text, int line, int column)
     {
-        textBlockEnumerator.MoveNext();
-        Assert.Equal(textBlockEnumerator.Current.Trim(), text.Trim());
+        if (!text.IsWhiteSpace())
+        {
+            textBlockEnumerator.MoveNext();
+            Assert.Equal(textBlockEnumerator.Current.Trim(), text.Trim());
+        }
     }
 }

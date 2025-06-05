@@ -186,7 +186,6 @@ public static class XmlTokenizer
     /// </summary>
     public static Tokenizer<XmlToken> Instance { get; } =
         new TokenizerBuilder<XmlToken>()
-            .Ignore(CharWhiteSpaceExceptNewLine)
             .Match(XmlDeclaration, XmlToken.Declaration)
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)

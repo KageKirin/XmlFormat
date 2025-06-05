@@ -41,7 +41,7 @@ public static class TestHelper
 
     public record struct TokenTypeAndValue(XmlTokenizer.XmlToken Token, string Value);
 
-    public static bool Tokenize(string input, TokenTypeAndValue[] expectedTokens)
+    public static bool Tokenize(string input, bool includeWhitespace, TokenTypeAndValue[] expectedTokens)
     {
         Assert.NotNull(input);
         Assert.NotEmpty(input);
@@ -57,11 +57,16 @@ public static class TestHelper
 
         try
         {
-            var tokens = XmlTokenizer.Instance.Tokenize(input);
-            Assert.Equal(expectedTokens.Length, tokens.Count());
+            var tokens = XmlTokenizer.Instance.Tokenize(input).ToList();
+
+            if (!includeWhitespace)
+                tokens = tokens.Where(t => !string.IsNullOrWhiteSpace(t.Span.ToStringValue())).ToList();
+
+            Assert.Equal(expectedTokens.Length, tokens.Count);
+
             for (int i = 0; i < expectedTokens.Length; i++)
             {
-                var token = tokens.ElementAt(i);
+                var token = tokens[i];
                 Assert.True(token.HasValue);
                 Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
                 if (expectedTokens[i].Token != token.Kind || expectedTokens[i].Value != token.Span.ToStringValue().Trim(' '))
@@ -73,7 +78,7 @@ public static class TestHelper
                 Assert.Equal(expectedTokens[i].Value, token.Span.ToStringValue().Trim(' '));
             }
 
-            return expectedTokens.Length == tokens.Count();
+            return expectedTokens.Length == tokens.Count;
         }
         catch (Exception ex)
         {

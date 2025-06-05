@@ -100,7 +100,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.WriteLineNoTabs(" ?>");
-        textWriter.WriteLineNoTabs();
         textWriter.Flush();
     }
 

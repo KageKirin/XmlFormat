@@ -24,8 +24,10 @@ public static class TestHelper
             {
                 var token = tokens.ElementAt(i);
                 Assert.True(token.HasValue);
-                Assert.Equal(expectedTypes[i], token.Kind);
                 Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
+                if (expectedTypes[i] != token.Kind)
+                    Console.WriteLine($"expected: {expectedTypes[i]}, got {token.Kind})");
+                Assert.Equal(expectedTypes[i], token.Kind);
             }
 
             return expectedTypes.Length == tokens.Count();
@@ -61,9 +63,14 @@ public static class TestHelper
             {
                 var token = tokens.ElementAt(i);
                 Assert.True(token.HasValue);
-                Assert.Equal(expectedTokens[i].Token, token.Kind);
-                Assert.Equal(expectedTokens[i].Value, token.Span.ToStringValue());
                 Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
+                if (expectedTokens[i].Token != token.Kind || expectedTokens[i].Value != token.Span.ToStringValue().Trim(' '))
+                {
+                    Console.WriteLine($"expected: {expectedTokens[i].Token}, got {token.Kind}");
+                    Console.WriteLine($"expected: '{expectedTokens[i].Value}', got '{token.Span.ToStringValue()}'");
+                }
+                Assert.Equal(expectedTokens[i].Token, token.Kind);
+                Assert.Equal(expectedTokens[i].Value, token.Span.ToStringValue().Trim(' '));
             }
 
             return expectedTokens.Length == tokens.Count();

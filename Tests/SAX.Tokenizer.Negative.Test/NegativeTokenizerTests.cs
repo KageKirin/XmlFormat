@@ -1,6 +1,6 @@
 using XmlFormat.SAX;
 
-namespace SAX.Tokenizer.Test;
+namespace SAX.Tokenizer.Negative.Test;
 
 /// <summary>
 /// negative tokenizer test

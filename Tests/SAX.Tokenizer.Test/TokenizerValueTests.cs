@@ -99,7 +99,7 @@ public class TokenizerValueTest
     [InlineData("The quick brown fox jumped over the lazy dog.", XmlTokenizer.XmlToken.Content)]
     public void TestSingleTokenContent(string input, XmlTokenizer.XmlToken expectedToken)
     {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
+        Assert.True(TestHelper.Tokenize(input, true, [new TestHelper.TokenTypeAndValue(expectedToken, input.Trim())]));
     }
 
     [Theory]
@@ -112,7 +112,7 @@ public class TokenizerValueTest
     )]
     public void Test2Elements(string input, XmlTokenizer.XmlToken expectedToken1, string expectedValue1, XmlTokenizer.XmlToken expectedToken2, string expectedValue2)
     {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1), new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2)]));
+        Assert.True(TestHelper.Tokenize(input, false, [new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1), new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2)]));
     }
 
     [Theory]
@@ -127,7 +127,7 @@ public class TokenizerValueTest
     )]
     public void Test3Elements(string input, XmlTokenizer.XmlToken expectedToken1, string expectedValue1, XmlTokenizer.XmlToken expectedToken2, string expectedValue2, XmlTokenizer.XmlToken expectedToken3, string expectedValue3)
     {
-        Assert.True(TestHelper.Tokenize(input, [new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1), new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2), new TestHelper.TokenTypeAndValue(expectedToken3, expectedValue3)]));
+        Assert.True(TestHelper.Tokenize(input, false, [new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1), new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2), new TestHelper.TokenTypeAndValue(expectedToken3, expectedValue3)]));
     }
 
     [Theory]
@@ -147,6 +147,7 @@ public class TokenizerValueTest
         Assert.True(
             TestHelper.Tokenize(
                 input,
+                false,
                 [new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1), new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2), new TestHelper.TokenTypeAndValue(expectedToken3, expectedValue3), new TestHelper.TokenTypeAndValue(expectedToken4, expectedValue4)]
             )
         );
@@ -183,6 +184,7 @@ public class TokenizerValueTest
         Assert.True(
             TestHelper.Tokenize(
                 input,
+                false,
                 [
                     new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1),
                     new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2),
@@ -229,6 +231,7 @@ public class TokenizerValueTest
         Assert.True(
             TestHelper.Tokenize(
                 input,
+                false,
                 [
                     new TestHelper.TokenTypeAndValue(expectedToken1, expectedValue1),
                     new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2),

@@ -24,8 +24,10 @@ public static class TestHelper
             {
                 var token = tokens.ElementAt(i);
                 Assert.True(token.HasValue);
-                Assert.Equal(expectedTypes[i], token.Kind);
                 Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
+                if (expectedTypes[i] != token.Kind)
+                    Console.WriteLine($"expected: {expectedTypes[i]}, got {token.Kind})");
+                Assert.Equal(expectedTypes[i], token.Kind);
             }
 
             return expectedTypes.Length == tokens.Count();
@@ -39,7 +41,7 @@ public static class TestHelper
 
     public record struct TokenTypeAndValue(XmlTokenizer.XmlToken Token, string Value);
 
-    public static bool Tokenize(string input, TokenTypeAndValue[] expectedTokens)
+    public static bool Tokenize(string input, bool includeWhitespace, TokenTypeAndValue[] expectedTokens)
     {
         Assert.NotNull(input);
         Assert.NotEmpty(input);
@@ -55,18 +57,28 @@ public static class TestHelper
 
         try
         {
-            var tokens = XmlTokenizer.Instance.Tokenize(input);
-            Assert.Equal(expectedTokens.Length, tokens.Count());
+            var tokens = XmlTokenizer.Instance.Tokenize(input).ToList();
+
+            if (!includeWhitespace)
+                tokens = tokens.Where(t => !string.IsNullOrWhiteSpace(t.Span.ToStringValue())).ToList();
+
+            Assert.Equal(expectedTokens.Length, tokens.Count);
+
             for (int i = 0; i < expectedTokens.Length; i++)
             {
-                var token = tokens.ElementAt(i);
+                var token = tokens[i];
                 Assert.True(token.HasValue);
-                Assert.Equal(expectedTokens[i].Token, token.Kind);
-                Assert.Equal(expectedTokens[i].Value, token.Span.ToStringValue());
                 Console.WriteLine($"{token.Span.Position.Line}:{token.Span.Position.Column} {token.Kind} '{token.Span.ToStringValue()}'");
+                if (expectedTokens[i].Token != token.Kind || expectedTokens[i].Value != token.Span.ToStringValue().Trim(' '))
+                {
+                    Console.WriteLine($"expected: {expectedTokens[i].Token}, got {token.Kind}");
+                    Console.WriteLine($"expected: '{expectedTokens[i].Value}', got '{token.Span.ToStringValue()}'");
+                }
+                Assert.Equal(expectedTokens[i].Token, token.Kind);
+                Assert.Equal(expectedTokens[i].Value, token.Span.ToStringValue().Trim(' '));
             }
 
-            return expectedTokens.Length == tokens.Count();
+            return expectedTokens.Length == tokens.Count;
         }
         catch (Exception ex)
         {

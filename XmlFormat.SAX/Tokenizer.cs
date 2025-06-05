@@ -76,6 +76,20 @@ public static class XmlTokenizer
     public static TextParser<Unit> XmlChars { get; } = XmlChar.AtLeastOnce().Value(Unit.Value);
 
     /// <summary>
+    /// character recognizer for whitespace, except newline
+    /// </summary>
+    /// <param name="c">char to check</param>
+    /// <returns>true if character is whitespace, but not newline</returns>
+    internal static bool CharIsWhiteSpaceExceptNewLine(char c) => char.IsWhiteSpace(c) && c != '\n';
+
+    /// <summary>
+    /// token parser for 1 whitespace character that is not newline
+    /// </summary>
+    public static TextParser<Unit> CharWhiteSpaceExceptNewLine { get; } =
+        from newline in Character.Matching(CharIsWhiteSpaceExceptNewLine, "whitespace except newline").AtLeastOnce()
+        select Unit.Value;
+
+    /// <summary>
     /// sub parser for several XML characters
     /// </summary>
     public static TextParser<Unit> QuotedStringWithQuotes { get; } =
@@ -172,7 +186,7 @@ public static class XmlTokenizer
     /// </summary>
     public static Tokenizer<XmlToken> Instance { get; } =
         new TokenizerBuilder<XmlToken>()
-            .Ignore(Span.WhiteSpace)
+            .Ignore(CharWhiteSpaceExceptNewLine)
             .Match(XmlDeclaration, XmlToken.Declaration)
             .Match(XmlProcessingInstruction, XmlToken.ProcessingInstruction)
             .Match(XmlComment, XmlToken.Comment)

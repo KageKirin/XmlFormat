@@ -15,26 +15,40 @@ public class ResourceTokenizerValueTest
         Assert.True(
             TestHelper.Tokenize(
                 resourceContents,
+                true,
                 [
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Declaration, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!-- main window -->"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(
                         XmlTokenizer.XmlToken.ElementStart,
                         "<Window \n        xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\nxmlns=\"https://github.com/avaloniaui\"\n        xmlns:vm=\"using:GitRise\"\n\n        mc:Ignorable=\"d\" d:DesignWidth=\"800\" d:DesignHeight=\"450\"\n\n        x:DataType=\"vm:MainWindowViewModel\"\n        x:Class=\"GitRise.MainWindow\"\n        xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n\n        Title=\"GitRise\"\n        Icon=\"avares://GitRise/Resources/GitRise.ico\"\n        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n        >"
                     ),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!-- ABC -->"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementStart, "<StackPanel>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEmpty, "<DataGrid AutoGenerateColumns=\"True\" ItemsSource=\"{CompiledBinding Commits}\" />"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEnd, "</StackPanel>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEmpty, "<EmptyElement />"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEmpty, "<Foobar Hoge=\"True\" />"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementStart, "<InlineContents>"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "contents"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEnd, "</InlineContents>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEmpty, "<PocketMonsters Rhinocerox=\"Ground\" Elephallanx=\"Plant\" Alligatorade=\"Water\" Pandandelion=\"Plant\" Porcupinion=\"Metal\" Capybarista=\"Psycho\" />"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementStart, "<Code>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.CData, "<![CDATA[\n    for a in [1, 2, 3]:\n      print(a)\n  ]]>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEnd, "</Code>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(
                         XmlTokenizer.XmlToken.Comment,
                         @"<!--
@@ -90,19 +104,23 @@ intertwined with this remarkable book begins very simply.
 It begins with a house.
   -->"
                     ),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementStart, "<LongText>"),
                     new TestHelper.TokenTypeAndValue(
                         XmlTokenizer.XmlToken.Content,
-                        @"First, it is slightly cheaper; and secondly it has the words Don’t Panic
+                        @"
+  First, it is slightly cheaper; and secondly it has the words Don’t Panic
 inscribed in large friendly letters on its cover.
 But the story of this terrible, stupid Thursday, the story of its extraordinary
 consequences, and the story of how these consequences are inextricably
 intertwined with this remarkable book begins very simply.
 It begins with a house.
-  "
+"
                     ),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEnd, "</LongText>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.CData, "<![CDATA[<xml>]]>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(
                         XmlTokenizer.XmlToken.CData,
                         @"<![CDATA[
@@ -110,7 +128,9 @@ It begins with a house.
   </xml>
   ]]>"
                     ),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.ElementEnd, "</Window>"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(
                         XmlTokenizer.XmlToken.Comment,
                         @"<!--
@@ -119,8 +139,11 @@ It begins with a house.
   </Xml>
 -->"
                     ),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!-- comment -->"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!--short-->"),
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n")
                 ]
             )
         );

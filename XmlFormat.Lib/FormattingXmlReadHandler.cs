@@ -100,7 +100,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.WriteLineNoTabs(" ?>");
-        textWriter.WriteLineNoTabs();
         textWriter.Flush();
     }
 
@@ -226,16 +225,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         int trailingNewlines = trimText.CountEnd(c => c == '\n');
 
         // eat newlines: text is just newlines, and reduce any amount of newlines to max 2
-        if (trimText.IsWhiteSpace() && totalNewlines == leadingNewlines && leadingNewlines == trailingNewlines)
+        if (trimText.IsWhiteSpace())
         {
-            for (int i = 0; i < Math.Min(totalNewlines, 2); i++)
+            for (int i = 0; i < Math.Min(totalNewlines - 1, 1); i++)
                 textWriter.WriteLineNoTabs();
 
             return;
         }
 
         // eat leading newlines
-        for (int i = 0; i < Math.Min(leadingNewlines, 2); i++)
+        for (int i = 0; i < Math.Min(leadingNewlines - 1, 1); i++)
             textWriter.WriteLineNoTabs();
 
         textWriter.WriteLine(trimText.Trim());

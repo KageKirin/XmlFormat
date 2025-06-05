@@ -113,7 +113,9 @@ public class TokenizerTest
     [InlineData(
         "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  ",
         XmlTokenizer.XmlToken.Comment,
-        XmlTokenizer.XmlToken.ElementStart
+        XmlTokenizer.XmlToken.Content,
+        XmlTokenizer.XmlToken.ElementStart,
+        XmlTokenizer.XmlToken.Content
     )]
     [InlineData("<aaa/><bbb/><ccc/>", XmlTokenizer.XmlToken.ElementEmpty, XmlTokenizer.XmlToken.ElementEmpty, XmlTokenizer.XmlToken.ElementEmpty)]
     [InlineData("<aaa><bbb/></aaa>", XmlTokenizer.XmlToken.ElementStart, XmlTokenizer.XmlToken.ElementEmpty, XmlTokenizer.XmlToken.ElementEnd)]
@@ -123,32 +125,47 @@ public class TokenizerTest
     [InlineData(
         "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  <!-- ABC -->\n  ",
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
-        XmlTokenizer.XmlToken.Comment
+        XmlTokenizer.XmlToken.Content,
+        XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content
     )]
     [InlineData(
         "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  <!-- ABC -->\n  <StackPanel>",
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart
     )]
     [InlineData(
         "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  <!-- ABC -->\n  <StackPanel><DataGrid AutoGenerateColumns=\"True\" ItemsSource=\"{CompiledBinding Commits}\" />\n  ",
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
-        XmlTokenizer.XmlToken.ElementEmpty
+        XmlTokenizer.XmlToken.ElementEmpty,
+        XmlTokenizer.XmlToken.Content
     )]
     [InlineData(
         "    <!-- main window -->\n<Window\n  xmlns=\"https://github.com/avaloniaui\"\n  xmlns:d=\"http://schemas.microsoft.com/expression/blend/2008\"\n  xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n  xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n  xmlns:vm=\"using:GitRise\"\n  d:DesignHeight=\"450\"\n  d:DesignWidth=\"800\"\n  mc:Ignorable=\"d\"\n  x:Class=\"GitRise.MainWindow\"\n  x:DataType=\"vm:MainWindowViewModel\"\n  Icon=\"avares://GitRise/Resources/GitRise.ico\"\n  Title=\"GitRise\"\n>\n  <!-- ABC -->\n  <StackPanel><DataGrid AutoGenerateColumns=\"True\" ItemsSource=\"{CompiledBinding Commits}\" />\n  </StackPanel>\n",
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.Comment,
+        XmlTokenizer.XmlToken.Content,
         XmlTokenizer.XmlToken.ElementStart,
         XmlTokenizer.XmlToken.ElementEmpty,
-        XmlTokenizer.XmlToken.ElementEnd
+        XmlTokenizer.XmlToken.Content,
+        XmlTokenizer.XmlToken.ElementEnd,
+        XmlTokenizer.XmlToken.Content
     )]
     public void TestManyTokens(string input, params XmlTokenizer.XmlToken[] tokens)
     {

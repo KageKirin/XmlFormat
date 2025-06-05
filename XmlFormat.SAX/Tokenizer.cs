@@ -76,6 +76,13 @@ public static class XmlTokenizer
     public static TextParser<Unit> XmlChars { get; } = XmlChar.AtLeastOnce().Value(Unit.Value);
 
     /// <summary>
+    /// character recognizer for whitespace, except newline
+    /// </summary>
+    /// <param name="c">char to check</param>
+    /// <returns>true if character is whitespace, but not newline</returns>
+    internal static bool CharIsWhiteSpaceExceptNewLine(char c) => char.IsWhiteSpace(c) && c != '\n';
+
+    /// <summary>
     /// sub parser for several XML characters
     /// </summary>
     public static TextParser<Unit> QuotedStringWithQuotes { get; } =

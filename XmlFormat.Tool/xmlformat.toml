@@ -1,4 +1,4 @@
 lineLength = 80
 tabs = '  ' #< that's 2 spaces. use '	' to insert tabulators
 tabsRepeat = 1
-
+maxEmptyLines = 1

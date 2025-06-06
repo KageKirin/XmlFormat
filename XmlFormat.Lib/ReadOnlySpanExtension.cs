@@ -13,7 +13,7 @@ public static class ReadOnlySpanCharExtensions
     public static ReadOnlySpan<char> Trim(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         // Assume that in most cases input doesn't need trimming
-        if (span.Length == 0 || (!match(span[0]) && !match(span[^1])))
+        if (span.Length == 0 || (!match(span[0]) && !match(span[span.Length - 1])))
         {
             return span;
         }

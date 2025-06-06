@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
@@ -15,6 +15,10 @@
     <PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.github.com/KageKirin/XmlFormat/main/Icon.png</PackageIconUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\XmlFormat.SAX\XmlFormat.SAX.csproj" />

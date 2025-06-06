@@ -7,7 +7,7 @@ namespace SAX.Formatter.Test;
 
 public class ResourceFormatterTest
 {
-    static FormattingOptions formattingOptions = new(120, "  ", 1);
+    static FormattingOptions formattingOptions = new(120, "  ", 1, 2);
 
     [Theory]
     [InlineData("XmlFormat.Test.Assets.idtest.xml")]

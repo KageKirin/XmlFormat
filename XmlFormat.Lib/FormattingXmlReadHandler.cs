@@ -152,7 +152,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             currentAttributes.Sort(Attribute.Compare);
             foreach (var attribute in currentAttributes)
             {
-                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name.AsSpan(), value: attribute.Value.AsSpan());
             }
 
             currentAttributes = null;
@@ -182,7 +182,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             currentAttributes.Sort(Attribute.Compare);
             foreach (var attribute in currentAttributes)
             {
-                OnWriteElementAttribute(multiline: multiline, name: attribute.Name, value: attribute.Value);
+                OnWriteElementAttribute(multiline: multiline, name: attribute.Name.AsSpan(), value: attribute.Value.AsSpan());
             }
 
             currentAttributes = null;

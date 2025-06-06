@@ -28,7 +28,7 @@ public class FormatterTest
     [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">\ntest\n</element>")]
     public void IdentityTest(string input, string expected)
     {
-        var formatted = XmlFormat.XmlFormat.Format(input, new FormattingOptions(80, "", 1));
+        var formatted = XmlFormat.XmlFormat.Format(input, new FormattingOptions(80, "", 1, 2));
         Assert.NotNull(formatted);
 
         if (string.IsNullOrEmpty(expected))
@@ -67,7 +67,7 @@ public class FormatterTest
         Encoding encoding = new UTF8Encoding(true);
         MemoryStream xmlStream = new(encoding.GetBytes(input));
         MemoryStream outStream = new();
-        XmlFormat.XmlFormat.Format(inputStream: xmlStream, outputStream: outStream, options: new FormattingOptions(80, "", 1));
+        XmlFormat.XmlFormat.Format(inputStream: xmlStream, outputStream: outStream, options: new FormattingOptions(80, "", 1, 2));
         outStream.Flush();
         var formatted = encoding.GetString(outStream.ToArray());
         Assert.NotNull(formatted);

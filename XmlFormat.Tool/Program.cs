@@ -38,7 +38,7 @@ public class Program
         Console.WriteLine($"options.Inline: {options.Inline}");
         Console.WriteLine($"options.InputFiles: {options.InputFiles}");
 
-        FormattingOptions formattingOptions = new(240, " ", 4);
+        FormattingOptions formattingOptions = new(240, " ", 4, 2);
         config.Bind(formattingOptions);
         Console.WriteLine($"formattingOptions: {formattingOptions}");
 

@@ -86,17 +86,17 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
         if (!version.IsEmpty)
         {
-            textWriter.WriteNoTabs(@$" version=""{version}""");
+            textWriter.WriteNoTabs(@$" version=""{version.ToString()}""");
         }
 
         if (!encoding.IsEmpty)
         {
-            textWriter.WriteNoTabs(@$" encoding=""{encoding}""");
+            textWriter.WriteNoTabs(@$" encoding=""{encoding.ToString()}""");
         }
 
         if (!standalone.IsEmpty)
         {
-            textWriter.WriteNoTabs(@$" standalone=""{standalone}""");
+            textWriter.WriteNoTabs(@$" standalone=""{standalone.ToString()}""");
         }
 
         textWriter.WriteLineNoTabs(" ?>");
@@ -105,13 +105,13 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     public override void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column)
     {
-        textWriter.WriteLine(@$"<?{identifier}{contents}?>");
+        textWriter.WriteLine(@$"<?{identifier.ToString()}{contents.ToString()}?>");
         textWriter.Flush();
     }
 
     public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
     {
-        textWriter.Write($"<{name}");
+        textWriter.Write($"<{name.ToString()}");
         textWriter.Flush();
         textWriter.Indent++;
     }
@@ -126,16 +126,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (multiline)
         {
             if (value.IsEmpty)
-                textWriter.WriteLine(@$"{name}");
+                textWriter.WriteLine(@$"{name.ToString()}");
             else
-                textWriter.WriteLine(@$"{name}=""{value}""");
+                textWriter.WriteLine(@$"{name.ToString()}=""{value.ToString()}""");
         }
         else
         {
             if (value.IsEmpty)
-                textWriter.Write(@$" {name}");
+                textWriter.Write(@$" {name.ToString()}");
             else
-                textWriter.Write(@$" {name}=""{value}""");
+                textWriter.Write(@$" {name.ToString()}=""{value.ToString()}""");
         }
     }
 
@@ -196,7 +196,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnElementEnd(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;
-        textWriter.WriteLine($"</{name}>");
+        textWriter.WriteLine($"</{name.ToString()}>");
         textWriter.Flush();
     }
 
@@ -237,7 +237,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
-        textWriter.WriteLine(trimText.Trim());
+        textWriter.WriteLine(trimText.Trim().ToString());
 
         // eat trailing newlines
         // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline
@@ -251,13 +251,13 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     {
         if (comment.Length < Options.LineLength)
         {
-            textWriter.WriteLine($"<!-- {comment.Trim()} -->");
+            textWriter.WriteLine($"<!-- {comment.Trim().ToString()} -->");
         }
         else
         {
             textWriter.WriteLine("<!--");
             textWriter.Indent++;
-            textWriter.WriteLine(comment.Trim());
+            textWriter.WriteLine(comment.Trim().ToString());
             textWriter.Indent--;
             textWriter.WriteLine("-->");
         }
@@ -267,7 +267,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
         textWriter.WriteLine("<![CDATA[");
-        textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd()}");
+        textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd().ToString()}");
         textWriter.WriteTabs();
         textWriter.WriteLine("]]>");
         textWriter.Flush();

@@ -17,6 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Memory" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\XmlFormat.SAX\XmlFormat.SAX.csproj" />
   </ItemGroup>
 

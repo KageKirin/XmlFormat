@@ -227,22 +227,22 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         // eat newlines: text is just newlines, and reduce any amount of newlines to max 2
         if (trimText.IsWhiteSpace())
         {
-            for (int i = 0; i < Math.Min(totalNewlines - 1, 1); i++)
+            for (int i = 0; i < Math.Min(totalNewlines - 1, Options.MaxEmptyLines); i++)
                 textWriter.WriteLineNoTabs();
 
             return;
         }
 
         // eat leading newlines
-        for (int i = 0; i < Math.Min(leadingNewlines - 1, 1); i++)
+        for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
         textWriter.WriteLine(trimText.Trim());
 
         // eat trailing newlines
         // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline
-        for (int i = 0; i < Math.Min(trailingNewlines - 1, 1); i++)
-            textWriter.WriteLineNoTabs();
+        for (int i = 0; i < Math.Min(trailingNewlines - 1, Options.MaxEmptyLines); i++)
+            textWriter.WriteLine();
 
         textWriter.Flush();
     }

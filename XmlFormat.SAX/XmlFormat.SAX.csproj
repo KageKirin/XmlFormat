@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <PackRelease>true</PackRelease>
+    <PublishRelease>true</PublishRelease>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">

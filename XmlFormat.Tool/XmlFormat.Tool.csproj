@@ -6,6 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <PackRelease>true</PackRelease>
+    <PublishRelease>true</PublishRelease>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>xf</ToolCommandName>
   </PropertyGroup>

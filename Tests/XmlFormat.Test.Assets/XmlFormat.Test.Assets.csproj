@@ -17,6 +17,7 @@
       https://xunit.net/docs/getting-started/v3/microsoft-testing-platform
     -->
     <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup Label="embeded files">

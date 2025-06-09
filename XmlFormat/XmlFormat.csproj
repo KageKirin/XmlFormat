@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <IsPublishable>true</IsPublishable>
+    <PackRelease>true</PackRelease>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">

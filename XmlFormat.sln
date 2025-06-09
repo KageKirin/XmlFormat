@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormat.Tool", "XmlFormat.Tool\XmlFormat.Tool.csproj", "{CAAC2F33-0B37-44E3-9EA4-B9F089789C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormat.Lib", "XmlFormat.Lib\XmlFormat.Lib.csproj", "{E204C428-32CD-41AB-8E46-B7592ABE64D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormat", "XmlFormat\XmlFormat.csproj", "{E204C428-32CD-41AB-8E46-B7592ABE64D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormat.SAX", "XmlFormat.SAX\XmlFormat.SAX.csproj", "{5F8A6B85-A867-4F24-B9D1-236BF464F5CA}"
 EndProject

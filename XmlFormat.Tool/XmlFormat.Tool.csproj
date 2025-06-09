@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup Label="project references">
-    <ProjectReference Include="..\XmlFormat.Lib\XmlFormat.Lib.csproj" />
+    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="configuration files">

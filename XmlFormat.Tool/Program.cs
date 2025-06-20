@@ -16,6 +16,15 @@ public class Program
         [Option('p', "profile", Required = false, HelpText = "Specify the XML formatting profile to use instead of the file extension.")]
         public string? Profile { get; set; } = default;
 
+        [Option(
+            'f',
+            "format",
+            Required = false,
+            Separator = ';',
+            HelpText = "Specify formatting options to override the configuration. Use ';' as separator."
+        )]
+        public IEnumerable<string>? FormattingOptions { get; set; } = default;
+
         [Value(0, MetaName = "inputs", HelpText = "Input files.")]
         public IEnumerable<string>? InputFiles { get; set; } = default;
     }
@@ -33,6 +42,7 @@ public class Program
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
             .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
+            .AddCommandLine(options.FormattingOptions?.ToArray() ?? [])
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");

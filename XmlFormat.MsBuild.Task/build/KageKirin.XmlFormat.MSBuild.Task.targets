@@ -47,7 +47,7 @@
 
     <Message Importance="high" Text="Formatting @(XmlFormatFile->Count()) XML file(s)..." />
     <Message Importance="high" Text="Formatting @(XmlFormatFile)" />
-    <Message Importance="high" Text="Formatting %(XmlFormatFile.Identity)" />
+    <Message Importance="high" Text="Formatting %(XmlFormatFile.FullPath)" />
     <Message Importance="high" Text="Formatting config $(XmlFormatConfig)" />
 
     <!-- install xf -->
@@ -60,7 +60,7 @@
     <Exec Command="xf --version"/>
 
     <!-- run xf -->
-    <Exec Command="xf --inline --format '$(XmlFormatConfig)' -- %(XmlFormatFile.Identity)"/>
+    <Exec Command="xf --inline --format '$(XmlFormatConfig)' -- %(XmlFormatFile.FullPath)"/>
 
   </Target>
 </Project>

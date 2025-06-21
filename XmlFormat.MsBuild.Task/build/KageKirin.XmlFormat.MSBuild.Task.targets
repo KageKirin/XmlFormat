@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Enable task with `<XmlFormat>enable</XmlFormat>` || `<XmlFormat>true</XmlFormat>` -->
+  <PropertyGroup Condition="'$(XmlFormat)' == 'enable' OR '$(XmlFormat)' == 'true'">
+    <XmlFormatEnable>true</XmlFormatEnable>
+  </PropertyGroup>
+
+  <!-- Disable task with `<XmlFormat>disable</XmlFormat>` || `<XmlFormat>false</XmlFormat>` -->
+  <PropertyGroup Condition="'$(XmlFormat)' == 'disable' OR '$(XmlFormat)' == 'false'">
+    <XmlFormatEnable>false</XmlFormatEnable>
+  </PropertyGroup>
+
+  <!-- Task is off by default -->
+  <PropertyGroup Condition="'$(XmlFormatEnable)' == ''">
+    <XmlFormatEnable>false</XmlFormatEnable>
+  </PropertyGroup>
+
+  <!-- Task parameters default values -->
+  <PropertyGroup>
+    <XmlFormatLineLength Condition="'$(XmlFormatLineLength)' == ''">120</XmlFormatLineLength>
+    <XmlFormatTabs Condition="'$(XmlFormatTabs)' == ''"> </XmlFormatTabs>
+    <XmlFormatTabsRepeat Condition="'$(XmlFormatTabsRepeat)' == ''">2</XmlFormatTabsRepeat>
+    <XmlFormatMaxEmptyLines Condition="'$(XmlFormatMaxEmptyLines)' == ''">1</XmlFormatMaxEmptyLines>
+  </PropertyGroup>
+
+  <!-- setup parameters -->
+  <PropertyGroup Condition="'$(XmlFormatLineLength)' != ''">
+    <XmlFormatConfig>/LineLength=$(XmlFormatLineLength)</XmlFormatConfig>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(XmlFormatTabs)' != ''">
+    <XmlFormatConfig>$(XmlFormatConfig);/Tabs=$(XmlFormatTabs)</XmlFormatConfig>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(XmlFormatTabsRepeat)' != ''">
+    <XmlFormatConfig>$(XmlFormatConfig);/TabsRepeat=$(XmlFormatTabsRepeat)</XmlFormatConfig>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(XmlFormatMaxEmptyLines)' != ''">
+    <XmlFormatConfig>$(XmlFormatConfig);/MaxEmptyLines=$(XmlFormatMaxEmptyLines)</XmlFormatConfig>
+  </PropertyGroup>
+
+  <Target Name="FormatXmlFiles"
+          BeforeTargets="CoreCompile"
+          Condition="'$(XmlFormatEnable)' == 'true' AND @(XmlFormatFile->Count()) > 0">
+
+    <Message Importance="high" Text="Formatting @(XmlFormatFile->Count()) XML file(s)..." />
+    <Message Importance="high" Text="Formatting @(XmlFormatFile)" />
+    <Message Importance="high" Text="Formatting %(XmlFormatFile.Identity)" />
+    <Message Importance="high" Text="Formatting config $(XmlFormatConfig)" />
+
+    <!-- install xf -->
+    <Exec Command="dotnet tool install -g KageKirin.XmlFormat.Tool"/>
+
+    <!-- run xf help -->
+    <Exec Command="xf --help"/>
+
+    <!-- run xf version -->
+    <Exec Command="xf --version"/>
+
+    <!-- run xf -->
+    <Exec Command="xf --inline --format '$(XmlFormatConfig)' -- %(XmlFormatFile.Identity)"/>
+
+  </Target>
+</Project>

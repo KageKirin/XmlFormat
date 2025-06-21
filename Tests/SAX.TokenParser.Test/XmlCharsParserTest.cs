@@ -69,6 +69,7 @@ public class XmlCharsParserTest
     [InlineData("8")]
     [InlineData("9")]
     [InlineData(":")]
+    [InlineData(".")]
     [InlineData("-")]
     [InlineData("_")]
     [InlineData("attribute")]
@@ -89,6 +90,7 @@ public class XmlCharsParserTest
     [InlineData("el:em-en_t")]
     [InlineData("attribute0")]
     [InlineData("element1")]
+    [InlineData("el.ement")]
     public void TestXmlChars(string input)
     {
         var result = XmlTokenParser.XmlChars(new TextSpan(input));
@@ -113,7 +115,6 @@ public class XmlCharsParserTest
     [InlineData(";")]
     [InlineData("?")]
     [InlineData(",")]
-    [InlineData(".")]
     [InlineData("!")]
     [InlineData("+")]
     [InlineData("=")]

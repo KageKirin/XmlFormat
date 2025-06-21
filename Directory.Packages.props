@@ -12,6 +12,7 @@
     <PackageVersion Include="Superpower" Version="3.1.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.14.8" />
   </ItemGroup>
 
   <ItemGroup Label="unit test dependencies">

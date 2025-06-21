@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAX.Formatter.Test", "Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAX.Tokenizer.Negative.Test", "Tests\SAX.Tokenizer.Negative.Test\SAX.Tokenizer.Negative.Test.csproj", "{26563C3A-1F02-4BB8-833E-4DD15BAE5BBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormat.MsBuild.Task", "XmlFormat.MsBuild.Task\XmlFormat.MsBuild.Task.csproj", "{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +146,18 @@ Global
 		{26563C3A-1F02-4BB8-833E-4DD15BAE5BBD}.Release|x64.Build.0 = Release|Any CPU
 		{26563C3A-1F02-4BB8-833E-4DD15BAE5BBD}.Release|x86.ActiveCfg = Release|Any CPU
 		{26563C3A-1F02-4BB8-833E-4DD15BAE5BBD}.Release|x86.Build.0 = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|x64.Build.0 = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Debug|x86.Build.0 = Debug|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|x64.ActiveCfg = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|x64.Build.0 = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|x86.ActiveCfg = Release|Any CPU
+		{C42E260E-6689-49AB-94CE-1BC2F7DBFF85}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DBC4A0DA-8CC2-4957-BEA8-FC6779DAB486} = {E323078B-8911-4000-8307-EAA18941AB37}

@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>XmlFormat.MsBuild.Task</AssemblyName>
+    <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <PackRelease>true</PackRelease>
+    <PublishRelease>true</PublishRelease>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="build metadata">
+    <PackageId>KageKirin.XmlFormat.MSBuild.Task</PackageId>
+    <Title>XmlFormat.MSBuild.Task</Title>
+    <Description>MSBuild Task for formatting XML files</Description>
+    <PackageTags>xml;formatting</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/KageKirin/XmlFormat/main/Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      These lines pack the build props/targets files to the `build` folder in the generated package.
+         By convention, the .NET SDK will look for build\<Package Id>.props and build\<Package Id>.targets
+         for automatic inclusion in the build.
+    -->
+    <Content Include="build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="build\" />
+    <Content Include="build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="tools\" />
+  </ItemGroup>
+
+  <Target
+    Name="CopyProjectReferencesToPackage"
+    DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <!--
+        The dependencies of your MSBuild task must be packaged inside the package,
+        they cannot be expressed as normal PackageReferences
+      -->
+      <BuildOutputInPackage
+        Include="@(ReferenceCopyLocalPaths)"
+        TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)"
+      />
+    </ItemGroup>
+  </Target>
+
+  <!-- This target adds the generated deps.json file to our package output -->
+  <Target
+    Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput"
+    BeforeTargets="BuiltProjectOutputGroup"
+    Condition=" '$(GenerateDependencyFile)' == 'true'"
+  >
+
+    <ItemGroup>
+      <BuiltProjectOutputGroupOutput
+        Include="$(ProjectDepsFilePath)"
+        TargetPath="$(ProjectDepsFileName)"
+        FinalOutputPath="$(ProjectDepsFilePath)"
+      />
+    </ItemGroup>
+  </Target>
+
+</Project>

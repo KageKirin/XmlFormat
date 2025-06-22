@@ -146,14 +146,15 @@
     TaskFactory="$(TaskFactory)"
     AssemblyFile="$(MsBuildAssembly)"
   >
+    <ParameterGroup>
+      <LineLength ParameterType="System.Int32" Required="false" />
+      <Tabs ParameterType="System.String" Required="false" />
+      <TabsRepeat ParameterType="System.Int32" Required="false" />
+      <MaxEmptyLines ParameterType="System.Int32" Required="false" />
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+    </ParameterGroup>
+
     <Task>
-      <ParameterGroup>
-        <LineLength ParameterType="System.Int32" Required="false" />
-        <Tabs ParameterType="System.String" Required="false" />
-        <TabsRepeat ParameterType="System.Int32" Required="false" />
-        <MaxEmptyLines ParameterType="System.Int32" Required="false" />
-        <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-      </ParameterGroup>
 
       <Using Namespace="System" />
       <Using Namespace="System.Diagnostics" />

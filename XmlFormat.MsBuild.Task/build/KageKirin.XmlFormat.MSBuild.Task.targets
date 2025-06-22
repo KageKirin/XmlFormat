@@ -236,7 +236,13 @@
     <DisplayXmlFormatToolVersion />
 
     <!-- run xf -->
-    <Exec Command="xf --inline --format '$(XmlFormatConfig)' -- %(XmlFormatFile.FullPath)"/>
+    <XmlFormatFiles
+      LineLength="$(XmlFormatLineLength)"
+      Tabs="$(XmlFormatTabs)"
+      TabsRepeat="$(XmlFormatTabsRepeat)"
+      MaxEmptyLines="$(XmlFormatMaxEmptyLines)"
+      Files="@(XmlFormatFile)"
+    />
 
   </Target>
 </Project>

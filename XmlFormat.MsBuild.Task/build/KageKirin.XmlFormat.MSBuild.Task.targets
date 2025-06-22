@@ -161,7 +161,7 @@
     <DisplayXmlFormatToolHelp />
 
     <!-- run xf version -->
-    <Exec Command="xf --version"/>
+    <DisplayXmlFormatToolVersion />
 
     <!-- run xf -->
     <Exec Command="xf --inline --format '$(XmlFormatConfig)' -- %(XmlFormatFile.FullPath)"/>

@@ -29,23 +29,6 @@
     <XmlFormatMaxEmptyLines Condition="'$(XmlFormatMaxEmptyLines)' == ''">1</XmlFormatMaxEmptyLines>
   </PropertyGroup>
 
-  <!-- setup parameters -->
-  <PropertyGroup Condition="'$(XmlFormatLineLength)' != ''">
-    <XmlFormatConfig>/LineLength=$(XmlFormatLineLength)</XmlFormatConfig>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(XmlFormatTabs)' != ''">
-    <XmlFormatConfig>$(XmlFormatConfig);/Tabs=$(XmlFormatTabs)</XmlFormatConfig>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(XmlFormatTabsRepeat)' != ''">
-    <XmlFormatConfig>$(XmlFormatConfig);/TabsRepeat=$(XmlFormatTabsRepeat)</XmlFormatConfig>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(XmlFormatMaxEmptyLines)' != ''">
-    <XmlFormatConfig>$(XmlFormatConfig);/MaxEmptyLines=$(XmlFormatMaxEmptyLines)</XmlFormatConfig>
-  </PropertyGroup>
-
   <UsingTask
     TaskName="InstallXmlFormatTool"
     TaskFactory="CodeTaskFactory"

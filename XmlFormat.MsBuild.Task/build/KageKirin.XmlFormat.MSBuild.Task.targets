@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <!-- Declare the pass to the MSBuild assembly as variable -->
+  <PropertyGroup>
+    <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll</MsBuildAssembly>
+  </PropertyGroup>
+
   <!-- Enable task with `<XmlFormat>enable</XmlFormat>` || `<XmlFormat>true</XmlFormat>` -->
   <PropertyGroup Condition="'$(XmlFormat)' == 'enable' OR '$(XmlFormat)' == 'true'">
     <XmlFormatEnable>true</XmlFormatEnable>

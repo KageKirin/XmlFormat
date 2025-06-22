@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KageKirin.XmlFormat.MSBuild.Task" />
+  </ItemGroup>
+
+  <PropertyGroup Label="enable XmlFormat">
+    <XmlFormat>enable</XmlFormat>
+  </PropertyGroup>
+
+  <ItemGroup Label="xml format these files">
+    <XmlFormatFile Include="foobar.xml" />
+    <XmlFormatFile Include="**/*.xml" />
+  </ItemGroup>
+
+</Project>

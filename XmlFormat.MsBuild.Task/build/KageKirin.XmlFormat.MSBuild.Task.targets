@@ -89,7 +89,7 @@
     <Message Importance="high" Text="Formatting config $(XmlFormatConfig)" />
 
     <!-- install xf -->
-    <Exec Command="dotnet tool install -g KageKirin.XmlFormat.Tool"/>
+    <InstallXmlFormatTool />
 
     <!-- run xf help -->
     <Exec Command="xf --help"/>

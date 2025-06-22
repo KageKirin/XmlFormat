@@ -79,6 +79,39 @@
     </Task>
   </UsingTask>
 
+  <UsingTask
+    TaskName="DisplayXmlFormatToolHelp"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MsBuildAssembly)"
+  >
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.Diagnostics" />
+      <Code Type="Fragment" Language="cs">
+      <![CDATA[
+        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` help");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "xf",
+            Arguments = "--help",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+      ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
   <Target Name="FormatXmlFiles"
           BeforeTargets="CoreCompile"
           Condition="'$(XmlFormatEnable)' == 'true' AND @(XmlFormatFile->Count()) > 0">
@@ -92,7 +125,7 @@
     <InstallXmlFormatTool />
 
     <!-- run xf help -->
-    <Exec Command="xf --help"/>
+    <DisplayXmlFormatToolHelp />
 
     <!-- run xf version -->
     <Exec Command="xf --version"/>

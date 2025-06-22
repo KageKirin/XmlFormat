@@ -46,6 +46,39 @@
     <XmlFormatConfig>$(XmlFormatConfig);/MaxEmptyLines=$(XmlFormatMaxEmptyLines)</XmlFormatConfig>
   </PropertyGroup>
 
+  <UsingTask
+    TaskName="InstallXmlFormatTool"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MsBuildAssembly)"
+  >
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.Diagnostics" />
+      <Code Type="Fragment" Language="cs">
+      <![CDATA[
+        Log.LogMessage(MessageImportance.High, "Formatting: Installing `xf`");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "dotnet",
+            Arguments = "tool install -g KageKirin.XmlFormat.Tool",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+      ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
   <Target Name="FormatXmlFiles"
           BeforeTargets="CoreCompile"
           Condition="'$(XmlFormatEnable)' == 'true' AND @(XmlFormatFile->Count()) > 0">

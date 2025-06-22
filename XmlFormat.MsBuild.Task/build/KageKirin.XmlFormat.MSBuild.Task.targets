@@ -6,6 +6,19 @@
     <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll</MsBuildAssembly>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition=" '$(MSBuildVersion.Substring(0,2))' >= 16 Or ('$(MSBuildVersion.Substring(0,2))' == 15 And '$(MSBuildVersion.Substring(3,1))' >= 8)">
+      <PropertyGroup>
+        <TaskFactory>RoslynCodeTaskFactory</TaskFactory>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <TaskFactory>CodeTaskFactory</TaskFactory>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
   <!-- Enable task with `<XmlFormat>enable</XmlFormat>` || `<XmlFormat>true</XmlFormat>` -->
   <PropertyGroup Condition="'$(XmlFormat)' == 'enable' OR '$(XmlFormat)' == 'true'">
     <XmlFormatEnable>true</XmlFormatEnable>

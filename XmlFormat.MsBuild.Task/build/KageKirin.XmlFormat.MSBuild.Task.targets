@@ -3,7 +3,7 @@
 
   <!-- Declare the pass to the MSBuild assembly as variable -->
   <PropertyGroup>
-    <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll</MsBuildAssembly>
+    <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll</MsBuildAssembly>
   </PropertyGroup>
 
   <Choose>

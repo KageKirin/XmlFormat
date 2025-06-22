@@ -125,7 +125,7 @@
     <InstallXmlFormatTool />
 
     <!-- run xf help -->
-    <Exec Command="xf --help"/>
+    <DisplayXmlFormatToolHelp />
 
     <!-- run xf version -->
     <Exec Command="xf --version"/>

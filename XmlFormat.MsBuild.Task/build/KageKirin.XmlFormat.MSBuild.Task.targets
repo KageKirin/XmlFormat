@@ -142,7 +142,7 @@
   </UsingTask>
 
   <UsingTask
-    TaskName="XmlFormatFiles"
+    TaskName="RunXmlFormatFiles"
     TaskFactory="$(TaskFactory)"
     AssemblyFile="$(MsBuildAssembly)"
   >
@@ -233,7 +233,7 @@
     <DisplayXmlFormatToolVersion />
 
     <!-- run xf -->
-    <XmlFormatFiles
+    <RunXmlFormatFiles
       LineLength="$(XmlFormatLineLength)"
       Tabs="$(XmlFormatTabs)"
       TabsRepeat="$(XmlFormatTabsRepeat)"

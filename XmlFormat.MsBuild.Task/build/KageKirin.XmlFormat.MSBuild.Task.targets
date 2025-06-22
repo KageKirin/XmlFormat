@@ -189,7 +189,7 @@
         }
 
         string files = string.Join(' ', Files.Select(f => f.ItemSpec));
-        string arguments = $"--inline --format \"{formatParam}\" {files}"
+        string arguments = $"--inline --format \"{formatParam}\" {files}";
         Log.LogMessage(MessageImportance.High, "Formatting: Running `xf {arguments}`");
 
         Process process = new Process();

@@ -165,7 +165,7 @@
 
         string formatParam = string.Empty;
 
-        if (LineLength is not null)
+        if (LineLength > 0)
         {
           formatParam = $"/LineLength={LineLength}";
         }
@@ -176,13 +176,13 @@
           formatParam += $"/Tabs='{Tabs}'";
         }
 
-        if (TabsRepeat is not null)
+        if (TabsRepeat > 0)
         {
           formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
           formatParam += $"/TabsRepeat={TabsRepeat}";
         }
 
-        if (MaxEmptyLines is not null)
+        if (MaxEmptyLines > 0)
         {
           formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
           formatParam += $"/MaxEmptyLines={MaxEmptyLines}";

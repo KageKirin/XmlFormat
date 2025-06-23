@@ -53,76 +53,8 @@
 
   <UsingTask
     TaskName="RunXmlFormatFiles"
-    TaskFactory="$(TaskFactory)"
-    AssemblyFile="$(MsBuildAssembly)"
-  >
-    <ParameterGroup>
-      <LineLength ParameterType="System.Int32" Required="false" />
-      <Tabs ParameterType="System.String" Required="false" />
-      <TabsRepeat ParameterType="System.Int32" Required="false" />
-      <MaxEmptyLines ParameterType="System.Int32" Required="false" />
-      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-    </ParameterGroup>
-
-    <Task>
-
-      <Using Namespace="System" />
-      <Using Namespace="System.Diagnostics" />
-      <Using Namespace="System.Linq" />
-      <Code Type="Fragment" Language="cs">
-      <![CDATA[
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");
-
-        string formatParam = string.Empty;
-
-        if (LineLength > 0)
-        {
-          formatParam = $"/LineLength={LineLength}";
-        }
-
-        if (Tabs is not null)
-        {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/Tabs='{Tabs}'";
-        }
-
-        if (TabsRepeat > 0)
-        {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/TabsRepeat={TabsRepeat}";
-        }
-
-        if (MaxEmptyLines > 0)
-        {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
-        }
-
-        string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        string arguments = $"--inline --format \"{formatParam}\" {files}";
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf {arguments}`");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-      ]]>
-      </Code>
-    </Task>
-  </UsingTask>
-
+    AssemblyFile="$(XmlFormatAssembly)"
+  />
 
   <Target Name="FormatXmlFiles"
           BeforeTargets="CoreCompile"

@@ -20,6 +20,11 @@
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''">
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>9.0</TargetFrameworkVersion>
+  </PropertyGroup>
+
   <ItemGroup Label="embeded files">
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)test.xml"/>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)idtest.xml"/>

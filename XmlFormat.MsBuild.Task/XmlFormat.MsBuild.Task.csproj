@@ -66,4 +66,8 @@
     </ItemGroup>
   </Target>
 
+  <ItemGroup Label="package references">
+    <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
+  </ItemGroup>
+
 </Project>

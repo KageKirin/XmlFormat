@@ -112,7 +112,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
             formatParam = $"/LineLength={LineLength}";
         }
 
-        if (Tabs is not null)
+        if (!string.IsNullOrEmpty(Tabs))
         {
             formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
             formatParam += $"/Tabs='{Tabs}'";

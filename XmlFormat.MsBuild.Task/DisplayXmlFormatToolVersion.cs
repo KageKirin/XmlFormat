@@ -16,25 +16,6 @@ public class DisplayXmlFormatToolVersion : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` version");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = "--version",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
         return Success;
     }
 }

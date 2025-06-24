@@ -132,7 +132,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         return Success;
     }
 
-    public bool Execute()
+    public bool ExecuteXf()
     {
         Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");
 
@@ -140,25 +140,25 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
         if (LineLength > 0)
         {
-          formatParam = $"/LineLength={LineLength}";
+            formatParam = $"/LineLength={LineLength}";
         }
 
         if (Tabs is not null)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/Tabs='{Tabs}'";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/Tabs='{Tabs}'";
         }
 
         if (TabsRepeat > 0)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/TabsRepeat={TabsRepeat}";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/TabsRepeat={TabsRepeat}";
         }
 
         if (MaxEmptyLines > 0)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));

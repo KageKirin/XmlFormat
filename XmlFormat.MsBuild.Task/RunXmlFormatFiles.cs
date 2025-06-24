@@ -12,6 +12,14 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
+    private string _AssemblyFile;
+
+    public virtual string AssemblyFile
+    {
+        get { return _AssemblyFile; }
+        set { _AssemblyFile = value; }
+    }
+
     private int _LineLength = 0;
 
     public virtual int LineLength
@@ -86,25 +94,16 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        int exitCode = RunCommand("dotnet", "tool install -g KageKirin.XmlFormat.Tool");
+        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --help");
         Success = exitCode == 0;
         if (!Success)
             return Success;
 
-        // wait a few moments to finalize install
-        // this avoids the subsequent commands not finding `xf`
-        Thread.Sleep(5000); //< time in ms
-
-        exitCode = RunCommand("xf", "--help");
+        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --version");
         Success = exitCode == 0;
         if (!Success)
             return Success;
 
-        exitCode = RunCommand("xf", "--version");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-        Success = RunCommand("xf", "--version") == 0;
         string formatParam = string.Empty;
 
         if (LineLength > 0)
@@ -136,7 +135,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        RunCommand("xf", $"--inline {formatParam} {files}");
+        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
         Success = exitCode == 0;
 
         return Success;

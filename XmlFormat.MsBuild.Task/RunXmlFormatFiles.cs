@@ -86,7 +86,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        int exitCode = RunCommand("dotnet", "tool install -g XmlFormat.Tool");
+        int exitCode = RunCommand("dotnet", "tool install -g KageKirin.XmlFormat.Tool");
         Success = exitCode == 0;
         if (!Success)
             return Success;

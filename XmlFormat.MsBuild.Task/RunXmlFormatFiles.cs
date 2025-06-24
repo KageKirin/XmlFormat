@@ -84,31 +84,27 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         return process.ExitCode;
     }
 
-    public bool ExecuteInstallXf()
+    public override bool Execute()
     {
-        Log.LogMessage(MessageImportance.High, "Formatting: Installing `xf`");
-        Success = RunCommand("dotnet", "tool install -g KageKirin.XmlFormat.Tool") == 0;
-        return Success;
-    }
+        int exitCode = RunCommand("dotnet", "tool install -g XmlFormat.Tool");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
 
-    public bool ExecuteXfHelp()
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` help");
-        Success = RunCommand("xf", "--help") == 0;
-        return Success;
-    }
+        // wait a few moments to finalize install
+        // this avoids the subsequent commands not finding `xf`
+        Thread.Sleep(5000); //< time in ms
 
-    public bool ExecuteXfVersion()
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` version");
+        exitCode = RunCommand("xf", "--help");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
+
+        exitCode = RunCommand("xf", "--version");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
         Success = RunCommand("xf", "--version") == 0;
-        return Success;
-    }
-
-    public bool ExecuteXf()
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");
-
         string formatParam = string.Empty;
 
         if (LineLength > 0)
@@ -135,17 +131,9 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        string arguments = $"--inline --format \"{formatParam}\" {files}";
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf {arguments}`");
-        Success = RunCommand("xf", arguments) == 0;
-        return Success;
-    }
+        RunCommand("xf", $"--inline --format \"{formatParam}\" {files}");
+        Success = exitCode == 0;
 
-    public override bool Execute()
-    {
-        return ExecuteInstallXf() //
-            && ExecuteXfHelp()
-            && ExecuteXfVersion()
-            && ExecuteXf();
+        return Success;
     }
 }

@@ -16,25 +16,6 @@ public class InstallXmlFormatTool : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        Log.LogMessage(MessageImportance.High, "Formatting: Installing `xf`");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "dotnet",
-            Arguments = "tool install -g KageKirin.XmlFormat.Tool",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
         return Success;
     }
 }

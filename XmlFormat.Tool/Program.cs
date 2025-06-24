@@ -39,6 +39,8 @@ public class Program
 
     static void RunOptions(Options options)
     {
+        Console.WriteLine($"options: {options}");
+
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
             .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
@@ -46,7 +48,7 @@ public class Program
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");
-        Console.WriteLine($"options.InputFiles: {options.InputFiles}");
+        Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles ?? [""])} }}");
 
         FormattingOptions formattingOptions = new(240, " ", 4, 2);
         config.Bind(formattingOptions);

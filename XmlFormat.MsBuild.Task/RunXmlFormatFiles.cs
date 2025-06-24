@@ -84,6 +84,30 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         return Success;
     }
 
+    public bool ExecuteXfHelp()
+    {
+        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` help");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "xf",
+            Arguments = "--help",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+        Success = process.ExitCode == 0;
+        return Success;
+    }
+
     public bool Execute()
     {
         Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");

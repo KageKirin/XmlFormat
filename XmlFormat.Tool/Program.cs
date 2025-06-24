@@ -31,6 +31,8 @@ public class Program
 
     public static void Main(string[] args)
     {
+        Console.WriteLine($"running with args: {string.Join(" ", args)}");
+
         CommandLine
             .Parser.Default.ParseArguments<Options>(args) //
             .WithParsed(RunOptions)

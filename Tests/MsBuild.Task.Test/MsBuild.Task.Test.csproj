@@ -44,9 +44,16 @@
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\XmlFormat.MsBuild.Task\XmlFormat.MsBuild.Task.csproj" />
+  </ItemGroup>
+
+
+
   <Import Project="..\..\XmlFormat.MsBuild.Task\build\KageKirin.XmlFormat.MSBuild.Task.targets" />
 
   <PropertyGroup Label="XmlFormat Settings">
+    <XmlFormat>enable</XmlFormat>
     <XmlFormatLineLength>142</XmlFormatLineLength>
   </PropertyGroup>
 

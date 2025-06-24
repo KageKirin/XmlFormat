@@ -12,7 +12,7 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
-    private int _LineLength;
+    private int _LineLength = 0;
 
     public virtual int LineLength
     {
@@ -20,7 +20,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _LineLength = value; }
     }
 
-    private string _Tabs;
+    private string _Tabs = string.Empty;
 
     public virtual string Tabs
     {
@@ -28,7 +28,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _Tabs = value; }
     }
 
-    private int _TabsRepeat;
+    private int _TabsRepeat = 0;
 
     public virtual int TabsRepeat
     {
@@ -36,7 +36,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _TabsRepeat = value; }
     }
 
-    private int _MaxEmptyLines;
+    private int _MaxEmptyLines = 0;
 
     public virtual int MaxEmptyLines
     {
@@ -44,7 +44,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _MaxEmptyLines = value; }
     }
 
-    private Microsoft.Build.Framework.ITaskItem[] _Files;
+    private Microsoft.Build.Framework.ITaskItem[] _Files = [];
 
     public virtual Microsoft.Build.Framework.ITaskItem[] Files
     {
@@ -112,10 +112,10 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
             formatParam = $"/LineLength={LineLength}";
         }
 
-        if (Tabs is not null)
+        if (!string.IsNullOrEmpty(Tabs))
         {
             formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/Tabs='{Tabs}'";
+            formatParam += $"/Tabs={Tabs}";
         }
 
         if (TabsRepeat > 0)
@@ -130,8 +130,13 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
             formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
         }
 
+        if (!string.IsNullOrEmpty(formatParam))
+        {
+            formatParam = $"--format \"{formatParam}\"";
+        }
+
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        RunCommand("xf", $"--inline --format \"{formatParam}\" {files}");
+        RunCommand("xf", $"--inline {formatParam} {files}");
         Success = exitCode == 0;
 
         return Success;

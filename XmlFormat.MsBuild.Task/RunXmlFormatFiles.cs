@@ -115,7 +115,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         if (!string.IsNullOrEmpty(Tabs))
         {
             formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/Tabs='{Tabs}'";
+            formatParam += $"/Tabs={Tabs}";
         }
 
         if (TabsRepeat > 0)

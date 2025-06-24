@@ -1,12 +1,12 @@
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
 namespace XmlFormat.MsBuild.Task;
 
@@ -58,6 +58,30 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
     {
         get { return _Success; }
         set { _Success = value; }
+    }
+
+    private int RunCommand(string command, string arguments)
+    {
+        Log.LogMessage(MessageImportance.High, "Formatting: `{} {}`", command, arguments);
+        Process process = new()
+        {
+            StartInfo = new()
+            {
+                FileName = command,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            },
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+        return process.ExitCode;
     }
 
     public bool ExecuteInstallXf()

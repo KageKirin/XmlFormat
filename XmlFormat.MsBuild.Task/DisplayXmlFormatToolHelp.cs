@@ -34,6 +34,7 @@ public class DisplayXmlFormatToolHelp : Microsoft.Build.Utilities.Task
         Console.WriteLine(output);
 
         process.WaitForExit();
+        Success = process.ExitCode == 0;
         return Success;
     }
 }

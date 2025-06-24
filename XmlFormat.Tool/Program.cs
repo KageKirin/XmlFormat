@@ -23,14 +23,16 @@ public class Program
             Separator = ';',
             HelpText = "Specify formatting options to override the configuration. Use ';' as separator."
         )]
-        public IEnumerable<string>? FormattingOptions { get; set; } = default;
+        public IEnumerable<string> FormattingOptions { get; set; } = [];
 
-        [Value(0, MetaName = "inputs", HelpText = "Input files.")]
-        public IEnumerable<string>? InputFiles { get; set; } = default;
+        [Value(0, MetaName = "inputs", Required = true, HelpText = "Input files.")]
+        public IEnumerable<string> InputFiles { get; set; } = [];
     }
 
     public static void Main(string[] args)
     {
+        Console.WriteLine($"running with args: {string.Join(" ", args)}");
+
         CommandLine
             .Parser.Default.ParseArguments<Options>(args) //
             .WithParsed(RunOptions)
@@ -44,21 +46,17 @@ public class Program
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
             .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
-            .AddCommandLine(options.FormattingOptions?.ToArray() ?? [])
+            .AddCommandLine(options.FormattingOptions.ToArray())
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");
-        Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles ?? [""])} }}");
+        Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
 
         FormattingOptions formattingOptions = new(240, " ", 4, 2);
         config.Bind(formattingOptions);
         Console.WriteLine($"formattingOptions: {formattingOptions}");
 
-        var inputFiles = options.InputFiles ?? [""];
-        if (inputFiles?.Count() == 0)
-            inputFiles = [""];
-
-        foreach (var inputFile in inputFiles!)
+        foreach (var inputFile in options.InputFiles!)
         {
             FormattingOptions actualFormattingOptions = formattingOptions with { };
             string? profile = options.Profile ?? Path.GetExtension(inputFile)?.Trim('.');

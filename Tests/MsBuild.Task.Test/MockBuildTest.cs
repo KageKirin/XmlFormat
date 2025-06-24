@@ -42,7 +42,12 @@ public class MockBuildTest
     public void EmptyFiles()
     {
         //Arrange
-        RunXmlFormatFiles xmlFormatFilesTask = new() { Files = [], BuildEngine = buildEngine.Object };
+        RunXmlFormatFiles xmlFormatFilesTask = new()
+        {
+            AssemblyFile = Path.Join(GetThisFileDirectory(), "..", "..", ".artifacts", "bin", "XmlFormat.Tool", "debug", "XmlFormat.Tool.dll"),
+            Files = [],
+            BuildEngine = buildEngine.Object,
+        };
 
         //Act
         var success = xmlFormatFilesTask.Execute();
@@ -69,7 +74,12 @@ public class MockBuildTest
         item.Setup(x => x.MetadataNames).Returns(new string[] { "FullPath" });
         Console.WriteLine($"item.Object.ItemSpec: {item.Object.ItemSpec}");
 
-        RunXmlFormatFiles xmlFormatFilesTask = new() { Files = [item.Object], BuildEngine = buildEngine.Object };
+        RunXmlFormatFiles xmlFormatFilesTask = new()
+        {
+            AssemblyFile = Path.Join(GetThisFileDirectory(), "..", "..", ".artifacts", "bin", "XmlFormat.Tool", "debug", "XmlFormat.Tool.dll"),
+            Files = [item.Object],
+            BuildEngine = buildEngine.Object,
+        };
 
         //Act
         var success = xmlFormatFilesTask.Execute();
@@ -98,6 +108,7 @@ public class MockBuildTest
 
         RunXmlFormatFiles xmlFormatFilesTask = new()
         {
+            AssemblyFile = Path.Join(GetThisFileDirectory(), "..", "..", ".artifacts", "bin", "XmlFormat.Tool", "debug", "XmlFormat.Tool.dll"),
             Files = [item.Object],
             LineLength = 142,
             Tabs = " ",

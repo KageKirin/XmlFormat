@@ -94,16 +94,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        int exitCode = RunCommand("dotnet", "tool install -g KageKirin.XmlFormat.Tool");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-
-        // wait a few moments to finalize install
-        // this avoids the subsequent commands not finding `xf`
-        Thread.Sleep(5000); //< time in ms
-
-        exitCode = RunCommand("xf", "--help");
+        int exitCode = RunCommand("xf", "--help");
         Success = exitCode == 0;
         if (!Success)
             return Success;
@@ -112,7 +103,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         Success = exitCode == 0;
         if (!Success)
             return Success;
-        Success = RunCommand("xf", "--version") == 0;
+
         string formatParam = string.Empty;
 
         if (LineLength > 0)

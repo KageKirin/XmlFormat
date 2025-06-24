@@ -1,12 +1,12 @@
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 
 namespace XmlFormat.MsBuild.Task;
 
@@ -60,18 +60,19 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _Success = value; }
     }
 
-    public bool ExecuteInstallXf()
+    private int RunCommand(string command, string arguments)
     {
-        Log.LogMessage(MessageImportance.High, "Formatting: Installing `xf`");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
+        Log.LogMessage(MessageImportance.High, "Formatting: `{} {}`", command, arguments);
+        Process process = new()
         {
-            FileName = "dotnet",
-            Arguments = "tool install -g KageKirin.XmlFormat.Tool",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
+            StartInfo = new()
+            {
+                FileName = command,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            },
         };
 
         process.Start();
@@ -80,62 +81,30 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         Console.WriteLine(output);
 
         process.WaitForExit();
-        Success = process.ExitCode == 0;
-        return Success;
+        return process.ExitCode;
     }
 
-    public bool ExecuteXfHelp()
+    public override bool Execute()
     {
-        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` help");
+        int exitCode = RunCommand("dotnet", "tool install -g XmlFormat.Tool");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
 
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = "--help",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-        };
+        // wait a few moments to finalize install
+        // this avoids the subsequent commands not finding `xf`
+        Thread.Sleep(5000); //< time in ms
 
-        process.Start();
+        exitCode = RunCommand("xf", "--help");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
 
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
-        return Success;
-    }
-
-    public bool ExecuteXfVersion()
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` version");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = "--version",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
-        return Success;
-    }
-
-    public bool ExecuteXf()
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");
-
+        exitCode = RunCommand("xf", "--version");
+        Success = exitCode == 0;
+        if (!Success)
+            return Success;
+        Success = RunCommand("xf", "--version") == 0;
         string formatParam = string.Empty;
 
         if (LineLength > 0)
@@ -162,34 +131,9 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        string arguments = $"--inline --format \"{formatParam}\" {files}";
-        Log.LogMessage(MessageImportance.High, "Formatting: Running `xf {arguments}`");
+        RunCommand("xf", $"--inline --format \"{formatParam}\" {files}");
+        Success = exitCode == 0;
 
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
         return Success;
-    }
-
-    public override bool Execute()
-    {
-        return ExecuteInstallXf() //
-            && ExecuteXfHelp()
-            && ExecuteXfVersion()
-            && ExecuteXf();
     }
 }

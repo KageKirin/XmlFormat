@@ -60,7 +60,79 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         set { _Success = value; }
     }
 
-    public override bool Execute()
+    public bool ExecuteInstallXf()
+    {
+        Log.LogMessage(MessageImportance.High, "Formatting: Installing `xf`");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "dotnet",
+            Arguments = "tool install -g KageKirin.XmlFormat.Tool",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+        Success = process.ExitCode == 0;
+        return Success;
+    }
+
+    public bool ExecuteXfHelp()
+    {
+        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` help");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "xf",
+            Arguments = "--help",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+        Success = process.ExitCode == 0;
+        return Success;
+    }
+
+    public bool ExecuteXfVersion()
+    {
+        Log.LogMessage(MessageImportance.High, "Formatting: Checking `xf` version");
+
+        Process process = new Process();
+        process.StartInfo = new ProcessStartInfo()
+        {
+            FileName = "xf",
+            Arguments = "--version",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        Console.WriteLine(output);
+
+        process.WaitForExit();
+        Success = process.ExitCode == 0;
+        return Success;
+    }
+
+    public bool ExecuteXf()
     {
         Log.LogMessage(MessageImportance.High, "Formatting: Running `xf`");
 
@@ -68,25 +140,25 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
         if (LineLength > 0)
         {
-          formatParam = $"/LineLength={LineLength}";
+            formatParam = $"/LineLength={LineLength}";
         }
 
         if (Tabs is not null)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/Tabs='{Tabs}'";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/Tabs='{Tabs}'";
         }
 
         if (TabsRepeat > 0)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/TabsRepeat={TabsRepeat}";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/TabsRepeat={TabsRepeat}";
         }
 
         if (MaxEmptyLines > 0)
         {
-          formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-          formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
+            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
+            formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
@@ -111,5 +183,13 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         process.WaitForExit();
         Success = process.ExitCode == 0;
         return Success;
+    }
+
+    public override bool Execute()
+    {
+        return ExecuteInstallXf() //
+            && ExecuteXfHelp()
+            && ExecuteXfVersion()
+            && ExecuteXf();
     }
 }

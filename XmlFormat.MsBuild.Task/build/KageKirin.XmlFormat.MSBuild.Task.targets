@@ -37,21 +37,6 @@
   </PropertyGroup>
 
   <UsingTask
-    TaskName="InstallXmlFormatTool"
-    AssemblyFile="$(XmlFormatAssembly)"
-  />
-
-  <UsingTask
-    TaskName="DisplayXmlFormatToolHelp"
-    AssemblyFile="$(XmlFormatAssembly)"
-  />
-
-  <UsingTask
-    TaskName="DisplayXmlFormatToolVersion"
-    AssemblyFile="$(XmlFormatAssembly)"
-  />
-
-  <UsingTask
     TaskName="RunXmlFormatFiles"
     AssemblyFile="$(XmlFormatAssembly)"
   />
@@ -64,15 +49,6 @@
     <Message Importance="high" Text="Formatting @(XmlFormatFile)" />
     <Message Importance="high" Text="Formatting %(XmlFormatFile.FullPath)" />
     <Message Importance="high" Text="Formatting config $(XmlFormatConfig)" />
-
-    <!-- install xf -->
-    <InstallXmlFormatTool />
-
-    <!-- run xf help -->
-    <DisplayXmlFormatToolHelp />
-
-    <!-- run xf version -->
-    <DisplayXmlFormatToolVersion />
 
     <!-- run xf -->
     <RunXmlFormatFiles

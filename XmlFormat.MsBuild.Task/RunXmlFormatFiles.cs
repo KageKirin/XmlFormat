@@ -184,4 +184,12 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         Success = process.ExitCode == 0;
         return Success;
     }
+
+    public override bool Execute()
+    {
+        return ExecuteInstallXf() //
+            && ExecuteXfHelp()
+            && ExecuteXfVersion()
+            && ExecuteXf();
+    }
 }

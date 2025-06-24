@@ -137,24 +137,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
         string arguments = $"--inline --format \"{formatParam}\" {files}";
         Log.LogMessage(MessageImportance.High, "Formatting: Running `xf {arguments}`");
-
-        Process process = new Process();
-        process.StartInfo = new ProcessStartInfo()
-        {
-            FileName = "xf",
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        Success = process.ExitCode == 0;
+        Success = RunCommand("xf", arguments) == 0;
         return Success;
     }
 

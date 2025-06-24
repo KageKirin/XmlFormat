@@ -37,11 +37,6 @@
   </PropertyGroup>
 
   <UsingTask
-    TaskName="DisplayXmlFormatToolVersion"
-    AssemblyFile="$(XmlFormatAssembly)"
-  />
-
-  <UsingTask
     TaskName="RunXmlFormatFiles"
     AssemblyFile="$(XmlFormatAssembly)"
   />
@@ -54,9 +49,6 @@
     <Message Importance="high" Text="Formatting @(XmlFormatFile)" />
     <Message Importance="high" Text="Formatting %(XmlFormatFile.FullPath)" />
     <Message Importance="high" Text="Formatting config $(XmlFormatConfig)" />
-
-    <!-- run xf version -->
-    <DisplayXmlFormatToolVersion />
 
     <!-- run xf -->
     <RunXmlFormatFiles

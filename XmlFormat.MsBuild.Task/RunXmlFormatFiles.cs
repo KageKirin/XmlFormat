@@ -130,8 +130,13 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
             formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
         }
 
+        if (!string.IsNullOrEmpty(formatParam))
+        {
+            formatParam = $"--format \"{formatParam}\"";
+        }
+
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        RunCommand("xf", $"--inline --format \"{formatParam}\" {files}");
+        RunCommand("xf", $"--inline {formatParam} {files}");
         Success = exitCode == 0;
 
         return Success;

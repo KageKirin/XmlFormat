@@ -94,12 +94,12 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        int exitCode = RunCommand("xf", "--help");
+        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --help");
         Success = exitCode == 0;
         if (!Success)
             return Success;
 
-        exitCode = RunCommand("xf", "--version");
+        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --version");
         Success = exitCode == 0;
         if (!Success)
             return Success;
@@ -135,7 +135,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        RunCommand("xf", $"--inline {formatParam} {files}");
+        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
         Success = exitCode == 0;
 
         return Success;

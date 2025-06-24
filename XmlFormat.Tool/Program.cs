@@ -25,8 +25,8 @@ public class Program
         )]
         public IEnumerable<string>? FormattingOptions { get; set; } = default;
 
-        [Value(0, MetaName = "inputs", HelpText = "Input files.")]
-        public IEnumerable<string>? InputFiles { get; set; } = default;
+        [Value(0, MetaName = "inputs", Required = true, HelpText = "Input files.")]
+        public IEnumerable<string> InputFiles { get; set; } = [];
     }
 
     public static void Main(string[] args)
@@ -48,17 +48,13 @@ public class Program
             .Build();
 
         Console.WriteLine($"options.Inline: {options.Inline}");
-        Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles ?? [""])} }}");
+        Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
 
         FormattingOptions formattingOptions = new(240, " ", 4, 2);
         config.Bind(formattingOptions);
         Console.WriteLine($"formattingOptions: {formattingOptions}");
 
-        var inputFiles = options.InputFiles ?? [""];
-        if (inputFiles?.Count() == 0)
-            inputFiles = [""];
-
-        foreach (var inputFile in inputFiles!)
+        foreach (var inputFile in options.InputFiles!)
         {
             FormattingOptions actualFormattingOptions = formattingOptions with { };
             string? profile = options.Profile ?? Path.GetExtension(inputFile)?.Trim('.');

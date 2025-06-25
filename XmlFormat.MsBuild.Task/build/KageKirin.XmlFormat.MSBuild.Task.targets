@@ -3,9 +3,7 @@
 
   <!-- Declare the pass to the MSBuild assembly as variable -->
   <PropertyGroup>
-    <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll</MsBuildAssembly>
     <XmlFormatAssembly>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\XmlFormat.MsBuild.Task.dll</XmlFormatAssembly>
-    <XmlFormatToolAssembly>$(MSBuildThisFileDirectory)..\tools/xmlformat.tool/net9.0/XmlFormat.Tool.dll</XmlFormatToolAssembly>
   </PropertyGroup>
 
   <!-- Select TaskFactory class depending on MSBuild version -->
@@ -53,7 +51,6 @@
 
     <!-- run xf -->
     <RunXmlFormatFiles
-      AssemblyFile="$(XmlFormatToolAssembly)"
       LineLength="$(XmlFormatLineLength)"
       Tabs="$(XmlFormatTabs)"
       TabsRepeat="$(XmlFormatTabsRepeat)"

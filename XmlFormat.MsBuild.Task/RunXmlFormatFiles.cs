@@ -12,9 +12,6 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
-    [Required]
-    public virtual string AssemblyFile { get; set; } = string.Empty;
-
     public virtual int LineLength { get; set; } = 0;
 
     public virtual string Tabs { get; set; } = string.Empty;
@@ -28,75 +25,62 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual bool Success { get; set; } = true;
 
-    private int RunCommand(string command, string arguments)
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: `{} {}`", command, arguments);
-        Process process = new()
-        {
-            StartInfo = new()
-            {
-                FileName = command,
-                Arguments = arguments,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            },
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        return process.ExitCode;
-    }
-
     public override bool Execute()
     {
-        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --help");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-
-        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --version");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-
-        string formatParam = string.Empty;
+        FormattingOptions formattingOptions = new(120, " ", 1, 1);
 
         if (LineLength > 0)
         {
-            formatParam = $"/LineLength={LineLength}";
+            formattingOptions = formattingOptions with { LineLength = LineLength };
         }
 
         if (!string.IsNullOrEmpty(Tabs))
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/Tabs={Tabs}";
+            formattingOptions = formattingOptions with { Tabs = Tabs };
         }
 
         if (TabsRepeat > 0)
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/TabsRepeat={TabsRepeat}";
+            formattingOptions = formattingOptions with { TabsRepeat = TabsRepeat };
         }
 
         if (MaxEmptyLines > 0)
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
+            formattingOptions = formattingOptions with { MaxEmptyLines = MaxEmptyLines };
         }
 
-        if (!string.IsNullOrEmpty(formatParam))
+        Log.LogMessage($"Formatting with options: {formattingOptions}");
+
+        foreach (string fileName in Files.Select(item => item.ItemSpec))
         {
-            formatParam = $"--format \"{formatParam}\"";
+            if (string.IsNullOrEmpty(fileName))
+            {
+                Log.LogError($"{fileName} does not exist.");
+                Success = false;
+            }
+            else
+            {
+                var xml = File.ReadAllText(fileName);
+                if (string.IsNullOrEmpty(xml))
+                {
+                    Log.LogWarning($"{fileName} is empty.");
+                }
+                else
+                {
+                    try
+                    {
+                        Log.LogMessage(importance: MessageImportance.High, $"Formatting: {fileName}");
+                        File.WriteAllText(fileName, contents: XmlFormat.Format(xml, formattingOptions));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.LogErrorFromException(ex);
+                        Success = false;
+                        break;
+                    }
+                }
+            }
         }
-
-        string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
-        Success = exitCode == 0;
 
         return Success;
     }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Memory;
 
 namespace XmlFormat.MsBuild.Task;
 
@@ -27,27 +29,35 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     private FormattingOptions ReadOptions()
     {
-        FormattingOptions formattingOptions = new();
+        Dictionary<string, string?> memoryOptions = [];
 
         if (LineLength > 0)
         {
-            formattingOptions = formattingOptions with { LineLength = LineLength };
+            memoryOptions["lineLength"] = LineLength.ToString();
         }
 
         if (!string.IsNullOrEmpty(Tabs))
         {
-            formattingOptions = formattingOptions with { Tabs = Tabs };
+            memoryOptions["tabs"] = Tabs;
         }
 
         if (TabsRepeat > 0)
         {
-            formattingOptions = formattingOptions with { TabsRepeat = TabsRepeat };
+            memoryOptions["tabsRepeat"] = TabsRepeat.ToString();
         }
 
         if (MaxEmptyLines > 0)
         {
-            formattingOptions = formattingOptions with { MaxEmptyLines = MaxEmptyLines };
+            memoryOptions["maxEmptyLines"] = MaxEmptyLines.ToString();
         }
+
+        ConfigurationBuilder configBuilder = new();
+        configBuilder.AddInMemoryCollection(memoryOptions);
+
+        IConfiguration config = configBuilder.Build();
+
+        FormattingOptions formattingOptions = new();
+        config.Bind(formattingOptions);
 
         return formattingOptions;
     }
@@ -55,7 +65,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
     public override bool Execute()
     {
         FormattingOptions formattingOptions = ReadOptions();
-        Log.LogMessage($"Formatting with options: {formattingOptions}");
+        Log.LogMessage("Formatting with options: {}", formattingOptions);
 
         foreach (string fileName in Files.Select(item => item.ItemSpec))
         {

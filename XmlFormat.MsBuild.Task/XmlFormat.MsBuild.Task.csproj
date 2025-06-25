@@ -75,7 +75,7 @@
   </ItemGroup>
 
   <Target Name="BuildXmlFormat" BeforeTargets="Restore">
-    <Exec command="dotnet build -c $(Configuration)" WorkingDirectory="$(MSBuildThisFileDirectory)..\XmlFormat.Tool" />
+    <Exec command="dotnet build -c $(Configuration)" WorkingDirectory="$(MSBuildThisFileDirectory)..\XmlFormat" />
   </Target>
 
   <ItemGroup Label="Pack the tool and related DLLs">

@@ -12,6 +12,7 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
+    [Required]
     public virtual string AssemblyFile { get; set; } = string.Empty;
 
     public virtual int LineLength { get; set; } = 0;

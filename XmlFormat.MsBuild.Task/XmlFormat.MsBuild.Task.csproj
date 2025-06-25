@@ -70,6 +70,10 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup Label="project references">
+    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
+  </ItemGroup>
+
   <Target Name="BuildXmlFormat" BeforeTargets="Restore">
     <Exec command="dotnet build -c $(Configuration)" WorkingDirectory="$(MSBuildThisFileDirectory)..\XmlFormat.Tool" />
   </Target>

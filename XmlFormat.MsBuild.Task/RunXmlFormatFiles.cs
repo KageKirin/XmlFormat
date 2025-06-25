@@ -18,13 +18,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual string Tabs { get; set; } = string.Empty;
 
-    private int _TabsRepeat = 0;
-
-    public virtual int TabsRepeat
-    {
-        get { return _TabsRepeat; }
-        set { _TabsRepeat = value; }
-    }
+    public virtual int TabsRepeat { get; set; } = 0;
 
     private int _MaxEmptyLines = 0;
 

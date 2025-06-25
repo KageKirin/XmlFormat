@@ -27,7 +27,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        FormattingOptions formattingOptions = new(120, " ", 1, 1);
+        FormattingOptions formattingOptions = new();
 
         if (LineLength > 0)
         {

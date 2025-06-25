@@ -3,7 +3,6 @@
 
   <!-- Declare the pass to the MSBuild assembly as variable -->
   <PropertyGroup>
-    <MsBuildAssembly>$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll</MsBuildAssembly>
     <XmlFormatAssembly>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\XmlFormat.MsBuild.Task.dll</XmlFormatAssembly>
   </PropertyGroup>
 

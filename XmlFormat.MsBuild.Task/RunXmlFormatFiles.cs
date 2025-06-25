@@ -77,11 +77,37 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         Log.LogMessage($"Formatting with options: {formattingOptions}");
-        string formatParam = $"--format \"/LineLength={LineLength};/Tabs={Tabs};/TabsRepeat={TabsRepeat};/MaxEmptyLines={MaxEmptyLines}\"";
 
-        string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
-        Success = exitCode == 0;
+        foreach (string fileName in Files.Select(item => item.ItemSpec))
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                Log.LogError($"{fileName} does not exist.");
+                Success = false;
+            }
+            else
+            {
+                var xml = File.ReadAllText(fileName);
+                if (string.IsNullOrEmpty(xml))
+                {
+                    Log.LogWarning($"{fileName} is empty.");
+                }
+                else
+                {
+                    try
+                    {
+                        Log.LogMessage(importance: MessageImportance.High, $"Formatting: {fileName}");
+                        File.WriteAllText(fileName, contents: XmlFormat.Format(xml, formattingOptions));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.LogErrorFromException(ex);
+                        Success = false;
+                        break;
+                    }
+                }
+            }
+        }
 
         return Success;
     }

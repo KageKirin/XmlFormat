@@ -24,13 +24,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual Microsoft.Build.Framework.ITaskItem[] Files { get; set; } = [];
 
-    private bool _Success = true;
-
-    public virtual bool Success
-    {
-        get { return _Success; }
-        set { _Success = value; }
-    }
+    public virtual bool Success { get; set; } = true;
 
     private int RunCommand(string command, string arguments)
     {

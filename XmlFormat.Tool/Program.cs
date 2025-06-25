@@ -52,7 +52,7 @@ public class Program
         Console.WriteLine($"options.Inline: {options.Inline}");
         Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
 
-        FormattingOptions formattingOptions = new(240, " ", 4, 2);
+        FormattingOptions formattingOptions = new();
         config.Bind(formattingOptions);
         Console.WriteLine($"formattingOptions: {formattingOptions}");
 

@@ -20,13 +20,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual int TabsRepeat { get; set; } = 0;
 
-    private int _MaxEmptyLines = 0;
-
-    public virtual int MaxEmptyLines
-    {
-        get { return _MaxEmptyLines; }
-        set { _MaxEmptyLines = value; }
-    }
+    public virtual int MaxEmptyLines { get; set; } = 0;
 
     private Microsoft.Build.Framework.ITaskItem[] _Files = [];
 

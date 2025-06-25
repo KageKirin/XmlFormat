@@ -12,61 +12,21 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
-    private string _AssemblyFile;
+    [Required]
+    public virtual string AssemblyFile { get; set; } = string.Empty;
 
-    public virtual string AssemblyFile
-    {
-        get { return _AssemblyFile; }
-        set { _AssemblyFile = value; }
-    }
+    public virtual int LineLength { get; set; } = 0;
 
-    private int _LineLength = 0;
+    public virtual string Tabs { get; set; } = string.Empty;
 
-    public virtual int LineLength
-    {
-        get { return _LineLength; }
-        set { _LineLength = value; }
-    }
+    public virtual int TabsRepeat { get; set; } = 0;
 
-    private string _Tabs = string.Empty;
+    public virtual int MaxEmptyLines { get; set; } = 0;
 
-    public virtual string Tabs
-    {
-        get { return _Tabs; }
-        set { _Tabs = value; }
-    }
+    [Required]
+    public virtual Microsoft.Build.Framework.ITaskItem[] Files { get; set; } = [];
 
-    private int _TabsRepeat = 0;
-
-    public virtual int TabsRepeat
-    {
-        get { return _TabsRepeat; }
-        set { _TabsRepeat = value; }
-    }
-
-    private int _MaxEmptyLines = 0;
-
-    public virtual int MaxEmptyLines
-    {
-        get { return _MaxEmptyLines; }
-        set { _MaxEmptyLines = value; }
-    }
-
-    private Microsoft.Build.Framework.ITaskItem[] _Files = [];
-
-    public virtual Microsoft.Build.Framework.ITaskItem[] Files
-    {
-        get { return _Files; }
-        set { _Files = value; }
-    }
-
-    private bool _Success = true;
-
-    public virtual bool Success
-    {
-        get { return _Success; }
-        set { _Success = value; }
-    }
+    public virtual bool Success { get; set; } = true;
 
     private int RunCommand(string command, string arguments)
     {

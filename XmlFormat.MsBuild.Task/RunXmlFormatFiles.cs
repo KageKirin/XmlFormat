@@ -54,32 +54,29 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        string formatParam = string.Empty;
+        FormattingOptions formattingOptions = new(120, " ", 1, 1);
 
         if (LineLength > 0)
         {
-            formatParam = $"/LineLength={LineLength}";
+            formattingOptions = formattingOptions with { LineLength = LineLength };
         }
 
         if (!string.IsNullOrEmpty(Tabs))
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/Tabs={Tabs}";
+            formattingOptions = formattingOptions with { Tabs = Tabs };
         }
 
         if (TabsRepeat > 0)
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/TabsRepeat={TabsRepeat}";
+            formattingOptions = formattingOptions with { TabsRepeat = TabsRepeat };
         }
 
         if (MaxEmptyLines > 0)
         {
-            formatParam += (string.IsNullOrEmpty(formatParam) ? "" : ";");
-            formatParam += $"/MaxEmptyLines={MaxEmptyLines}";
+            formattingOptions = formattingOptions with { MaxEmptyLines = MaxEmptyLines };
         }
 
-        if (!string.IsNullOrEmpty(formatParam))
+        Log.LogMessage($"Formatting with options: {formattingOptions}");
         string formatParam = $"--format \"/LineLength={LineLength};/Tabs={Tabs};/TabsRepeat={TabsRepeat};/MaxEmptyLines={MaxEmptyLines}\"";
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));

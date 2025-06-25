@@ -54,16 +54,6 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
-        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --help");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-
-        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --version");
-        Success = exitCode == 0;
-        if (!Success)
-            return Success;
-
         string formatParam = string.Empty;
 
         if (LineLength > 0)
@@ -90,12 +80,10 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         }
 
         if (!string.IsNullOrEmpty(formatParam))
-        {
-            formatParam = $"--format \"{formatParam}\"";
-        }
+        string formatParam = $"--format \"/LineLength={LineLength};/Tabs={Tabs};/TabsRepeat={TabsRepeat};/MaxEmptyLines={MaxEmptyLines}\"";
 
         string files = string.Join(" ", Files.Select(f => f.ItemSpec));
-        exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
+        int exitCode = RunCommand("dotnet", $"\"{AssemblyFile}\" --inline {formatParam} {files}");
         Success = exitCode == 0;
 
         return Success;

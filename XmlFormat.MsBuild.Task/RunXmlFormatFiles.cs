@@ -14,13 +14,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
     public virtual string AssemblyFile { get; set; } = string.Empty;
 
-    private int _LineLength = 0;
-
-    public virtual int LineLength
-    {
-        get { return _LineLength; }
-        set { _LineLength = value; }
-    }
+    public virtual int LineLength { get; set; } = 0;
 
     private string _Tabs = string.Empty;
 

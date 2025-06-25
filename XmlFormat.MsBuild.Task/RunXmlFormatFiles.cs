@@ -23,6 +23,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual int MaxEmptyLines { get; set; } = 0;
 
+    [Required]
     public virtual Microsoft.Build.Framework.ITaskItem[] Files { get; set; } = [];
 
     public virtual bool Success { get; set; } = true;

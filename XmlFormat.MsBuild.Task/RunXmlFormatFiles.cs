@@ -28,30 +28,6 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual bool Success { get; set; } = true;
 
-    private int RunCommand(string command, string arguments)
-    {
-        Log.LogMessage(MessageImportance.High, "Formatting: `{} {}`", command, arguments);
-        Process process = new()
-        {
-            StartInfo = new()
-            {
-                FileName = command,
-                Arguments = arguments,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            },
-        };
-
-        process.Start();
-
-        string output = process.StandardOutput.ReadToEnd();
-        Console.WriteLine(output);
-
-        process.WaitForExit();
-        return process.ExitCode;
-    }
-
     public override bool Execute()
     {
         FormattingOptions formattingOptions = new(120, " ", 1, 1);

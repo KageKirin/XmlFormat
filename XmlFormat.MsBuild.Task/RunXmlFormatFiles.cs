@@ -25,7 +25,7 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
     public virtual bool Success { get; set; } = true;
 
-    public override bool Execute()
+    private FormattingOptions ReadOptions()
     {
         FormattingOptions formattingOptions = new();
 
@@ -49,6 +49,12 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
             formattingOptions = formattingOptions with { MaxEmptyLines = MaxEmptyLines };
         }
 
+        return formattingOptions;
+    }
+
+    public override bool Execute()
+    {
+        FormattingOptions formattingOptions = ReadOptions();
         Log.LogMessage($"Formatting with options: {formattingOptions}");
 
         foreach (string fileName in Files.Select(item => item.ItemSpec))

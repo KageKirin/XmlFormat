@@ -14,6 +14,8 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
+    public bool UseLocalConfig { get; set; } = false;
+
     public virtual int LineLength { get; set; } = 0;
 
     public virtual string Tabs { get; set; } = string.Empty;
@@ -53,6 +55,13 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 
         ConfigurationBuilder configBuilder = new();
         configBuilder.AddInMemoryCollection(memoryOptions);
+
+        if (UseLocalConfig)
+        {
+            configBuilder
+                .AddTomlFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
+                .AddTomlFile(Path.Combine(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true);
+        }
 
         IConfiguration config = configBuilder.Build();
 

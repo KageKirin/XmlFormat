@@ -71,6 +71,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
   </ItemGroup>
 
   <ItemGroup Label="project references">
@@ -83,6 +84,10 @@
 
   <ItemGroup Label="Pack the tool and related DLLs">
     <Content Include="$(MSBuildThisFileDirectory)..\.artifacts\bin\XmlFormat\$(Configuration)\*.dll" PackagePath="lib\netstandard2.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Pack configuration files">
+    <Content Include="$(MSBuildThisFileDirectory)..\XmlFormat.Tool\xmlformat.toml" Link="xmlformat.toml" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\" />
   </ItemGroup>
 
 </Project>

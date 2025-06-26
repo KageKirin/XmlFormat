@@ -58,7 +58,7 @@ public class MockBuildTest
     public void ValidFile(string file)
     {
         string filePath = Path.Join(GetThisFileDirectory(), file);
-        Assert.True(Path.Exists(filePath));
+        Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 
         //Arrange
@@ -85,7 +85,7 @@ public class MockBuildTest
     public void ValidFileWithFormat(string file)
     {
         string filePath = Path.Join(GetThisFileDirectory(), file);
-        Assert.True(Path.Exists(filePath));
+        Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 
         //Arrange
@@ -120,7 +120,7 @@ public class MockBuildTest
     public void ValidFileWithConfig(string file)
     {
         string filePath = Path.Join(GetThisFileDirectory(), file);
-        Assert.True(Path.Exists(filePath));
+        Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 
         //Arrange

@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Costura.Fody" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

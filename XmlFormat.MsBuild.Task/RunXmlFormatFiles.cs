@@ -79,31 +79,32 @@ public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
         foreach (string fileName in Files.Select(item => item.ItemSpec))
         {
             if (string.IsNullOrEmpty(fileName))
+                continue;
+
+            if (!File.Exists(fileName))
             {
                 Log.LogError($"{fileName} does not exist.");
                 Success = false;
+                continue;
             }
-            else
+
+            var xml = File.ReadAllText(fileName);
+            if (string.IsNullOrWhiteSpace(xml))
             {
-                var xml = File.ReadAllText(fileName);
-                if (string.IsNullOrEmpty(xml))
-                {
-                    Log.LogWarning($"{fileName} is empty.");
-                }
-                else
-                {
-                    try
-                    {
-                        Log.LogMessage(importance: MessageImportance.High, $"Formatting: {fileName}");
-                        File.WriteAllText(fileName, contents: XmlFormat.Format(xml, formattingOptions));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.LogErrorFromException(ex);
-                        Success = false;
-                        break;
-                    }
-                }
+                Log.LogWarning($"{fileName} is empty.");
+                continue;
+            }
+
+            try
+            {
+                Log.LogMessage(importance: MessageImportance.High, $"Formatting: {fileName}");
+                File.WriteAllText(fileName, contents: XmlFormat.Format(xml, formattingOptions));
+            }
+            catch (Exception ex)
+            {
+                Log.LogErrorFromException(ex);
+                Success = false;
+                break;
             }
         }
 

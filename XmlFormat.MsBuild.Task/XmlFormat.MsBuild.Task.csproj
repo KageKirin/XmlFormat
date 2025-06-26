@@ -13,6 +13,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <DebugType>embedded</DebugType>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">
@@ -31,16 +32,18 @@
 
   <ItemGroup Label="package references">
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
-    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
-    <PackageReference Include="Costura.Fody" />
-    <PackageReference Include="Fody" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" PrivateAssets="all" />
+    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" PrivateAssets="all" />
+    <PackageReference Include="Superpower" PrivateAssets="all" />
+    <PackageReference Include="Costura.Fody" PrivateAssets="all" />
+    <PackageReference Include="Fody" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="project references">
-    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
+    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\XmlFormat.SAX\XmlFormat.SAX.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="Pack configuration files">

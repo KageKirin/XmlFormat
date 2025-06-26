@@ -14,6 +14,8 @@ namespace XmlFormat.MsBuild.Task;
 
 public class RunXmlFormatFiles : Microsoft.Build.Utilities.Task
 {
+    public bool UseLocalConfig { get; set; } = false;
+
     public virtual int LineLength { get; set; } = 0;
 
     public virtual string Tabs { get; set; } = string.Empty;

@@ -10,11 +10,9 @@
     <IsPublishable>true</IsPublishable>
     <PackRelease>true</PackRelease>
     <PublishRelease>true</PublishRelease>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <DebugType>embedded</DebugType>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">
@@ -27,45 +25,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--
-      These lines pack the build props/targets files to the `build` folder in the generated package.
-         By convention, the .NET SDK will look for build\<Package Id>.props and build\<Package Id>.targets
-         for automatic inclusion in the build.
-    -->
     <Content Include="$(MSBuildThisFileDirectory)build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="build" />
     <Content Include="$(MSBuildThisFileDirectory)build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="tools" />
   </ItemGroup>
-
-  <Target
-    Name="CopyProjectReferencesToPackage"
-    DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <!--
-        The dependencies of your MSBuild task must be packaged inside the package,
-        they cannot be expressed as normal PackageReferences
-      -->
-      <BuildOutputInPackage
-        Include="@(ReferenceCopyLocalPaths)"
-        TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)"
-      />
-    </ItemGroup>
-  </Target>
-
-  <!-- This target adds the generated deps.json file to our package output -->
-  <Target
-    Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput"
-    BeforeTargets="BuiltProjectOutputGroup"
-    Condition=" '$(GenerateDependencyFile)' == 'true'"
-  >
-
-    <ItemGroup>
-      <BuiltProjectOutputGroupOutput
-        Include="$(ProjectDepsFilePath)"
-        TargetPath="$(ProjectDepsFileName)"
-        FinalOutputPath="$(ProjectDepsFilePath)"
-      />
-    </ItemGroup>
-  </Target>
 
   <ItemGroup Label="package references">
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
@@ -77,14 +39,6 @@
 
   <ItemGroup Label="project references">
     <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
-  </ItemGroup>
-
-  <Target Name="BuildXmlFormat" BeforeTargets="Restore">
-    <Exec command="dotnet build -c $(Configuration)" WorkingDirectory="$(MSBuildThisFileDirectory)..\XmlFormat" />
-  </Target>
-
-  <ItemGroup Label="Pack the tool and related DLLs">
-    <Content Include="$(MSBuildThisFileDirectory)..\.artifacts\bin\XmlFormat\$(Configuration)\*.dll" PackagePath="lib\netstandard2.0" />
   </ItemGroup>
 
   <ItemGroup Label="Pack configuration files">

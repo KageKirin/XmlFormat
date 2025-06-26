@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="Superpower" />
     <PackageReference Include="Costura.Fody" />

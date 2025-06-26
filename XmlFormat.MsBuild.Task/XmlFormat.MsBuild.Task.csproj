@@ -25,11 +25,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--
-      These lines pack the build props/targets files to the `build` folder in the generated package.
-         By convention, the .NET SDK will look for build\<Package Id>.props and build\<Package Id>.targets
-         for automatic inclusion in the build.
-    -->
     <Content Include="$(MSBuildThisFileDirectory)build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="build" />
     <Content Include="$(MSBuildThisFileDirectory)build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="tools" />
   </ItemGroup>

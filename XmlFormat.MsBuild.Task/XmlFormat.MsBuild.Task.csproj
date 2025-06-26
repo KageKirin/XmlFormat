@@ -71,6 +71,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

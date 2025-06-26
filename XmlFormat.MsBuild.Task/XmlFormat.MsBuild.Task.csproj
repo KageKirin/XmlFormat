@@ -86,4 +86,8 @@
     <Content Include="$(MSBuildThisFileDirectory)..\.artifacts\bin\XmlFormat\$(Configuration)\*.dll" PackagePath="lib\netstandard2.0" />
   </ItemGroup>
 
+  <ItemGroup Label="Pack configuration files">
+    <Content Include="$(MSBuildThisFileDirectory)..\XmlFormat.Tool\xmlformat.toml" Link="xmlformat.toml" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\" />
+  </ItemGroup>
+
 </Project>

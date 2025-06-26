@@ -27,8 +27,14 @@
     <XmlFormatEnable>false</XmlFormatEnable>
   </PropertyGroup>
 
+  <!-- Enable task with `<XmlFormat>enable</XmlFormat>` || `<XmlFormat>true</XmlFormat>` -->
+  <PropertyGroup Condition="'$(XmlFormatUseLocalConfig)' == 'enable' OR '$(XmlFormatUseLocalConfig)' == 'true'">
+    <XmlFormatUseLocalConfig>true</XmlFormatUseLocalConfig>
+  </PropertyGroup>
+
   <!-- Task parameters default values -->
   <PropertyGroup>
+    <XmlFormatUseLocalConfig Condition="'$(XmlFormatUseLocalConfig)' == ''">false</XmlFormatUseLocalConfig>
     <XmlFormatLineLength Condition="'$(XmlFormatLineLength)' == ''">120</XmlFormatLineLength>
     <XmlFormatTabs Condition="'$(XmlFormatTabs)' == ''"> </XmlFormatTabs>
     <XmlFormatTabsRepeat Condition="'$(XmlFormatTabsRepeat)' == ''">2</XmlFormatTabsRepeat>
@@ -51,6 +57,7 @@
 
     <!-- run xf -->
     <RunXmlFormatFiles
+      UseLocalConfig="$(XmlFormatUseLocalConfig)"
       LineLength="$(XmlFormatLineLength)"
       Tabs="$(XmlFormatTabs)"
       TabsRepeat="$(XmlFormatTabsRepeat)"

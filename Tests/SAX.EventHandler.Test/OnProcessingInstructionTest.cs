@@ -12,15 +12,14 @@ public class OnProcessingInstructionTest
     [InlineData("<?pi ?>", "pi")]
     public void MatchOnCallbackEmptyContents(string input, string expected)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnProcessingInstructionCallback = (identifier, contents, line, column) =>
             {
-                OnProcessingInstructionCallback = (identifier, contents, line, column) =>
-                {
-                    Assert.Equal(expected, identifier);
-                    Assert.False(contents.IsEmpty);
-                }
-            };
+                Assert.Equal(expected, identifier);
+                Assert.False(contents.IsEmpty);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 
@@ -29,16 +28,15 @@ public class OnProcessingInstructionTest
     [InlineData(@"<?php print(""hello world""); ?>", "php", @"print(""hello world"");")]
     public void MatchOnCallback(string input, string expectedIdentifier, string expectedContents)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnProcessingInstructionCallback = (identifier, contents, line, column) =>
             {
-                OnProcessingInstructionCallback = (identifier, contents, line, column) =>
-                {
-                    Assert.Equal(expectedIdentifier, identifier);
-                    Assert.False(contents.IsEmpty);
-                    Assert.Equal(expectedContents, contents.Trim());
-                }
-            };
+                Assert.Equal(expectedIdentifier, identifier);
+                Assert.False(contents.IsEmpty);
+                Assert.Equal(expectedContents, contents.Trim());
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 }

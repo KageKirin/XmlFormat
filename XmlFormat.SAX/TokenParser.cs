@@ -15,16 +15,15 @@ public static class XmlTokenParser
         (TextSpan input) =>
         {
             TextSpan trimmed = input.Trim(left, right);
-            TextSpan remainder =
-                new(
-                    trimmed.Source!,
-                    new Position(
-                        trimmed.Position.Absolute + trimmed.Length + right.Length,
-                        trimmed.Position.Line,
-                        trimmed.Position.Column + trimmed.Length + right.Length
-                    ),
-                    0
-                );
+            TextSpan remainder = new(
+                trimmed.Source!,
+                new Position(
+                    trimmed.Position.Absolute + trimmed.Length + right.Length,
+                    trimmed.Position.Line,
+                    trimmed.Position.Column + trimmed.Length + right.Length
+                ),
+                0
+            );
             return Result.Value(trimmed, input, remainder);
         };
 
@@ -47,9 +46,7 @@ public static class XmlTokenParser
             2 + (qt?.Length ?? 0) //rq.Position.Absolute - lq.Position.Absolute + 1
         );
 
-    public static TextParser<TextSpan> QuotedString { get; } =
-        from qs in QuotedStringWithQuotes
-        select qs.Trim("\"", "\"");
+    public static TextParser<TextSpan> QuotedString { get; } = from qs in QuotedStringWithQuotes select qs.Trim("\"", "\"");
 
     internal static TextParser<TextSpan> ElementIdentifier { get; } =
         from identifier in Character.EqualTo('<').IgnoreThen(XmlChars)
@@ -68,8 +65,7 @@ public static class XmlTokenParser
         from trailing in Span.WhiteSpace.Many()
         select new Attribute(identifier, value);
 
-    internal static TextParser<Attribute[]> ManyElementAttributes { get; } =
-        Span.WhiteSpace.Many().IgnoreThen(ElementAttribute).Many();
+    internal static TextParser<Attribute[]> ManyElementAttributes { get; } = Span.WhiteSpace.Many().IgnoreThen(ElementAttribute).Many();
 
     public static TextParser<Attribute> ElementAttributeForUnitTestsOnly
     {

@@ -190,7 +190,7 @@ public class TokenizerValueTest
                     new TestHelper.TokenTypeAndValue(expectedToken2, expectedValue2),
                     new TestHelper.TokenTypeAndValue(expectedToken3, expectedValue3),
                     new TestHelper.TokenTypeAndValue(expectedToken4, expectedValue4),
-                    new TestHelper.TokenTypeAndValue(expectedToken5, expectedValue5)
+                    new TestHelper.TokenTypeAndValue(expectedToken5, expectedValue5),
                 ]
             )
         );
@@ -238,7 +238,7 @@ public class TokenizerValueTest
                     new TestHelper.TokenTypeAndValue(expectedToken3, expectedValue3),
                     new TestHelper.TokenTypeAndValue(expectedToken4, expectedValue4),
                     new TestHelper.TokenTypeAndValue(expectedToken5, expectedValue5),
-                    new TestHelper.TokenTypeAndValue(expectedToken6, expectedValue6)
+                    new TestHelper.TokenTypeAndValue(expectedToken6, expectedValue6),
                 ]
             )
         );

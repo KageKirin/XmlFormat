@@ -35,7 +35,7 @@ public class ResourceTest : IXMLEventHandler
         Assert.Equal("utf-8", encoding);
     }
 
-    private static string[] startingElements = ["Window", "StackPanel", "InlineContents", "Code", "LongText",];
+    private static string[] startingElements = ["Window", "StackPanel", "InlineContents", "Code", "LongText"];
     private IEnumerator<string> startingElementOpenEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
     private IEnumerator<string> startingElementCloseEnumerator = ((IEnumerable<string>)startingElements).GetEnumerator();
 
@@ -51,7 +51,7 @@ public class ResourceTest : IXMLEventHandler
         Assert.Equal(startingElementCloseEnumerator.Current, name);
     }
 
-    private static string[] endingElements = ["StackPanel", "InlineContents", "Code", "LongText", "Window",];
+    private static string[] endingElements = ["StackPanel", "InlineContents", "Code", "LongText", "Window"];
     private IEnumerator<string> endingElementEnumerator = ((IEnumerable<string>)endingElements).GetEnumerator();
 
     public void OnElementEnd(ReadOnlySpan<char> name, int line, int column)
@@ -60,7 +60,7 @@ public class ResourceTest : IXMLEventHandler
         Assert.Equal(endingElementEnumerator.Current, name);
     }
 
-    private static string[] emptyElements = ["DataGrid", "EmptyElement", "Foobar", "PocketMonsters",];
+    private static string[] emptyElements = ["DataGrid", "EmptyElement", "Foobar", "PocketMonsters"];
     private IEnumerator<string> emptyElementOpenEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
     private IEnumerator<string> emptyElementCloseEnumerator = ((IEnumerable<string>)emptyElements).GetEnumerator();
 

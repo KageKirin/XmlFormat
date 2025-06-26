@@ -143,7 +143,7 @@ It begins with a house.
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!-- comment -->"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                     new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Comment, "<!--short-->"),
-                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n")
+                    new TestHelper.TokenTypeAndValue(XmlTokenizer.XmlToken.Content, "\n"),
                 ]
             )
         );

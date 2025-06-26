@@ -1,6 +1,3 @@
-﻿namespace MsBuild.Task.Standalone.Test.Lib;
+namespace MsBuild.Task.Standalone.Test.Lib;
 
-public class Class1
-{
-
-}
+public class Class1 { }

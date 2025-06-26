@@ -49,8 +49,6 @@
     <ProjectReference Include="..\..\XmlFormat.MsBuild.Task\XmlFormat.MsBuild.Task.csproj" />
   </ItemGroup>
 
-
-
   <Import Project="..\..\XmlFormat.MsBuild.Task\build\KageKirin.XmlFormat.MSBuild.Task.targets" />
 
   <PropertyGroup Label="XmlFormat Settings">

@@ -18,14 +18,13 @@ public class OnCDataTest
     [InlineData("<![CDATA[ \nfoobar\nhoge\n ]]>", " \nfoobar\nhoge\n ")]
     public void MatchOnCallback(string input, string expected)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnCDataCallback = (cdata, line, column) =>
             {
-                OnCDataCallback = (cdata, line, column) =>
-                {
-                    Assert.Equal(expected, cdata);
-                }
-            };
+                Assert.Equal(expected, cdata);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 }

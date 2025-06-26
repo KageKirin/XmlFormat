@@ -34,14 +34,13 @@ public class OnElementEndTest
     [InlineData("</element1\n >", "element1")]
     public void MatchOnCallback(string input, string expected)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnElementEndCallback = (element, line, column) =>
             {
-                OnElementEndCallback = (element, line, column) =>
-                {
-                    Assert.Equal(expected, element);
-                }
-            };
+                Assert.Equal(expected, element);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 }

@@ -59,7 +59,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     private List<Attribute>? currentAttributes = default;
 
     public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
-        : this(new StreamWriter(stream, encoding) { AutoFlush = true, }, options) { }
+        : this(new StreamWriter(stream, encoding) { AutoFlush = true }, options) { }
 
     public FormattingXmlReadHandler(StreamWriter streamWriter, FormattingOptions options)
         : base(streamWriter)

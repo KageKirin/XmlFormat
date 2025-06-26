@@ -34,18 +34,17 @@ public class OnElementEmptyTest
     [InlineData("<element1\n />", "element1")]
     public void MatchOnCallback(string input, string expected)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
             {
-                OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expected, elementIdentifier);
-                },
-                OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expected, elementIdentifier);
-                }
-            };
+                Assert.Equal(expected, elementIdentifier);
+            },
+            OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
+            {
+                Assert.Equal(expected, elementIdentifier);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 
@@ -79,23 +78,22 @@ public class OnElementEmptyTest
     [InlineData("<element1\nattribute0 \n/>", "element1", "attribute0")]
     public void MatchOnCallbackWithValuelessAttribute(string input, string expectedElement, string expectedAttribute)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
             {
-                OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
-                {
-                    Assert.Equal(expectedAttribute, attributeName);
-                    Assert.True(attributeValue.IsEmpty);
-                },
-                OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-            };
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+            OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
+            {
+                Assert.Equal(expectedAttribute, attributeName);
+                Assert.True(attributeValue.IsEmpty);
+            },
+            OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
+            {
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 
@@ -129,23 +127,22 @@ public class OnElementEmptyTest
     [InlineData("<element1\nattribute0=\"\"\n/>", "element1", "attribute0")]
     public void MatchOnCallbackWithEmptyAttribute(string input, string expectedElement, string expectedAttribute)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
             {
-                OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
-                {
-                    Assert.Equal(expectedAttribute, attributeName);
-                    Assert.True(attributeValue.IsEmpty);
-                },
-                OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-            };
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+            OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
+            {
+                Assert.Equal(expectedAttribute, attributeName);
+                Assert.True(attributeValue.IsEmpty);
+            },
+            OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
+            {
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 
@@ -170,24 +167,23 @@ public class OnElementEmptyTest
     [InlineData("<element1 attribute0=\"{hogehoge}\"/>", "element1", "attribute0", "{hogehoge}")]
     public void MatchOnCallbackWithAttribute(string input, string expectedElement, string expectedAttribute, string expectedValue)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
             {
-                OnElementEmptyOpenCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-                OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
-                {
-                    Assert.Equal(expectedAttribute, attributeName);
-                    Assert.False(attributeValue.IsEmpty);
-                    Assert.Equal(expectedValue, attributeValue);
-                },
-                OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
-                {
-                    Assert.Equal(expectedElement, elementIdentifier);
-                },
-            };
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+            OnAttributeCallback = (attributeName, attributeValue, nameLine, nameColumn, valueLine, valueLolumn) =>
+            {
+                Assert.Equal(expectedAttribute, attributeName);
+                Assert.False(attributeValue.IsEmpty);
+                Assert.Equal(expectedValue, attributeValue);
+            },
+            OnElementEmptyCloseCallback = (elementIdentifier, line, column) =>
+            {
+                Assert.Equal(expectedElement, elementIdentifier);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 }

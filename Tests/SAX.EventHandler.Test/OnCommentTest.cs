@@ -18,14 +18,13 @@ public class OnCommentTest
     [InlineData("<!-- \ncomment\nmore comment\n -->", " \ncomment\nmore comment\n ")]
     public void MatchOnCallback(string input, string expected)
     {
-        DelegateXMLEventHandler handler =
-            new()
+        DelegateXMLEventHandler handler = new()
+        {
+            OnCommentCallback = (comment, line, column) =>
             {
-                OnCommentCallback = (comment, line, column) =>
-                {
-                    Assert.Equal(expected, comment);
-                }
-            };
+                Assert.Equal(expected, comment);
+            },
+        };
         SaxParser.Parse(input, handler);
     }
 }

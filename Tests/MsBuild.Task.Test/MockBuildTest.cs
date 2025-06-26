@@ -1,6 +1,3 @@
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Moq;
 using XmlFormat.MsBuild.Task;

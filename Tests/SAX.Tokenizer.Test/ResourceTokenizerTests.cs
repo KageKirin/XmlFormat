@@ -62,7 +62,7 @@ public class ResourceTokenizerTest
                     XmlTokenizer.XmlToken.Comment,
                     XmlTokenizer.XmlToken.Content,
                     XmlTokenizer.XmlToken.Comment,
-                    XmlTokenizer.XmlToken.Content
+                    XmlTokenizer.XmlToken.Content,
                 ]
             )
         );

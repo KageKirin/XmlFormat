@@ -41,10 +41,6 @@
     <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
   </ItemGroup>
 
-  <Target Name="BuildXmlFormat" BeforeTargets="Restore">
-    <Exec command="dotnet build -c $(Configuration)" WorkingDirectory="$(MSBuildThisFileDirectory)..\XmlFormat" />
-  </Target>
-
   <ItemGroup Label="Pack the tool and related DLLs">
     <Content Include="$(MSBuildThisFileDirectory)..\.artifacts\bin\XmlFormat\$(Configuration)\*.dll" PackagePath="lib\netstandard2.0" />
   </ItemGroup>

@@ -36,6 +36,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="Costura.Fody" />
+    <PackageReference Include="Fody" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

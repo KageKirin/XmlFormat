@@ -17,6 +17,7 @@
 
   <ItemGroup Label="build dependencies">
     <PackageVersion Include="Costura.Fody" Version="6.0.0" />
+    <PackageVersion Include="Fody" Version="6.9.2" />
   </ItemGroup>
 
   <ItemGroup Label="unit test dependencies">

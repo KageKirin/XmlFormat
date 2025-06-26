@@ -1,35 +1,16 @@
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Build.Framework;
 using Moq;
 using XmlFormat.MsBuild.Task;
 
+[assembly: CaptureConsole(CaptureError = false, CaptureOut = false)]
+
 namespace MsBuild.Task.Test;
 
 public class MockBuildTest
 {
-    /// <summary>
-    /// helper method
-    /// use as `GetThisFilePath()` to retrieve path of current file
-    /// </summary>
-    /// <param name="path">do not set</param>
-    /// <returns>path of current source file</returns>
-    private static string GetThisFilePath([CallerFilePath] string path = null)
-    {
-        return Path.GetFullPath(string.IsNullOrEmpty(path) ? Path.Join("Tests", "MsBuild.Task.Test", "MockBuildTest.cs") : path);
-    }
-
-    /// <summary>
-    /// helper method
-    /// use as `GetThisFileDirectory()` to retrieve directory of current file
-    /// </summary>
-    /// <param name="path">do not set</param>
-    /// <returns>path of current source file directory</returns>
-    private static string GetThisFileDirectory([CallerFilePath] string path = null)
-    {
-        return Path.GetFullPath(Path.GetDirectoryName(path) ?? Path.Join("Tests", "MsBuild.Task.Test"));
-    }
-
     private Mock<IBuildEngine> buildEngine = new();
     private List<BuildErrorEventArgs> errors = [];
 
@@ -57,7 +38,7 @@ public class MockBuildTest
     [InlineData("b.xml")]
     public void ValidFile(string file)
     {
-        string filePath = Path.Join(GetThisFileDirectory(), file);
+        string filePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, file);
         Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 
@@ -84,7 +65,7 @@ public class MockBuildTest
     [InlineData("b.xml")]
     public void ValidFileWithFormat(string file)
     {
-        string filePath = Path.Join(GetThisFileDirectory(), file);
+        string filePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, file);
         Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 
@@ -119,7 +100,7 @@ public class MockBuildTest
     [InlineData("b.xml")]
     public void ValidFileWithConfig(string file)
     {
-        string filePath = Path.Join(GetThisFileDirectory(), file);
+        string filePath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, file);
         Assert.True(Path.Exists(filePath), $"{filePath} doesn't exist.");
         Console.WriteLine($"filePath: {filePath}");
 

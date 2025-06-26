@@ -124,4 +124,40 @@ public class MockBuildTest
         Assert.True(success);
         Assert.Empty(errors);
     }
+
+    [Theory]
+    [InlineData("a.xml")]
+    [InlineData("b.xml")]
+    public void ValidFileWithConfig(string file)
+    {
+        string filePath = Path.Join(GetThisFileDirectory(), file);
+        Assert.True(Path.Exists(filePath));
+        Console.WriteLine($"filePath: {filePath}");
+
+        //Arrange
+        var item = new Mock<ITaskItem>();
+        item.Setup(x => x.ItemSpec).Returns(filePath);
+        item.Setup(x => x.GetMetadata("FullPath")).Returns(filePath);
+        item.Setup(x => x.MetadataCount).Returns(1);
+        item.Setup(x => x.MetadataNames).Returns(new string[] { "FullPath" });
+        Console.WriteLine($"item.Object.ItemSpec: {item.Object.ItemSpec}");
+
+        RunXmlFormatFiles xmlFormatFilesTask = new()
+        {
+            UseLocalConfig = true,
+            Files = [item.Object],
+            LineLength = 142,
+            Tabs = " ",
+            TabsRepeat = 3,
+            MaxEmptyLines = 2,
+            BuildEngine = buildEngine.Object,
+        };
+
+        //Act
+        var success = xmlFormatFilesTask.Execute();
+
+        //Assert
+        Assert.True(success);
+        Assert.Empty(errors);
+    }
 }

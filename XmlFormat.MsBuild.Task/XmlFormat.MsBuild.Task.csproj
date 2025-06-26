@@ -29,22 +29,6 @@
     <Content Include="$(MSBuildThisFileDirectory)build\KageKirin.XmlFormat.MSBuild.Task.targets" PackagePath="tools" />
   </ItemGroup>
 
-  <!-- This target adds the generated deps.json file to our package output -->
-  <Target
-    Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput"
-    BeforeTargets="BuiltProjectOutputGroup"
-    Condition=" '$(GenerateDependencyFile)' == 'true'"
-  >
-
-    <ItemGroup>
-      <BuiltProjectOutputGroupOutput
-        Include="$(ProjectDepsFilePath)"
-        TargetPath="$(ProjectDepsFileName)"
-        FinalOutputPath="$(ProjectDepsFilePath)"
-      />
-    </ItemGroup>
-  </Target>
-
   <ItemGroup Label="package references">
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration" />

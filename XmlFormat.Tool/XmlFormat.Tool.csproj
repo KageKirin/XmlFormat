@@ -25,7 +25,7 @@
   <ItemGroup Label="package references">
     <PackageReference Include="Microsoft.Extensions.Configuration" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="CommandLineParser" />

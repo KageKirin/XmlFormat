@@ -10,6 +10,7 @@
       Microsoft.Extensions.FileProviders.Abstractions
       Microsoft.Extensions.FileProviders.Physical
       Microsoft.Extensions.FileSystemGlobbing
+      Microsoft.Extensions.Primitives
     </IncludeAssemblies>
 
   </Costura>

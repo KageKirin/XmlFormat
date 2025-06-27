@@ -25,7 +25,7 @@ jobs:
     uses: kagekirin/gha-py-toolbox/.github/workflows/dotnet-unittests.yml@main
     with:
       max-parallel: 4
-      configurations: ${{ vars.BUILD_CONFIGURATIONS }}
+      configurations: ${{ vars.TEST_CONFIGURATIONS }}
       frameworks: ${{ vars.TEST_FRAMEWORKS }}
       include: ${{ vars.TEST_MATRIX }}
     secrets: inherit

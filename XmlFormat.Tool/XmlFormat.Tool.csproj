@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup Label="project references">
-    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" />
+    <ProjectReference Include="..\XmlFormat\XmlFormat.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="configuration files">

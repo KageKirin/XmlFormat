@@ -12,6 +12,7 @@
       Microsoft.Extensions.FileSystemGlobbing
       Microsoft.Extensions.Primitives
       Nett
+      Superpower
     </IncludeAssemblies>
 
   </Costura>

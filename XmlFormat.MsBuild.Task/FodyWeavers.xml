@@ -14,6 +14,7 @@
       Nett
       Superpower
       XmlFormat
+      XmlFormat.SAX
     </IncludeAssemblies>
 
   </Costura>

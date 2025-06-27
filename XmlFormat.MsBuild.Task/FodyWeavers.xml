@@ -11,6 +11,7 @@
       Microsoft.Extensions.FileProviders.Physical
       Microsoft.Extensions.FileSystemGlobbing
       Microsoft.Extensions.Primitives
+      Nett
     </IncludeAssemblies>
 
   </Costura>

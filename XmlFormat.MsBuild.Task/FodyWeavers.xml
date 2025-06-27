@@ -5,6 +5,7 @@
       Microsoft.Extensions.Configuration
       Microsoft.Extensions.Configuration.Abstractions
       Microsoft.Extensions.Configuration.Binder
+      Microsoft.Extensions.Configuration.FileExtensions
       Alexinea.Extensions.Configuration.Toml
       Microsoft.Extensions.FileProviders.Abstractions
       Microsoft.Extensions.FileProviders.Physical

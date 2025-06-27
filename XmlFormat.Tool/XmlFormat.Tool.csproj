@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" />
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="Costura.Fody" />

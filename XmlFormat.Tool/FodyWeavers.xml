@@ -4,6 +4,7 @@
       Microsoft.Extensions.Configuration
       Microsoft.Extensions.Configuration.Abstractions
       Microsoft.Extensions.Configuration.Binder
+      Microsoft.Extensions.Configuration.FileExtensions
     </IncludeAssemblies>
   </Costura>
 </Weavers>

@@ -12,6 +12,7 @@
       Microsoft.Extensions.Primitives
       Nett
       Superpower
+      XmlFormat
     </IncludeAssemblies>
   </Costura>
 </Weavers>

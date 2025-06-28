@@ -14,5 +14,14 @@ b build:
 p pack:
 	dotnet pack
 
+t test:
+	dotnet test
+	dotnet run --project XmlFormat.Tool -- --help
+	dotnet run --project XmlFormat.Tool -- --version
+	dotnet run --project XmlFormat.Tool -- --inline test.xml
+	.artifacts/bin/XmlFormat.Tool/debug/XmlFormat.Tool --help
+	.artifacts/bin/XmlFormat.Tool/debug/XmlFormat.Tool --version
+	.artifacts/bin/XmlFormat.Tool/debug/XmlFormat.Tool --inline test.xml
+
 publish:
 	dotnet push

@@ -1,7 +1,6 @@
 ﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-  <Costura>
-
-    <IncludeAssemblies>
+  <ILMerge>
+    <IncludeAssemblies CompactMode='true'>
       Microsoft.Extensions.Configuration
       Microsoft.Extensions.Configuration.Abstractions
       Microsoft.Extensions.Configuration.Binder
@@ -16,6 +15,5 @@
       XmlFormat
       XmlFormat.SAX
     </IncludeAssemblies>
-
-  </Costura>
+  </ILMerge>
 </Weavers>

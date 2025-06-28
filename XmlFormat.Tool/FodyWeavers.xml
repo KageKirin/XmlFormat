@@ -2,6 +2,7 @@
   <Costura>
     <IncludeAssemblies>
       Microsoft.Extensions.Configuration
+      Microsoft.Extensions.Configuration.Abstractions
     </IncludeAssemblies>
   </Costura>
 </Weavers>

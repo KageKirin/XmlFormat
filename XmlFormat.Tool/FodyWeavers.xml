@@ -6,6 +6,7 @@
       Microsoft.Extensions.Configuration.Binder
       Microsoft.Extensions.Configuration.FileExtensions
       Alexinea.Extensions.Configuration.Toml
+      Microsoft.Extensions.FileProviders.Abstractions
     </IncludeAssemblies>
   </Costura>
 </Weavers>

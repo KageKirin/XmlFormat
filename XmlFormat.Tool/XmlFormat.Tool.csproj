@@ -31,6 +31,7 @@
     <PackageReference Include="CommandLineParser" PrivateAssets="all" />
     <PackageReference Include="Costura.Fody" PrivateAssets="all" />
     <PackageReference Include="Fody" PrivateAssets="all" />
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

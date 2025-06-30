@@ -28,6 +28,12 @@
 
     <ItemGroup>
       <DoNotInternalizeAssemblies Include="$(AssemblyName)" />
+      <DoNotInternalizeAssemblies Include="CommandLineParser" />
+      <DoNotInternalizeAssemblies Include="CommandLine" />
+      <DoNotInternalizeAssemblies Include="XmlFormat" />
+      <DoNotInternalizeAssemblies Include="XmlFormat.SAX" />
+      <DoNotInternalizeAssemblies Include="Nett" />
+      <DoNotInternalizeAssemblies Include="Superpower" />
 
       <!-- not internalized b/c of runtime-mapped functions not matching otherwise -->
       <DoNotInternalizeAssemblies Include="Alexinea.Extensions.Configuration.Toml" />

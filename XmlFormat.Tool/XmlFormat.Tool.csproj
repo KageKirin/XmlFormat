@@ -29,8 +29,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" PrivateAssets="all" />
     <PackageReference Include="CommandLineParser" PrivateAssets="all" />
-    <PackageReference Include="Costura.Fody" PrivateAssets="all" />
-    <PackageReference Include="Fody" PrivateAssets="all" />
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" PrivateAssets="all" />
   </ItemGroup>
 

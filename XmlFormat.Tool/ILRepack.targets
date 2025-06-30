@@ -10,6 +10,8 @@
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Nett'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Superpower'" />
 
+      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLine'" />
+      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLineParser'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Alexinea.Extensions.Configuration.Toml'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration.Abstractions'" />
@@ -20,8 +22,6 @@
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.FileProviders.Physical'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.FileSystemGlobbing'" />
       <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Primitives'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLineParser'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLine'" />
 
       <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
     </ItemGroup>
@@ -52,11 +52,12 @@
       DebugInfo="true"
       Internalize="true"
       InputAssemblies="@(InputAssemblies)"
-      InternalizeExclude="@(DoNotInternalizeAssemblies)"
+      InternalizeExclude="@(DoNotInternalizeAssemblies);CommandLine.*"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
       OutputFile="$(TargetPath)"
       RenameInternalized="true"
+      Verbose="true"
     />
   </Target>
 

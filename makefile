@@ -29,3 +29,7 @@ t test:
 
 publish:
 	dotnet push
+
+results:
+	ls -alG .artifacts/bin/XmlFormat.MsBuild.Task/debug
+	ls -alG .artifacts/bin/XmlFormat.Tool/debug

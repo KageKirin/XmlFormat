@@ -8,6 +8,10 @@ f format:
 r restore:
 	dotnet restore
 
+c clean:
+	dotnet clean
+	rm -rf .artifacts
+
 b build:
 	dotnet build
 

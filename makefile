@@ -8,6 +8,10 @@ f format:
 r restore:
 	dotnet restore
 
+c clean:
+	dotnet clean
+	rm -rf .artifacts
+
 b build:
 	dotnet build
 
@@ -25,3 +29,7 @@ t test:
 
 publish:
 	dotnet push
+
+results:
+	ls -alG .artifacts/bin/XmlFormat.MsBuild.Task/debug
+	ls -alG .artifacts/bin/XmlFormat.Tool/debug

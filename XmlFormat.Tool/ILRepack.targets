@@ -34,6 +34,17 @@
       OutputFile="$(PublishedMainAssembly)"
       LogFile="$(PublishDir)$(AssemblyName).ilrepack.log"
     />
+
+    <ItemGroup>
+      <FilesToDelete Include="$(PublishDir)*.dll" Exclude="$(PublishedMainAssembly)" />
+      <FilesToDelete Include="$(PublishDir)*.pdb" Exclude="$(PublishDir)$(TargetName).pdb" />
+      <FilesToDelete Include="$(PublishDir)*.deps.json" />
+    </ItemGroup>
+
+    <Message Text="Cleaning up merged files: @(FilesToDelete)" Importance="normal" />
+    <Delete Files="@(FilesToDelete)" />
+
   </Target>
+
 
 </Project>

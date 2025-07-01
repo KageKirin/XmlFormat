@@ -8,9 +8,10 @@
     <IsPackable>true</IsPackable>
     <IsPublishable>true</IsPublishable>
     <PackRelease>true</PackRelease>
-    <PublishRelease>true</PublishRelease>
     <PackAsTool>true</PackAsTool>
+    <PublishRelease>true</PublishRelease>
     <ToolCommandName>xf</ToolCommandName>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Label="build metadata">

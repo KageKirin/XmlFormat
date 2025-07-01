@@ -3,24 +3,24 @@
 
   <Target Name="ILRepacker" AfterTargets="Build">
 
-    <Message Text="Repacking $(PublishDir)" Importance="high" />
+    <Message Text="Repacking $(OutputPath)" Importance="high" />
 
     <PropertyGroup>
-      <PublishedMainAssembly>$(PublishDir)$(AssemblyName).dll</PublishedMainAssembly>
+      <PublishedMainAssembly>$(OutputPath)$(AssemblyName).dll</PublishedMainAssembly>
     </PropertyGroup>
 
     <ItemGroup>
       <InputAssemblies Include="$(PublishedMainAssembly)" />
-      <InputAssemblies Include="$(PublishDir)*.dll" Exclude="$(PublishedMainAssembly)" />
+      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(PublishedMainAssembly)" />
 
-      <LibraryPath Include="$(PublishDir)" />
+      <LibraryPath Include="$(OutputPath)" />
     </ItemGroup>
 
     <ItemGroup>
       <DoNotInternalizeAssemblies Include="$(PublishedMainAssembly)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(PublishDir): @(InputAssemblies) ..." Importance="high" />
+    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"
@@ -32,13 +32,13 @@
       TargetKind="SameAsPrimaryAssembly"
 
       OutputFile="$(PublishedMainAssembly)"
-      LogFile="$(PublishDir)$(AssemblyName).ilrepack.log"
+      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
     />
 
     <ItemGroup>
-      <FilesToDelete Include="$(PublishDir)*.dll" Exclude="$(PublishedMainAssembly)" />
-      <FilesToDelete Include="$(PublishDir)*.pdb" Exclude="$(PublishDir)$(TargetName).pdb" />
-      <FilesToDelete Include="$(PublishDir)*.deps.json" />
+      <FilesToDelete Include="$(OutputPath)*.dll" Exclude="$(PublishedMainAssembly)" />
+      <FilesToDelete Include="$(OutputPath)*.pdb" Exclude="$(OutputPath)$(TargetName).pdb" />
+      <FilesToDelete Include="$(OutputPath)*.deps.json" />
     </ItemGroup>
 
     <Message Text="Cleaning up merged files: @(FilesToDelete)" Importance="normal" />

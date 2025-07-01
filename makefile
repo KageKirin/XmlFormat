@@ -16,7 +16,7 @@ b build:
 	dotnet build -bl -v d
 
 p pack:
-	dotnet pack
+	dotnet pack -bl -v d
 
 t test:
 	dotnet test

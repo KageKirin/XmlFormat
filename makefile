@@ -9,7 +9,7 @@ r restore:
 	dotnet restore -bl -v d
 
 c clean:
-	dotnet clean
+	dotnet clean -bl -v d
 	rm -rf .artifacts
 
 b build:

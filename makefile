@@ -13,7 +13,7 @@ c clean:
 	rm -rf .artifacts
 
 b build:
-	dotnet build
+	dotnet build -bl -v d
 
 p pack:
 	dotnet pack

@@ -28,6 +28,7 @@
       TargetKind="SameAsPrimaryAssembly"
 
       OutputFile="$(TargetPath)"
+      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
     />
   </Target>
 

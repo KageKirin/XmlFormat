@@ -13,20 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <DoNotInternalizeAssemblies Include="$(AssemblyName)" />
-      <DoNotInternalizeAssemblies Include="XmlFormat" />
-      <DoNotInternalizeAssemblies Include="XmlFormat.SAX" />
-
-      <!-- not internalized b/c of runtime-mapped functions not matching otherwise -->
-      <DoNotInternalizeAssemblies Include="Alexinea.Extensions.Configuration.Toml" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.Abstractions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.Binder" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.FileExtensions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileProviders.Abstractions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileProviders.Physical" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileSystemGlobbing" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Primitives" />
+      <DoNotInternalizeAssemblies Include="$(TargetPath)" />
     </ItemGroup>
 
     <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />

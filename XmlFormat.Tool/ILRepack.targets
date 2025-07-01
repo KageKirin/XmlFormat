@@ -4,59 +4,27 @@
   <Target Name="ILRepacker" AfterTargets="Build">
     <ItemGroup>
       <InputAssemblies Include="$(TargetPath)" />
-
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'XmlFormat'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'XmlFormat.SAX'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Nett'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Superpower'" />
-
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Alexinea.Extensions.Configuration.Toml'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration.Abstractions'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration.Binder'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration.CommandLine'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Configuration.FileExtensions'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.FileProviders.Abstractions'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.FileProviders.Physical'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.FileSystemGlobbing'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'Microsoft.Extensions.Primitives'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLineParser'" />
-      <InputAssemblies Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLine'" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
       <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
     </ItemGroup>
 
     <ItemGroup>
       <DoNotInternalizeAssemblies Include="$(AssemblyName)" />
-      <DoNotInternalizeAssemblies Include="CommandLineParser" />
-      <DoNotInternalizeAssemblies Include="CommandLine" />
-      <DoNotInternalizeAssemblies Include="XmlFormat" />
-      <DoNotInternalizeAssemblies Include="XmlFormat.SAX" />
-      <DoNotInternalizeAssemblies Include="Nett" />
-      <DoNotInternalizeAssemblies Include="Superpower" />
-
-      <!-- not internalized b/c of runtime-mapped functions not matching otherwise -->
-      <DoNotInternalizeAssemblies Include="Alexinea.Extensions.Configuration.Toml" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.Abstractions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.Binder" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Configuration.FileExtensions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileProviders.Abstractions" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileProviders.Physical" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.FileSystemGlobbing" />
-      <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Primitives" />
     </ItemGroup>
 
     <ILRepack
       Parallel="true"
       DebugInfo="true"
       Internalize="true"
+      RenameInternalized="false"
       InputAssemblies="@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
+
       OutputFile="$(TargetPath)"
-      RenameInternalized="true"
+      LogFile="$(TargetPath).ilrepack.log"
     />
   </Target>
 

@@ -21,12 +21,13 @@
       Parallel="true"
       DebugInfo="true"
       Internalize="true"
+      RenameInternalized="false"
       InputAssemblies="@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
+
       OutputFile="$(TargetPath)"
-      RenameInternalized="true"
     />
   </Target>
 

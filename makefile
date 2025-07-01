@@ -6,20 +6,20 @@ f format:
 	@fd csproj$$ -X dos2unix -q -r {}
 
 r restore:
-	dotnet restore
+	dotnet restore -bl -v d
 
 c clean:
-	dotnet clean
+	dotnet clean -bl -v d
 	rm -rf .artifacts
 
 b build:
-	dotnet build
+	dotnet build -bl -v d
 
 p pack:
-	dotnet pack
+	dotnet pack -bl -v d
 
 t test:
-	dotnet test
+	dotnet test -bl -v d
 	dotnet run --project XmlFormat.Tool -- --help
 	dotnet run --project XmlFormat.Tool -- --version
 	dotnet run --project XmlFormat.Tool -- --inline test.xml

@@ -8,14 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <InputAssemblies Include="$(TargetPath)" />
-      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
+      <InputAssemblies Include="$(PublishedMainAssembly)" />
+      <InputAssemblies Include="$(PublishDir)*.dll" Exclude="$(PublishedMainAssembly)" />
 
-      <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
+      <LibraryPath Include="$(PublishDir)" />
     </ItemGroup>
 
     <ItemGroup>
-      <DoNotInternalizeAssemblies Include="$(AssemblyName)" />
+      <DoNotInternalizeAssemblies Include="$(PublishedMainAssembly)" />
     </ItemGroup>
 
     <ILRepack
@@ -28,8 +28,8 @@
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
 
-      OutputFile="$(TargetPath)"
-      LogFile="$(TargetPath).ilrepack.log"
+      OutputFile="$(PublishedMainAssembly)"
+      LogFile="$(PublishDir)$(AssemblyName).ilrepack.log"
     />
   </Target>
 

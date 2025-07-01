@@ -19,7 +19,7 @@ p pack:
 	dotnet pack -bl -v d
 
 t test:
-	dotnet test
+	dotnet test -bl -v d
 	dotnet run --project XmlFormat.Tool -- --help
 	dotnet run --project XmlFormat.Tool -- --version
 	dotnet run --project XmlFormat.Tool -- --inline test.xml

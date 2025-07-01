@@ -2,6 +2,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <Target Name="ILRepacker" AfterTargets="Publish">
+
+    <PropertyGroup>
+      <PublishedMainAssembly>$(PublishDir)$(AssemblyName).dll</PublishedMainAssembly>
+    </PropertyGroup>
+
     <ItemGroup>
       <InputAssemblies Include="$(TargetPath)" />
       <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />

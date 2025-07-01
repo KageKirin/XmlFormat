@@ -60,6 +60,10 @@
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
+  <PropertyGroup Label="CSharpier configuration">
+    <CSharpier_Check>false</CSharpier_Check>
+  </PropertyGroup>
+
   <ItemGroup Label="source link settings">
     <SourceLinkGitHubHost Include="github.com" ContentUrl="https://raw.github.com"/>
   </ItemGroup>

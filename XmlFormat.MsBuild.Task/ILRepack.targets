@@ -2,6 +2,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <Target Name="ILRepacker" AfterTargets="Build">
+
+    <Message Text="Repacking $(OutputPath)" Importance="high" />
+
     <ItemGroup>
       <InputAssemblies Include="$(TargetPath)" />
 
@@ -40,6 +43,7 @@
       <DoNotInternalizeAssemblies Include="Microsoft.Extensions.Primitives" />
     </ItemGroup>
 
+    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"

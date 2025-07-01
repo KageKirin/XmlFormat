@@ -6,7 +6,7 @@ f format:
 	@fd csproj$$ -X dos2unix -q -r {}
 
 r restore:
-	dotnet restore
+	dotnet restore -bl -v d
 
 c clean:
 	dotnet clean

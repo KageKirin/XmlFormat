@@ -3,6 +3,8 @@
 
   <Target Name="ILRepacker" AfterTargets="Publish">
 
+    <Message Text="Repacking $(PublishDir)" Importance="high" />
+
     <PropertyGroup>
       <PublishedMainAssembly>$(PublishDir)$(AssemblyName).dll</PublishedMainAssembly>
     </PropertyGroup>
@@ -18,6 +20,7 @@
       <DoNotInternalizeAssemblies Include="$(PublishedMainAssembly)" />
     </ItemGroup>
 
+    <Message Text="Repacking assemblies in $(PublishDir): @(InputAssemblies) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"

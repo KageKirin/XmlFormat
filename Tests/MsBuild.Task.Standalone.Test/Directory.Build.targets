@@ -1,8 +1,10 @@
 <Project>
+
+  <!--
   <Target Name="CreatePackage" BeforeTargets="Build">
     <Message Importance="high" Text="Creating package" />
     <Exec Command="cd $(MSBuildThisFileDirectory)..\..; dotnet pack -o $(MSBuildThisFileDirectory)\packages"/>
   </Target>
-
+  -->
 
 </Project>

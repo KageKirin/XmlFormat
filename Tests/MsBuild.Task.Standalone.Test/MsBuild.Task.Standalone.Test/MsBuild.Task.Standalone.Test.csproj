@@ -11,8 +11,8 @@
     <PackageReference Include="KageKirin.XmlFormat.MSBuild.Task" />
   </ItemGroup>
 
-  <PropertyGroup Label="enable XmlFormat">
-    <XmlFormat>enable</XmlFormat>
+  <PropertyGroup Label="XmlFormat Settings">
+    <XmlFormatLineLength>142</XmlFormatLineLength>
   </PropertyGroup>
 
   <ItemGroup Label="xml format these files">

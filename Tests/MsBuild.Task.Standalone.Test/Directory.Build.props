@@ -60,6 +60,14 @@
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
+  <PropertyGroup Label="XmlFormat configuration">
+    <XmlFormat>enable</XmlFormat>
+    <XmlFormatLineLength>142</XmlFormatLineLength>
+    <XmlFormatTabs> </XmlFormatTabs>
+    <XmlFormatTabsRepeat>3</XmlFormatTabsRepeat>
+    <XmlFormatMaxEmptyLines>5</XmlFormatMaxEmptyLines>
+  </PropertyGroup>
+
   <ItemGroup Label="source link settings">
     <SourceLinkGitHubHost Include="github.com" ContentUrl="https://raw.github.com"/>
   </ItemGroup>

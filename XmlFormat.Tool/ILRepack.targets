@@ -15,10 +15,6 @@
       <LibraryPath Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)')" />
     </ItemGroup>
 
-    <ItemGroup>
-      <DoNotInternalizeAssemblies Include="$(IntermediateOutputPath)$(TargetFileName)" />
-    </ItemGroup>
-
     <Message Text="Repacking referenced assemblies:%0A    📦 @(InputAssemblies, '%0A    📦 ')%0A into $(IntermediateOutputPath)$(TargetFileName) ..." Importance="high" />
     <ILRepack
       Parallel="true"
@@ -26,7 +22,6 @@
       Internalize="true"
       RenameInternalized="false"
       InputAssemblies="@(InputAssemblies)"
-      InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
       OutputFile="$(IntermediateOutputPath)$(TargetFileName)"

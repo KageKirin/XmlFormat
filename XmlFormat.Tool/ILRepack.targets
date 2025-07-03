@@ -19,7 +19,7 @@
       <DoNotInternalizeAssemblies Include="$(IntermediateOutputPath)$(TargetFileName)" />
     </ItemGroup>
 
-    <Message Text="Repacking referenced assembly %(InputAssemblies.Identity) into $(IntermediateOutputPath)$(TargetFileName) ..." Importance="high" />
+    <Message Text="Repacking referenced assemblies:%0A    📦 @(InputAssemblies, '%0A    📦 ')%0A into $(IntermediateOutputPath)$(TargetFileName) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"

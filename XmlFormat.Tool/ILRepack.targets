@@ -3,7 +3,7 @@
 
   <Target Name="ILRepacker" AfterTargets="Compile" DependsOnTargets="ResolveAssemblyReferences">
 
-    <Message Text="Repacking $(OutputPath)" Importance="high" />
+    <Message Text="ILRepacker: Merging dependencies into intermediate assembly..." Importance="high" />
 
     <ItemGroup>
       <InputAssemblies Include="$(TargetPath)" />
@@ -16,7 +16,7 @@
       <DoNotInternalizeAssemblies Include="$(TargetPath)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
+    <Message Text="Repacking referenced assembly %(InputAssemblies.Identity) into $(IntermediateOutputPath)$(TargetFileName) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"

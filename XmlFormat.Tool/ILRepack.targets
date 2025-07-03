@@ -26,9 +26,8 @@
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
-
-      OutputFile="$(TargetPath)"
-      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
+      OutputFile="$(IntermediateOutputPath)$(TargetFileName)"
+      LogFile="$(IntermediateOutputPath)$(AssemblyName).ilrepack.log"
     />
 
     <ItemGroup>

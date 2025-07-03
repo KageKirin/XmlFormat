@@ -7,7 +7,10 @@
 
     <ItemGroup>
       <InputAssemblies Include="$(IntermediateOutputPath)$(TargetFileName)" />
-      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
+
+      <_SystemDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('System.')) or '%(Filename)' == 'System'" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies)" />
 
       <LibraryPath Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)')" />
     </ItemGroup>

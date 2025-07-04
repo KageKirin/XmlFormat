@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="ILRepacker" AfterTargets="Build">
+  <Target Name="ILRepacker" AfterTargets="Compile" DependsOnTargets="ResolveAssemblyReferences">
 
-    <Message Text="Repacking $(OutputPath)" Importance="high" />
-
-    <ItemGroup>
-      <InputAssemblies Include="$(TargetPath)" />
-      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
-
-      <LibraryPath Include="$(OutputPath)" />
-    </ItemGroup>
+    <Message Text="ILRepacker: Merging dependencies into intermediate assembly..." Importance="high" />
 
     <ItemGroup>
-      <DoNotInternalizeAssemblies Include="$(TargetPath)" />
+      <InputAssemblies Include="$(IntermediateOutputPath)$(TargetFileName)" />
+
+      <_SystemDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('System.')) or '%(Filename)' == 'System'" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies)" />
+
+      <LibraryPath Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)')" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
+    <Message Text="Repacking referenced assemblies:%0A    📦 @(InputAssemblies, '%0A    📦 ')%0A into $(IntermediateOutputPath)$(TargetFileName) ..." Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"
       Internalize="true"
       RenameInternalized="false"
       InputAssemblies="@(InputAssemblies)"
-      InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
-
-      OutputFile="$(TargetPath)"
-      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
+      OutputFile="$(IntermediateOutputPath)$(TargetFileName)"
+      LogFile="$(IntermediateOutputPath)$(AssemblyName).ilrepack.log"
     />
-
-    <ItemGroup>
-      <FilesToDelete Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
-      <FilesToDelete Include="$(OutputPath)*.pdb" Exclude="$(OutputPath)$(TargetName).pdb" />
-      <FilesToDelete Include="$(OutputPath)*.deps.json" />
-    </ItemGroup>
-
-    <Message Text="Cleaning up merged files: @(FilesToDelete)" Importance="normal" />
-    <Delete Files="@(FilesToDelete)" />
 
   </Target>
 

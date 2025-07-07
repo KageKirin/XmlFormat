@@ -38,6 +38,8 @@
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <!-- enable automatic versioning -->
     <GlobalPackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All" />
+    <!-- structured build logger -->
+    <GlobalPackageReference Include="MSBuild.StructuredLogger" Version="2.3.17" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

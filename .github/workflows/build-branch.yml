@@ -51,4 +51,5 @@ jobs:
       configurations: ${{ vars.DEPLOY_CONFIGURATIONS }}
       frameworks: ${{ vars.DEPLOY_FRAMEWORKS }}
       projects: ${{ vars.DEPLOY_PROJECTS }}
+      restore-options: ${{ vars.DEPLOY_RESTORE_OPTIONS }}
     secrets: inherit

@@ -16,7 +16,7 @@
       <DoNotInternalizeAssemblies Include="@(MainAssembly)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
+    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"

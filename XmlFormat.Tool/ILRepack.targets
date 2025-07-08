@@ -6,7 +6,7 @@
     <Message Text="Repacking $(OutputPath)" Importance="high" />
 
     <ItemGroup>
-      <InputAssemblies Include="$(TargetPath)" />
+      <MainAssembly Include="$(TargetPath)" />
       <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
 
       <LibraryPath Include="$(OutputPath)" />
@@ -22,7 +22,7 @@
       DebugInfo="true"
       Internalize="true"
       RenameInternalized="false"
-      InputAssemblies="@(InputAssemblies)"
+      InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"

@@ -6,23 +6,23 @@
     <Message Text="Repacking $(OutputPath)" Importance="high" />
 
     <ItemGroup>
-      <InputAssemblies Include="$(TargetPath)" />
-      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
+      <MainAssembly Include="$(TargetPath)" />
+      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="@(MainAssembly)" />
 
       <LibraryPath Include="$(OutputPath)" />
     </ItemGroup>
 
     <ItemGroup>
-      <DoNotInternalizeAssemblies Include="$(TargetPath)" />
+      <DoNotInternalizeAssemblies Include="@(MainAssembly)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies) ..." Importance="high" />
+    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
     <ILRepack
       Parallel="true"
       DebugInfo="true"
       Internalize="true"
       RenameInternalized="false"
-      InputAssemblies="@(InputAssemblies)"
+      InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       LibraryPath="@(LibraryPath)"
       TargetKind="SameAsPrimaryAssembly"
@@ -32,7 +32,7 @@
     />
 
     <ItemGroup>
-      <FilesToDelete Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
+      <FilesToDelete Include="$(OutputPath)*.dll" Exclude="@(MainAssembly)" />
       <FilesToDelete Include="$(OutputPath)*.pdb" Exclude="$(OutputPath)$(TargetName).pdb" />
       <FilesToDelete Include="$(OutputPath)*.deps.json" />
     </ItemGroup>

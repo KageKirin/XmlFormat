@@ -17,18 +17,33 @@
     </ItemGroup>
 
     <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
-    <ILRepack
-      Parallel="true"
-      DebugInfo="true"
-      Internalize="true"
-      RenameInternalized="false"
-      InputAssemblies="@(MainAssembly);@(InputAssemblies)"
-      InternalizeExclude="@(DoNotInternalizeAssemblies)"
-      LibraryPath="@(LibraryPath)"
-      TargetKind="SameAsPrimaryAssembly"
 
-      OutputFile="$(TargetPath)"
-      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
+    <ItemGroup>
+      <_InputAssemblies Include="@(MainAssembly -> '&quot;%(Filename)%(Extension)&quot;')" />
+      <_InputAssemblies Include="@(InputAssemblies -> '&quot;%(Filename)%(Extension)&quot;')" />
+      <_LibraryPaths Include="@(LibraryPath -> '/lib:&quot;%(RelativeDir)&quot;')" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_Parallel>/parallel</_Parallel>
+      <_DebugInfo><!-- /ndebug --></_DebugInfo> <!-- remove comment to disable -->
+      <_Verbose>/verbose</_Verbose>
+      <_Internalize>/internalize</_Internalize>
+      <_RenameInternalized><!--/renameinternalized--></_RenameInternalized>
+      <_InternalizeExclude><!-- @(DoNotInternalizeAssemblies->%'(Identity)', ' ') --></_InternalizeExclude>
+      <_TargetKind><!--/target:dll--></_TargetKind>
+
+      <_OutputFile>/out:&quot;$(TargetPath)&quot;</_OutputFile>
+      <_LogFile>/log:&quot;$(OutputPath)$(AssemblyName).ilrepack.log&quot;</_LogFile>
+    </PropertyGroup>
+
+    <Message Text="dotnet ilrepack $(_Parallel) $(_Internalize) $(_RenameInternalized) $(_DebugInfo) $(_Verbose) $(_TargetKind) $(_LogFile) $(_OutputFile) @(_LibraryPaths, ' ') @(_InputAssemblies, ' ')"
+       Importance="high"
+    />
+    <Exec
+      Command="dotnet ilrepack $(_Parallel) $(_Internalize) $(_RenameInternalized) $(_DebugInfo) $(_Verbose) $(_TargetKind) $(_LogFile) $(_OutputFile) @(_LibraryPaths, ' ') @(_InputAssemblies, ' ')"
+      WorkingDirectory="$(OutDir)"
+      ConsoleToMSBuild="True"
     />
 
     <ItemGroup>

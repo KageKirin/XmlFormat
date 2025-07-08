@@ -30,7 +30,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" PrivateAssets="all" />
     <PackageReference Include="CommandLineParser" PrivateAssets="all" />
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

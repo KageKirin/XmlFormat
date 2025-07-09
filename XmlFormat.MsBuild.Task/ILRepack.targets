@@ -7,7 +7,16 @@
 
     <ItemGroup>
       <MainAssembly Include="$(TargetPath)" />
-      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
+
+      <_SystemDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('System.')) or '%(Filename)' == 'System'" />
+      <_MsBuildDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Build.'))" />
+      <_DotNetDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.NET.'))" />
+      <_Win32Dependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Win32'))" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies);@(_MsBuildDependencies);@(_DotNetDependencies);@(_Win32Dependencies)" />
 
       <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
     </ItemGroup>

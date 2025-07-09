@@ -3,10 +3,10 @@
 
   <Target Name="ILRepacker" AfterTargets="Compile" DependsOnTargets="ResolveAssemblyReferences">
 
-    <Message Text="Repacking $(OutputPath)" Importance="high" />
+    <Message Text="Repacking $(IntermediateOutputPath)" Importance="high" />
 
     <ItemGroup>
-      <MainAssembly Include="$(TargetPath)" />
+      <MainAssembly Include="$(IntermediateOutputPath)$(TargetFileName)" />
       <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
       <FilterAssemblies Include="Microsoft.Extensions" />
@@ -23,7 +23,7 @@
       <DoNotInternalizeAssemblies Include="@(MainAssembly)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
+    <Message Text="Repacking assemblies in $(IntermediateOutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
 
     <ILRepack
       Parallel="false"
@@ -35,7 +35,7 @@
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       FilterAssemblies="@(FilterAssemblies)"
 
-      OutputFile="$(TargetPath)"
+      OutputFile="@(MainAssembly)"
       LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
     />
 

@@ -47,5 +47,6 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)ILRepack.Config.props" />
+  <Import Project="$(MSBuildThisFileDirectory)ILRepack.targets" />
 
 </Project>

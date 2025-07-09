@@ -7,9 +7,9 @@
 
     <ItemGroup>
       <MainAssembly Include="$(TargetPath)" />
-      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="@(MainAssembly)" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
-      <LibraryPath Include="$(OutputPath)" />
+      <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
     </ItemGroup>
 
     <ItemGroup>

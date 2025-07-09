@@ -35,7 +35,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" PrivateAssets="all" />
     <PackageReference Include="Superpower" PrivateAssets="all" />
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Label="project references">

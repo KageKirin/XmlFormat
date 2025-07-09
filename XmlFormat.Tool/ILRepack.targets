@@ -10,7 +10,9 @@
 
       <_SystemDependencies Include="@(ReferenceCopyLocalPaths)"
                            Condition="$([System.String]::new('%(Filename)').StartsWith('System.')) or '%(Filename)' == 'System'" />
-      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies)" />
+      <_MsBuildDependencies Include="@(ReferenceCopyLocalPaths)"
+                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Build.'))" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies);@(_MsBuildDependencies)" />
 
       <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
     </ItemGroup>

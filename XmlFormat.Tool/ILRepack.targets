@@ -18,7 +18,7 @@
                            Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Win32'))" />
       <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies);@(_MsBuildDependencies);@(_DotNetDependencies);@(_Win32Dependencies)" />
 
-      <LibraryPath Include="%(ReferencePathWithRefAssemblies.RelativeDir)" />
+      <LibraryPath Include="%(InputAssemblies.Directory)" />
     </ItemGroup>
 
     <ItemGroup>

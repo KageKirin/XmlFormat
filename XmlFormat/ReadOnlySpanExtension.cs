@@ -6,9 +6,11 @@ namespace XmlFormat;
 public static class ReadOnlySpanCharExtensions
 {
     /// <summary>
-    /// Removes all leading and trailing characters matching the `match` delegate from the span.
+    /// Removes all leading and trailing characters that match a specified predicate.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>A sub-span that excludes all leading and trailing characters matching the predicate.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ReadOnlySpan<char> Trim(this ReadOnlySpan<char> span, Func<char, bool> match)
     {

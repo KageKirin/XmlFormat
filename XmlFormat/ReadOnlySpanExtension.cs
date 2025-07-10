@@ -72,6 +72,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The source span from which the characters are removed.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>A sub-span that excludes all trailing characters matching the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int end = span.Length - 1;

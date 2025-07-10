@@ -93,6 +93,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The span to search.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>The number of characters in the span that match the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int count = 0;

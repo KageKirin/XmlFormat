@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" PrivateAssets="all" />
     <PackageReference Include="Alexinea.Extensions.Configuration.Toml" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" PrivateAssets="all" />
     <PackageReference Include="CommandLineParser" PrivateAssets="all" />
   </ItemGroup>
 

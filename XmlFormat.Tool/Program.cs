@@ -45,7 +45,8 @@ public class Program
 
     public static void Main(string[] args)
     {
-        //Console.WriteLine($"running with args: {string.Join(" ", args)}");
+        ILogger logger = loggerFactory.CreateLogger(System.AppDomain.CurrentDomain.FriendlyName);
+        logger.LogDebug($"running with args: {string.Join(" ", args)}");
 
         CommandLine
             .Parser.Default.ParseArguments<Options>(args) //
@@ -55,7 +56,8 @@ public class Program
 
     static void RunOptions(Options options)
     {
-        //Console.WriteLine($"options: {options}");
+        ILogger logger = loggerFactory.CreateLogger(System.AppDomain.CurrentDomain.FriendlyName);
+        logger.LogDebug($"options: {options}");
 
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
@@ -63,25 +65,25 @@ public class Program
             .AddCommandLine(options.FormattingOptions.ToArray())
             .Build();
 
-        //Console.WriteLine($"options.Inline: {options.Inline}");
-        //Console.WriteLine($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
+        logger.LogDebug($"options.Inline: {options.Inline}");
+        logger.LogDebug($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
 
         FormattingOptions formattingOptions = new();
         config.Bind(formattingOptions);
-        //Console.WriteLine($"formattingOptions: {formattingOptions}");
+        logger.LogDebug($"formattingOptions: {formattingOptions}");
 
         foreach (var inputFile in options.InputFiles!)
         {
             FormattingOptions actualFormattingOptions = formattingOptions with { };
             string? profile = options.Profile ?? Path.GetExtension(inputFile)?.Trim('.');
-            //Console.WriteLine($"profile: {profile}");
+            logger.LogDebug($"profile: {profile}");
 
             if (!string.IsNullOrEmpty(profile))
             {
                 var configSection = config.GetSection(profile);
                 configSection.Bind(actualFormattingOptions);
             }
-            //Console.WriteLine($"actual formattingOptions: {actualFormattingOptions}");
+            logger.LogDebug($"actual formattingOptions: {actualFormattingOptions}");
 
             using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
             using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))

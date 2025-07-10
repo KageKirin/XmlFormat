@@ -29,7 +29,7 @@
       DebugInfo="true"
       Verbose="true"
       Internalize="true"
-      RenameInternalized="true"
+      RenameInternalized="false"
       InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       LibraryPaths="@(LibraryPath)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"

@@ -46,10 +46,11 @@ public static class ReadOnlySpanCharExtensions
     }
 
     /// <summary>
-    /// Removes all leading characters matching the `match` delegate from the span.
+    /// Removes all leading characters that match a specified predicate.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    /// <param name="match">Delegate match function.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>A sub-span that excludes all leading characters matching the predicate.</returns>
     public static ReadOnlySpan<char> TrimStart(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int start = 0;

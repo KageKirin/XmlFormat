@@ -9,6 +9,7 @@
       <MainAssembly Include="$(IntermediateOutputPath)$(TargetFileName)" />
       <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
+      <FilterAssemblies Include="Microsoft.Toolkit.HighPerformance" />
       <FilterAssemblies Include="Microsoft.Extensions" />
       <FilterAssemblies Include="Alexinea.Extensions" />
       <FilterAssemblies Include="Nett" />

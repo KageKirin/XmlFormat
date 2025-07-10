@@ -217,4 +217,10 @@
       </Code>
     </Task>
   </UsingTask>
+
+  <PropertyGroup>
+    <_ILRepackConfigProps>$(ProjectDir)ILRepack.Config.props</_ILRepackConfigProps>
+  </PropertyGroup>
+
+  <Import Project="$(_ILRepackConfigProps)" Condition="'$(_ILRepackConfigProps)' != '' and Exists('$(_ILRepackConfigProps)')"/>
 </Project>

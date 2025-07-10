@@ -51,6 +51,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The source span from which the characters are removed.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>A sub-span that excludes all leading characters matching the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ReadOnlySpan<char> TrimStart(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int start = 0;
@@ -71,6 +72,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The source span from which the characters are removed.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>A sub-span that excludes all trailing characters matching the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int end = span.Length - 1;
@@ -91,6 +93,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The span to search.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>The number of characters in the span that match the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int count = 0;
@@ -110,6 +113,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The span to search.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>The number of consecutive leading characters that match the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int CountStart(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int start = 0;
@@ -129,6 +133,7 @@ public static class ReadOnlySpanCharExtensions
     /// <param name="span">The span to search.</param>
     /// <param name="match">A predicate to evaluate for each character.</param>
     /// <returns>The number of consecutive trailing characters that match the predicate.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int CountEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int end = span.Length - 1;

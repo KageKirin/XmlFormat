@@ -1,14 +1,16 @@
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using XmlFormat;
 
 namespace XmlFormat.Tool;
 
 public class Program
 {
-    public class Options
+    public record class Options
     {
         [Option('i', "inline", Required = false, HelpText = "Process input files inline.")]
         public bool Inline { get; set; } = false;

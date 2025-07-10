@@ -146,4 +146,51 @@ public static class ReadOnlySpanCharExtensions
         }
         return span.Length - 1 - end;
     }
+
+    /// <summary>
+    /// Determines whether any character in the span satisfies a condition.
+    /// </summary>
+    /// <param name="span">The span to search.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns><c>true</c> if any character matches the predicate; otherwise, <c>false</c>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool Any(this ReadOnlySpan<char> span, Func<char, bool> match)
+    {
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (match(span[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Determines whether no character in the span satisfies a condition.
+    /// </summary>
+    /// <param name="span">The span to search.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns><c>true</c> if no character matches the predicate; otherwise, <c>false</c>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool None(this ReadOnlySpan<char> span, Func<char, bool> match) => !span.Any(match);
+
+    /// <summary>
+    /// Determines whether all characters in the span satisfy a condition.
+    /// </summary>
+    /// <param name="span">The span to search.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns><c>true</c> if all characters match the predicate; otherwise, <c>false</c>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool All(this ReadOnlySpan<char> span, Func<char, bool> match)
+    {
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!match(span[i]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

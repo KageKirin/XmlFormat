@@ -220,7 +220,9 @@
 
   <PropertyGroup>
     <_ILRepackConfigProps>$(ProjectDir)ILRepack.Config.props</_ILRepackConfigProps>
+    <_ILRepackTargets>$(ProjectDir)ILRepack.targets</_ILRepackTargets>
   </PropertyGroup>
 
   <Import Project="$(_ILRepackConfigProps)" Condition="'$(_ILRepackConfigProps)' != '' and Exists('$(_ILRepackConfigProps)')"/>
+  <Import Project="$(_ILRepackTargets)" Condition="'$(_ILRepackTargets)' != '' and Exists('$(_ILRepackTargets)')"/>
 </Project>

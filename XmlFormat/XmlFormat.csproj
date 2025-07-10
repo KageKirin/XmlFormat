@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Memory" />
+    <PackageReference Include="Microsoft.Toolkit.HighPerformance" />
   </ItemGroup>
 
   <ItemGroup>

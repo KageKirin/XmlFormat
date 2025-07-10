@@ -6,9 +6,11 @@ namespace XmlFormat;
 public static class ReadOnlySpanCharExtensions
 {
     /// <summary>
-    /// Removes all leading and trailing characters matching the `match` delegate from the span.
+    /// Removes all leading and trailing characters that match a specified predicate.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>A sub-span that excludes all leading and trailing characters matching the predicate.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ReadOnlySpan<char> Trim(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
@@ -44,10 +46,11 @@ public static class ReadOnlySpanCharExtensions
     }
 
     /// <summary>
-    /// Removes all leading characters matching the `match` delegate from the span.
+    /// Removes all leading characters that match a specified predicate.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    /// <param name="match">Delegate match function.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>A sub-span that excludes all leading characters matching the predicate.</returns>
     public static ReadOnlySpan<char> TrimStart(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int start = 0;
@@ -63,10 +66,11 @@ public static class ReadOnlySpanCharExtensions
     }
 
     /// <summary>
-    /// Removes all trailing characters matching the `match` delegate from the span.
+    /// Removes all trailing characters that match a specified predicate.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    /// <param name="match">Delegate match function.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>A sub-span that excludes all trailing characters matching the predicate.</returns>
     public static ReadOnlySpan<char> TrimEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int end = span.Length - 1;
@@ -81,11 +85,12 @@ public static class ReadOnlySpanCharExtensions
         return span.Slice(0, end + 1);
     }
 
-    /// <summary>Counts the number of times the specified delegate <paramref name="match"/> returns true in the <paramref name="span"/>.
+    /// <summary>
+    /// Counts the number of characters in the span that match a specified predicate.
     /// </summary>
     /// <param name="span">The span to search.</param>
-    /// <param name="match">The delegate for which to search.</param>
-    /// <returns>The number of times <paramref name="match"/> returned true in the <paramref name="span"/>.</returns>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>The number of characters in the span that match the predicate.</returns>
     public static int Count(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int count = 0;
@@ -99,12 +104,12 @@ public static class ReadOnlySpanCharExtensions
         return count;
     }
 
-    /// <summary>Counts the number of times the specified delegate <paramref name="match"/> returns true before returning false
-    /// starting at the beginning of the <paramref name="span"/>.
+    /// <summary>
+    /// Counts the number of consecutive matching characters from the start of the span.
     /// </summary>
     /// <param name="span">The span to search.</param>
-    /// <param name="match">The delegate for which to search.</param>
-    /// <returns>The number of times <paramref name="match"/> returned true in the <paramref name="span"/>.</returns>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>The number of consecutive leading characters that match the predicate.</returns>
     public static int CountStart(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int start = 0;
@@ -118,12 +123,12 @@ public static class ReadOnlySpanCharExtensions
         return start;
     }
 
-    /// <summary>Counts the number of times the specified delegate <paramref name="match"/> returns true before returning false
-    /// starting at the end of the <paramref name="span"/>.
+    /// <summary>
+    /// Counts the number of consecutive matching characters from the end of the span.
     /// </summary>
     /// <param name="span">The span to search.</param>
-    /// <param name="match">The delegate for which to search.</param>
-    /// <returns>The number of times <paramref name="match"/> returned true in the <paramref name="span"/>.</returns>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>The number of consecutive trailing characters that match the predicate.</returns>
     public static int CountEnd(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int end = span.Length - 1;

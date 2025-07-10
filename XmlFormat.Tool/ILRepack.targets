@@ -30,7 +30,7 @@
       DebugInfo="true"
       Verbose="true"
       Internalize="true"
-      RenameInternalized="true"
+      RenameInternalized="false"
       InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       FilterAssemblies="@(FilterAssemblies)"

@@ -85,11 +85,12 @@ public static class ReadOnlySpanCharExtensions
         return span.Slice(0, end + 1);
     }
 
-    /// <summary>Counts the number of times the specified delegate <paramref name="match"/> returns true in the <paramref name="span"/>.
+    /// <summary>
+    /// Counts the number of characters in the span that match a specified predicate.
     /// </summary>
     /// <param name="span">The span to search.</param>
-    /// <param name="match">The delegate for which to search.</param>
-    /// <returns>The number of times <paramref name="match"/> returned true in the <paramref name="span"/>.</returns>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns>The number of characters in the span that match the predicate.</returns>
     public static int Count(this ReadOnlySpan<char> span, Func<char, bool> match)
     {
         int count = 0;

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="ILRepacker" AfterTargets="Build">
+  <Target Name="ILRepacker" AfterTargets="Compile" DependsOnTargets="ResolveAssemblyReferences">
 
-    <Message Text="Repacking $(OutputPath)" Importance="high" />
+    <Message Text="Repacking $(IntermediateOutputPath)" Importance="high" />
 
     <ItemGroup>
-      <MainAssembly Include="$(TargetPath)" />
+      <MainAssembly Include="$(IntermediateOutputPath)$(TargetFileName)" />
       <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
       <FilterAssemblies Include="Microsoft.Extensions" />
@@ -22,31 +22,22 @@
       <DoNotInternalizeAssemblies Include="@(MainAssembly)" />
     </ItemGroup>
 
-    <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
+    <Message Text="Repacking assemblies in $(IntermediateOutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
 
     <ILRepack
       Parallel="false"
       DebugInfo="true"
       Verbose="true"
       Internalize="true"
-      RenameInternalized="true"
+      RenameInternalized="false"
       InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       LibraryPaths="@(LibraryPath)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       FilterAssemblies="@(FilterAssemblies)"
 
-      OutputFile="$(TargetPath)"
-      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
+      OutputFile="@(MainAssembly)"
+      LogFile="$(IntermediateOutputPath)$(AssemblyName).ilrepack.log"
     />
-
-    <ItemGroup>
-      <FilesToDelete Include="$(OutputPath)*.dll" Exclude="@(MainAssembly)" />
-      <FilesToDelete Include="$(OutputPath)*.pdb" Exclude="$(OutputPath)$(TargetName).pdb" />
-      <FilesToDelete Include="$(OutputPath)*.deps.json" />
-    </ItemGroup>
-
-    <Message Text="Cleaning up merged files: @(FilesToDelete)" Importance="normal" />
-    <Delete Files="@(FilesToDelete)" />
 
   </Target>
 

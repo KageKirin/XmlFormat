@@ -58,15 +58,14 @@ public class Program
     {
         ILogger logger = loggerFactory.CreateLogger(System.AppDomain.CurrentDomain.FriendlyName);
         logger.LogDebug("options: {}", options);
+        logger.LogDebug("options.FormattingOptions: {}", options.FormattingOptions);
+        logger.LogDebug("options.InputFiles: {}", options.InputFiles);
 
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
             .AddTomlFile(Path.Join(Environment.CurrentDirectory, ".xmlformat"), optional: true, reloadOnChange: true)
             .AddCommandLine(options.FormattingOptions.ToArray())
             .Build();
-
-        logger.LogDebug($"options.Inline: {options.Inline}");
-        logger.LogDebug($"options.InputFiles: {options.InputFiles} {{ {string.Join(", ", options.InputFiles)} }}");
 
         FormattingOptions formattingOptions = new();
         config.Bind(formattingOptions);

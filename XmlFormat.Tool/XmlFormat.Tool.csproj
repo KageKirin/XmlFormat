@@ -31,6 +31,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" PrivateAssets="all" />
     <PackageReference Include="CommandLineParser" PrivateAssets="all" />
   </ItemGroup>
 

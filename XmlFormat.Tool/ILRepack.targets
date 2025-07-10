@@ -7,16 +7,14 @@
 
     <ItemGroup>
       <MainAssembly Include="$(TargetPath)" />
+      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" />
 
-      <_SystemDependencies Include="@(ReferenceCopyLocalPaths)"
-                           Condition="$([System.String]::new('%(Filename)').StartsWith('System.')) or '%(Filename)' == 'System'" />
-      <_MsBuildDependencies Include="@(ReferenceCopyLocalPaths)"
-                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Build.'))" />
-      <_DotNetDependencies Include="@(ReferenceCopyLocalPaths)"
-                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.NET.'))" />
-      <_Win32Dependencies Include="@(ReferenceCopyLocalPaths)"
-                           Condition="$([System.String]::new('%(Filename)').StartsWith('Microsoft.Win32'))" />
-      <InputAssemblies Include="@(ReferenceCopyLocalPaths)" Exclude="@(_SystemDependencies);@(_MsBuildDependencies);@(_DotNetDependencies);@(_Win32Dependencies)" />
+      <FilterAssemblies Include="Microsoft.Extensions" />
+      <FilterAssemblies Include="Alexinea.Extensions" />
+      <FilterAssemblies Include="Nett" />
+      <FilterAssemblies Include="Superpower" />
+      <FilterAssemblies Include="CommandLine" />
+      <FilterAssemblies Include="XmlFormat" />
 
       <LibraryPath Include="%(InputAssemblies.Directory)" />
     </ItemGroup>
@@ -27,32 +25,18 @@
 
     <Message Text="Repacking assemblies in $(OutputPath): @(InputAssemblies->'%(Identity)', ' ') into @(MainAssembly->'%(Identity)')" Importance="high" />
 
-    <ItemGroup>
-      <_InputAssemblies Include="@(MainAssembly -> '&quot;%(Filename)%(Extension)&quot;')" />
-      <_InputAssemblies Include="@(InputAssemblies -> '&quot;%(Filename)%(Extension)&quot;')" />
-      <_LibraryPaths Include="@(LibraryPath -> '/lib:&quot;%(RelativeDir)&quot;')" />
-    </ItemGroup>
+    <ILRepack
+      Parallel="false"
+      DebugInfo="true"
+      Verbose="true"
+      Internalize="true"
+      RenameInternalized="true"
+      InputAssemblies="@(MainAssembly);@(InputAssemblies)"
+      InternalizeExclude="@(DoNotInternalizeAssemblies)"
+      FilterAssemblies="@(FilterAssemblies)"
 
-    <PropertyGroup>
-      <_Parallel>/parallel</_Parallel>
-      <_DebugInfo><!-- /ndebug --></_DebugInfo> <!-- remove comment to disable -->
-      <_Verbose>/verbose</_Verbose>
-      <_Internalize>/internalize</_Internalize>
-      <_RenameInternalized><!--/renameinternalized--></_RenameInternalized>
-      <_InternalizeExclude><!-- @(DoNotInternalizeAssemblies->%'(Identity)', ' ') --></_InternalizeExclude>
-      <_TargetKind><!--/target:dll--></_TargetKind>
-
-      <_OutputFile>/out:&quot;$(TargetPath)&quot;</_OutputFile>
-      <_LogFile>/log:&quot;$(OutputPath)$(AssemblyName).ilrepack.log&quot;</_LogFile>
-    </PropertyGroup>
-
-    <Message Text="dotnet ilrepack $(_Parallel) $(_Internalize) $(_RenameInternalized) $(_DebugInfo) $(_Verbose) $(_TargetKind) $(_LogFile) $(_OutputFile) @(_LibraryPaths, ' ') @(_InputAssemblies, ' ')"
-       Importance="high"
-    />
-    <Exec
-      Command="dotnet ilrepack $(_Parallel) $(_Internalize) $(_RenameInternalized) $(_DebugInfo) $(_Verbose) $(_TargetKind) $(_LogFile) $(_OutputFile) @(_LibraryPaths, ' ') @(_InputAssemblies, ' ')"
-      WorkingDirectory="$(OutDir)"
-      ConsoleToMSBuild="True"
+      OutputFile="$(TargetPath)"
+      LogFile="$(OutputPath)$(AssemblyName).ilrepack.log"
     />
 
     <ItemGroup>

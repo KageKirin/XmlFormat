@@ -46,7 +46,7 @@ public class Program
     public static void Main(string[] args)
     {
         ILogger logger = loggerFactory.CreateLogger(System.AppDomain.CurrentDomain.FriendlyName);
-        logger.LogDebug($"running with args: {string.Join(" ", args)}");
+        logger.LogDebug("running with args: {}", args);
 
         CommandLine
             .Parser.Default.ParseArguments<Options>(args) //
@@ -57,7 +57,7 @@ public class Program
     static void RunOptions(Options options)
     {
         ILogger logger = loggerFactory.CreateLogger(System.AppDomain.CurrentDomain.FriendlyName);
-        logger.LogDebug($"options: {options}");
+        logger.LogDebug("options: {}", options);
 
         IConfiguration config = new ConfigurationBuilder()
             .AddTomlFile(Path.Join(AppDomain.CurrentDomain.BaseDirectory, "xmlformat.toml"), optional: false, reloadOnChange: true)
@@ -70,20 +70,20 @@ public class Program
 
         FormattingOptions formattingOptions = new();
         config.Bind(formattingOptions);
-        logger.LogDebug($"formattingOptions: {formattingOptions}");
+        logger.LogDebug("formatting options: {}", formattingOptions);
 
         foreach (var inputFile in options.InputFiles!)
         {
             FormattingOptions actualFormattingOptions = formattingOptions with { };
             string? profile = options.Profile ?? Path.GetExtension(inputFile)?.Trim('.');
-            logger.LogDebug($"profile: {profile}");
+            logger.LogDebug("formatting profile: {}", profile);
 
             if (!string.IsNullOrEmpty(profile))
             {
                 var configSection = config.GetSection(profile);
                 configSection.Bind(actualFormattingOptions);
             }
-            logger.LogDebug($"actual formattingOptions: {actualFormattingOptions}");
+            logger.LogDebug("actual formattingOptions: {}", actualFormattingOptions);
 
             using (Stream istream = OpenInputStreamOrStdIn(inputFile, options.Inline))
             using (Stream ostream = OpenOutputStreamOrStdOut(inputFile, options.Inline))

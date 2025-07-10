@@ -165,4 +165,13 @@ public static class ReadOnlySpanCharExtensions
         }
         return false;
     }
+
+    /// <summary>
+    /// Determines whether no character in the span satisfies a condition.
+    /// </summary>
+    /// <param name="span">The span to search.</param>
+    /// <param name="match">A predicate to evaluate for each character.</param>
+    /// <returns><c>true</c> if no character matches the predicate; otherwise, <c>false</c>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool None(this ReadOnlySpan<char> span, Func<char, bool> match) => !span.Any(match);
 }

@@ -30,6 +30,18 @@ public class Program
         [Value(0, MetaName = "inputs", Required = true, HelpText = "Input files.")]
         public IEnumerable<string> InputFiles { get; set; } = [];
     }
+    
+    private static ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+    {
+        builder.AddConsole();
+        builder.AddDebug();
+
+#if DEBUG
+        builder.SetMinimumLevel(LogLevel.Trace); //< set minimum level to trace in Debug
+#else
+        builder.SetMinimumLevel(LogLevel.Error); //< set minimum level to error in Release
+#endif
+    });
 
     public static void Main(string[] args)
     {

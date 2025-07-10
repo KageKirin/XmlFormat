@@ -47,7 +47,4 @@
     <Content Include="$(MSBuildThisFileDirectory)..\XmlFormat.Tool\xmlformat.toml" Link="xmlformat.toml" Pack="true" CopyToOutputDirectory="PreserveNewest" PackagePath="\" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)ILRepack.Config.props" />
-  <Import Project="$(MSBuildThisFileDirectory)ILRepack.targets" />
-
 </Project>

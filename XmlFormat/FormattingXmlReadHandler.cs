@@ -211,6 +211,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
     }
 
+    /// <summary>
+    /// Handles the closing of an element's start tag.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="line">The line number where the start tag closes.</param>
+    /// <param name="column">The column number where the start tag closes.</param>
     public override void OnElementStartClose(ReadOnlySpan<char> name, int line, int column)
     {
         if (currentAttributes != null)

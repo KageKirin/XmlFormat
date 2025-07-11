@@ -348,7 +348,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
-        textWriter.WriteLine(trimText.Trim().ToString());
+        var extraTrimText = trimText.Trim();
+        if (extraTrimText.None(x => Char.IsWhiteSpace(x)))
+        {
+            textWriter.Write(extraTrimText.ToString());
+        }
+        else
+        {
+            textWriter.WriteLine();
+            textWriter.WriteLine(extraTrimText.ToString());
+        }
 
         // eat trailing newlines
         // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline

@@ -15,6 +15,11 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// </summary>
     public FormattingOptions Options { get; private set; }
 
+    /// <summary>
+    /// Represents an XML attribute with a name and a value.
+    /// </summary>
+    /// <param name="Name">The name of the attribute.</param>
+    /// <param name="Value">The value of the attribute.</param>
     public readonly record struct Attribute(string Name, string Value)
     {
         const string xmlns = "xmlns";

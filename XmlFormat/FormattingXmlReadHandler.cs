@@ -176,6 +176,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Indent++;
     }
 
+    /// <summary>
+    /// Handles the start of an opening element tag.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="line">The line number where the element starts.</param>
+    /// <param name="column">The column number where the element starts.</param>
     public override void OnElementStartOpen(ReadOnlySpan<char> name, int line, int column)
     {
         OnElementOpen(name, line, column);

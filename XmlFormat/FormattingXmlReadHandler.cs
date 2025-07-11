@@ -150,6 +150,13 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles a processing instruction.
+    /// </summary>
+    /// <param name="identifier">The processing instruction identifier.</param>
+    /// <param name="contents">The content of the processing instruction.</param>
+    /// <param name="line">The line number where the instruction appears.</param>
+    /// <param name="column">The column number where the instruction appears.</param>
     public override void OnProcessingInstruction(ReadOnlySpan<char> identifier, ReadOnlySpan<char> contents, int line, int column)
     {
         textWriter.WriteLine(@$"<?{identifier.ToString()}{contents.ToString()}?>");

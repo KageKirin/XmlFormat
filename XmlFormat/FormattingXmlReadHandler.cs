@@ -253,6 +253,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         OnElementOpen(name, line, column);
     }
 
+    /// <summary>
+    /// Handles the closing of an empty element tag.
+    /// </summary>
+    /// <param name="name">The name of the empty element.</param>
+    /// <param name="line">The line number where the empty element closes.</param>
+    /// <param name="column">The column number where the empty element closes.</param>
     public override void OnElementEmptyClose(ReadOnlySpan<char> name, int line, int column)
     {
         bool multiline = false;

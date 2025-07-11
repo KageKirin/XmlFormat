@@ -355,7 +355,9 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
         else
         {
-            textWriter.WriteLine();
+            if (textWriter.Indent > 0)
+                textWriter.WriteLine();
+
             textWriter.WriteLine(extraTrimText.ToString());
         }
 

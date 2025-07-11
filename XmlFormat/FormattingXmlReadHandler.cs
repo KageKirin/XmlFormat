@@ -399,8 +399,16 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     #endregion
 }
 
+/// <summary>
+/// Provides extension methods for collections of <see cref="FormattingXmlReadHandler.Attribute"/>.
+/// </summary>
 internal static class IEnumerableOfAttributesExtensions
 {
+    /// <summary>
+    /// Calculates the total length of attributes if they were rendered on a single line.
+    /// </summary>
+    /// <param name="attributes">The collection of attributes.</param>
+    /// <returns>The calculated total length.</returns>
     public static int SingleLineLength(this IEnumerable<FormattingXmlReadHandler.Attribute> attributes) =>
         attributes.Sum(k => k.Name.Length + k.Value.Length + 4); //< ' =""' are the 4 extra chars
 }

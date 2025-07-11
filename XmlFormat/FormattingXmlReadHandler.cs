@@ -354,7 +354,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             textWriter.WriteLineNoTabs();
 
         var extraTrimText = trimText.Trim();
-        if (extraTrimText.None(x => Char.IsWhiteSpace(x)))
+        if (extraTrimText.None('\n'))
         {
             textWriter.Write(extraTrimText.ToString());
             unhandledNewLineAfterElementStart = false;

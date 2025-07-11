@@ -296,6 +296,15 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles an attribute.
+    /// </summary>
+    /// <param name="name">The attribute name.</param>
+    /// <param name="value">The attribute value.</param>
+    /// <param name="nameLine">The line number of the attribute name.</param>
+    /// <param name="nameColumn">The column number of the attribute name.</param>
+    /// <param name="valueLine">The line number of the attribute value.</param>
+    /// <param name="valueColumn">The column number of the attribute value.</param>
     public override void OnAttribute(
         ReadOnlySpan<char> name,
         ReadOnlySpan<char> value,

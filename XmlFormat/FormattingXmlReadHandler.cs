@@ -82,9 +82,20 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
 
     private List<Attribute>? currentAttributes = default;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FormattingXmlReadHandler"/> class with a stream, encoding, and formatting options.
+    /// </summary>
+    /// <param name="stream">The stream to write the formatted XML to.</param>
+    /// <param name="encoding">The character encoding to use.</param>
+    /// <param name="options">The options for formatting the XML.</param>
     public FormattingXmlReadHandler(Stream stream, Encoding encoding, FormattingOptions options)
         : this(new StreamWriter(stream, encoding) { AutoFlush = true }, options) { }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FormattingXmlReadHandler"/> class with a stream writer and formatting options.
+    /// </summary>
+    /// <param name="streamWriter">The <see cref="StreamWriter"/> used to write the formatted XML.</param>
+    /// <param name="options">The options for formatting the XML.</param>
     public FormattingXmlReadHandler(StreamWriter streamWriter, FormattingOptions options)
         : base(streamWriter)
     {

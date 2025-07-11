@@ -379,6 +379,9 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the comment appears.</param>
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
+        if (textWriter.Indent > 0)
+            textWriter.WriteLine();
+
         if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim().ToString()} -->");

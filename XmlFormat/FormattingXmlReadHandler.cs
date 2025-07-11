@@ -318,6 +318,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         currentAttributes.Add(new(name.ToString(), value.ToString()));
     }
 
+    /// <summary>
+    /// Handles text content within an element.
+    /// </summary>
+    /// <param name="text">The text content.</param>
+    /// <param name="line">The line number where the text starts.</param>
+    /// <param name="column">The column number where the text starts.</param>
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
         var trimText = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');

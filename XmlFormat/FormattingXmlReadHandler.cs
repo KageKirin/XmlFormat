@@ -82,6 +82,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     private readonly IndentedTextWriter textWriter;
 
     private List<Attribute>? currentAttributes = default;
+    private bool unhandledNewLineAfterElementStart = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FormattingXmlReadHandler"/> class with a stream, encoding, and formatting options.
@@ -172,6 +173,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the element starts.</param>
     public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
     {
+        HandleNewLineAfterElementStart();
+
         textWriter.Write($"<{name.ToString()}");
         textWriter.Flush();
         textWriter.Indent++;
@@ -241,6 +244,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Write(">");
         textWriter.Flush();
         textWriter.Indent++;
+        unhandledNewLineAfterElementStart = true;
     }
 
     /// <summary>
@@ -353,11 +357,11 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         if (extraTrimText.None(x => Char.IsWhiteSpace(x)))
         {
             textWriter.Write(extraTrimText.ToString());
+            unhandledNewLineAfterElementStart = false;
         }
         else
         {
-            if (textWriter.Indent > 0)
-                textWriter.WriteLine();
+            HandleNewLineAfterElementStart();
 
             foreach (var token in extraTrimText.Tokenize('\n'))
                 textWriter.WriteLine(token.Trim().ToString());
@@ -379,8 +383,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the comment appears.</param>
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
-        if (textWriter.Indent > 0)
-            textWriter.WriteLine();
+        HandleNewLineAfterElementStart();
 
         if (comment.Length < Options.LineLength)
         {
@@ -405,6 +408,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the CDATA section appears.</param>
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
+        HandleNewLineAfterElementStart();
+
         textWriter.WriteLine("<![CDATA[");
         textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd().ToString()}");
         textWriter.WriteTabs();
@@ -413,6 +418,15 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     }
 
     #endregion
+
+    private void HandleNewLineAfterElementStart()
+    {
+        if (unhandledNewLineAfterElementStart)
+        {
+            textWriter.WriteLine();
+            unhandledNewLineAfterElementStart = false;
+        }
+    }
 }
 
 /// <summary>

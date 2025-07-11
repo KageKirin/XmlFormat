@@ -2,6 +2,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Linq;
 using System.Text;
+using Microsoft.Toolkit.HighPerformance;
 
 namespace XmlFormat;
 
@@ -358,7 +359,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             if (textWriter.Indent > 0)
                 textWriter.WriteLine();
 
-            textWriter.WriteLine(extraTrimText.ToString());
+            foreach (var token in extraTrimText.Tokenize('\n'))
+                textWriter.WriteLine(token.Trim().ToString());
         }
 
         // eat trailing newlines

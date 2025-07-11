@@ -237,7 +237,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.Indent--;
-        textWriter.WriteLine(">");
+        textWriter.Write(">");
         textWriter.Flush();
         textWriter.Indent++;
     }

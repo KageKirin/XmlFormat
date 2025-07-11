@@ -242,6 +242,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Indent++;
     }
 
+    /// <summary>
+    /// Handles the opening of an empty element tag.
+    /// </summary>
+    /// <param name="name">The name of the empty element.</param>
+    /// <param name="line">The line number where the empty element starts.</param>
+    /// <param name="column">The column number where the empty element starts.</param>
     public override void OnElementEmptyOpen(ReadOnlySpan<char> name, int line, int column)
     {
         OnElementOpen(name, line, column);

@@ -5,8 +5,14 @@ using System.Text;
 
 namespace XmlFormat;
 
+/// <summary>
+/// An <see cref="XmlReadHandlerBase"/> implementation that formats and writes XML content to a stream.
+/// </summary>
 public class FormattingXmlReadHandler : XmlReadHandlerBase
 {
+    /// <summary>
+    /// Gets the formatting options used by this handler.
+    /// </summary>
     public FormattingOptions Options { get; private set; }
 
     public readonly record struct Attribute(string Name, string Value)

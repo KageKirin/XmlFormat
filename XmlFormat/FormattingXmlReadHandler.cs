@@ -113,6 +113,14 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     }
 
     #region IXmlReadHandler overrides
+    /// <summary>
+    /// Handles the XML declaration.
+    /// </summary>
+    /// <param name="version">The XML version.</param>
+    /// <param name="encoding">The encoding declaration.</param>
+    /// <param name="standalone">The standalone status declaration.</param>
+    /// <param name="line">The line number where the declaration appears.</param>
+    /// <param name="column">The column number where the declaration appears.</param>
     public override void OnXmlDeclaration(
         ReadOnlySpan<char> version,
         ReadOnlySpan<char> encoding,

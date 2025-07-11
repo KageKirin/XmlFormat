@@ -26,6 +26,19 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         const string colon = ":";
         const string http = "http";
 
+        /// <summary>
+        /// Compares two attributes to determine their sort order.
+        /// </summary>
+        /// <remarks>
+        /// The comparison logic is as follows:
+        /// 1. The 'xmlns' attribute comes first.
+        /// 2. Namespace declarations ('xmlns:...') come next, sorted by their URI value.
+        /// 3. Attributes with namespace prefixes ('ns:name') come after, sorted by name.
+        /// 4. All other attributes are last, sorted by name.
+        /// </remarks>
+        /// <param name="lhv">The left-hand side attribute to compare.</param>
+        /// <param name="rhv">The right-hand side attribute to compare.</param>
+        /// <returns>An integer that indicates the relative order of the attributes being compared.</returns>
         public static int Compare(Attribute lhv, Attribute rhv)
         {
             // 'xmlns' must come first

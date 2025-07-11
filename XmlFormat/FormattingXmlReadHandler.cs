@@ -163,6 +163,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles the opening of an element tag.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="line">The line number where the element starts.</param>
+    /// <param name="column">The column number where the element starts.</param>
     public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Write($"<{name.ToString()}");

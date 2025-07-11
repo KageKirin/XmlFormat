@@ -358,6 +358,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles a comment.
+    /// </summary>
+    /// <param name="comment">The content of the comment.</param>
+    /// <param name="line">The line number where the comment appears.</param>
+    /// <param name="column">The column number where the comment appears.</param>
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
         if (comment.Length < Options.LineLength)

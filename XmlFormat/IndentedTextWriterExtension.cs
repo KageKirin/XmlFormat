@@ -14,7 +14,7 @@ public static class IndentedTextWriterExtension
         writer.Indent = indent;
     }
 
-    public static void WriteLine(this IndentedTextWriter writer) => writer.WriteLineNoTabs("");
+    public static void WriteLine(this IndentedTextWriter writer) => writer.WriteLine("");
 
     public static void WriteLineNoTabs(this IndentedTextWriter writer) => writer.WriteLineNoTabs("");
 }

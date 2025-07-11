@@ -187,6 +187,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         OnElementOpen(name, line, column);
     }
 
+    /// <summary>
+    /// Writes an element attribute, potentially across multiple lines.
+    /// </summary>
+    /// <param name="multiline">A value indicating whether the attribute should be written on a new line.</param>
+    /// <param name="name">The name of the attribute.</param>
+    /// <param name="value">The value of the attribute.</param>
     public virtual void OnWriteElementAttribute(bool multiline, ReadOnlySpan<char> name, ReadOnlySpan<char> value)
     {
         if (multiline)

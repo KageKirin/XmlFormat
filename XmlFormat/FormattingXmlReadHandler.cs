@@ -103,6 +103,10 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         this.textWriter = new IndentedTextWriter(writer, tabString: Options.Tabs.Repeat(Options.TabsRepeat));
     }
 
+    /// <summary>
+    /// Releases the resources used by the handler.
+    /// </summary>
+    /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
         base.Dispose(true);

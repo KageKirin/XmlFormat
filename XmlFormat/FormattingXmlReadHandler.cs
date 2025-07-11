@@ -381,6 +381,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles a CDATA section.
+    /// </summary>
+    /// <param name="cdata">The content of the CDATA section.</param>
+    /// <param name="line">The line number where the CDATA section appears.</param>
+    /// <param name="column">The column number where the CDATA section appears.</param>
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
         textWriter.WriteLine("<![CDATA[");

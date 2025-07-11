@@ -283,6 +283,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         textWriter.Flush();
     }
 
+    /// <summary>
+    /// Handles an element's end tag.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="line">The line number where the end tag appears.</param>
+    /// <param name="column">The column number where the end tag appears.</param>
     public override void OnElementEnd(ReadOnlySpan<char> name, int line, int column)
     {
         textWriter.Indent--;

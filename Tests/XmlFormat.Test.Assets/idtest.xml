@@ -21,9 +21,7 @@
   </StackPanel>
   <EmptyElement />
   <Foobar Hoge="True" />
-  <InlineContents>
-    contents
-  </InlineContents>
+  <InlineContents>contents</InlineContents>
   <PocketMonsters
     Alligatorade="Water"
     Capybarista="Psycho"
@@ -39,6 +37,7 @@
     ]]>
   </Code>
   <?php print("Hello, World!"); ?>
+
   <!--
     Far out in the uncharted backwaters of the unfashionable end of the west-
 ern spiral arm of the Galaxy lies a small unregarded yellow sun. Orbiting
@@ -93,11 +92,11 @@ It begins with a house.
   -->
   <LongText>
     First, it is slightly cheaper; and secondly it has the words Don’t Panic
-inscribed in large friendly letters on its cover.
-But the story of this terrible, stupid Thursday, the story of its extraordinary
-consequences, and the story of how these consequences are inextricably
-intertwined with this remarkable book begins very simply.
-It begins with a house.
+    inscribed in large friendly letters on its cover.
+    But the story of this terrible, stupid Thursday, the story of its extraordinary
+    consequences, and the story of how these consequences are inextricably
+    intertwined with this remarkable book begins very simply.
+    It begins with a house.
   </LongText>
   <![CDATA[
 <xml>

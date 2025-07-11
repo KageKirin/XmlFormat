@@ -2,6 +2,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Linq;
 using System.Text;
+using Microsoft.Toolkit.HighPerformance;
 
 namespace XmlFormat;
 
@@ -81,6 +82,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     private readonly IndentedTextWriter textWriter;
 
     private List<Attribute>? currentAttributes = default;
+    private bool unhandledNewLineAfterElementStart = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FormattingXmlReadHandler"/> class with a stream, encoding, and formatting options.
@@ -171,6 +173,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the element starts.</param>
     public virtual void OnElementOpen(ReadOnlySpan<char> name, int line, int column)
     {
+        HandleNewLineAfterElementStart();
+
         textWriter.Write($"<{name.ToString()}");
         textWriter.Flush();
         textWriter.Indent++;
@@ -237,9 +241,10 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         textWriter.Indent--;
-        textWriter.WriteLine(">");
+        textWriter.Write(">");
         textWriter.Flush();
         textWriter.Indent++;
+        unhandledNewLineAfterElementStart = true;
     }
 
     /// <summary>
@@ -348,7 +353,19 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
-        textWriter.WriteLine(trimText.Trim().ToString());
+        var extraTrimText = trimText.Trim();
+        if (extraTrimText.None(x => Char.IsWhiteSpace(x)))
+        {
+            textWriter.Write(extraTrimText.ToString());
+            unhandledNewLineAfterElementStart = false;
+        }
+        else
+        {
+            HandleNewLineAfterElementStart();
+
+            foreach (var token in extraTrimText.Tokenize('\n'))
+                textWriter.WriteLine(token.Trim().ToString());
+        }
 
         // eat trailing newlines
         // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline
@@ -366,6 +383,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the comment appears.</param>
     public override void OnComment(ReadOnlySpan<char> comment, int line, int column)
     {
+        HandleNewLineAfterElementStart();
+
         if (comment.Length < Options.LineLength)
         {
             textWriter.WriteLine($"<!-- {comment.Trim().ToString()} -->");
@@ -389,6 +408,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the CDATA section appears.</param>
     public override void OnCData(ReadOnlySpan<char> cdata, int line, int column)
     {
+        HandleNewLineAfterElementStart();
+
         textWriter.WriteLine("<![CDATA[");
         textWriter.WriteLineNoTabs($"{cdata.Trim('\n').TrimEnd().ToString()}");
         textWriter.WriteTabs();
@@ -397,6 +418,15 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     }
 
     #endregion
+
+    private void HandleNewLineAfterElementStart()
+    {
+        if (unhandledNewLineAfterElementStart)
+        {
+            textWriter.WriteLine();
+            unhandledNewLineAfterElementStart = false;
+        }
+    }
 }
 
 /// <summary>

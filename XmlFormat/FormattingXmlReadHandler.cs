@@ -333,6 +333,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     {
         var trimmedTextExceptNewLines = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
         var fullyTrimmedText = trimmedTextExceptNewLines.Trim();
+        int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
 
         if (trimmedTextExceptNewLines.IsEmpty)
         {
@@ -358,8 +359,6 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         // eat leading newlines
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
-
-        int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
 
         if (
             fullyTrimmedText.Length < Options.LineLength - leadingWhitespace

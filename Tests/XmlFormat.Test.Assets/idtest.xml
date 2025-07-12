@@ -19,9 +19,13 @@
   <StackPanel>
     <DataGrid AutoGenerateColumns="True" ItemsSource="{CompiledBinding Commits}" />
   </StackPanel>
+
   <EmptyElement />
+
   <Foobar Hoge="True" />
+
   <InlineContents>contents</InlineContents>
+
   <PocketMonsters
     Alligatorade="Water"
     Capybarista="Psycho"
@@ -90,6 +94,7 @@ consequences, and the story of how these consequences are inextricably
 intertwined with this remarkable book begins very simply.
 It begins with a house.
   -->
+
   <LongText>
     First, it is slightly cheaper; and secondly it has the words Don’t Panic
     inscribed in large friendly letters on its cover.
@@ -98,6 +103,7 @@ It begins with a house.
     intertwined with this remarkable book begins very simply.
     It begins with a house.
   </LongText>
+
   <![CDATA[
 <xml>
   ]]>
@@ -105,6 +111,7 @@ It begins with a house.
   <xml>
   </xml>
   ]]>
+
 </Window>
 <!-- <Xml>
   foobar

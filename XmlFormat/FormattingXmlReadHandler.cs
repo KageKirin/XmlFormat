@@ -359,20 +359,20 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             textWriter.WriteLineNoTabs();
 
         int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
-        var extraTrimText = trimmedTextExceptNewLines.Trim();
+        var fullyTrimmedText = trimmedTextExceptNewLines.Trim();
         if (
-            extraTrimText.Length < Options.LineLength - leadingWhitespace
-            && extraTrimText.None(c => c == '\n')
+            fullyTrimmedText.Length < Options.LineLength - leadingWhitespace
+            && fullyTrimmedText.None(c => c == '\n')
         )
         {
-            textWriter.Write(extraTrimText.ToString());
+            textWriter.Write(fullyTrimmedText.ToString());
             unhandledNewLineAfterElementStart = false;
         }
         else
         {
             HandleNewLineAfterElementStart();
 
-            foreach (var token in extraTrimText.Tokenize('\n'))
+            foreach (var token in fullyTrimmedText.Tokenize('\n'))
                 textWriter.WriteLine(token.Trim().ToString());
         }
 

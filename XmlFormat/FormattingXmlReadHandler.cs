@@ -332,6 +332,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
         var trimmedTextExceptNewLines = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
+        var fullyTrimmedText = trimmedTextExceptNewLines.Trim();
 
         if (trimmedTextExceptNewLines.IsEmpty)
         {
@@ -359,7 +360,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             textWriter.WriteLineNoTabs();
 
         int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
-        var fullyTrimmedText = trimmedTextExceptNewLines.Trim();
+
         if (
             fullyTrimmedText.Length < Options.LineLength - leadingWhitespace
             && fullyTrimmedText.None(c => c == '\n')

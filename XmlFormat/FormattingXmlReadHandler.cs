@@ -357,7 +357,11 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         }
 
         // handle text for inline elements
-        if (fullyTrimmedText.None(c => c == '\n') && fullyTrimmedText.Length < Options.LineLength - leadingWhitespace)
+        if (
+            fullyTrimmedText.None(c => c == '\n')
+            && fullyTrimmedText.Length < Options.LineLength - leadingWhitespace
+            && fullyTrimmedText.Tokenize(char.IsWhiteSpace).Count() <= Options.MaxWordsPerLine
+        )
         {
             textWriter.Write(fullyTrimmedText.ToString());
             unhandledNewLineAfterElementStart = false;

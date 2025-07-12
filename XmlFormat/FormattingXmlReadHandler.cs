@@ -334,7 +334,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         var trimText = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
 
         if (trimText.IsEmpty)
+        {
+            unhandledNewLineAfterElementStart = false; //< allows empty inline elements `<element></element>`
+            // alternative:
+            // HandleNewLineAfterElementStart(); //< changes empty inline elements to `<element>\n</element>`
             return;
+        }
 
         int totalNewlines = trimText.Count(c => c == '\n');
         int leadingNewlines = trimText.CountStart(c => c == '\n');

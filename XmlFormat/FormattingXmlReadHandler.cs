@@ -353,8 +353,12 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
+        int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
         var extraTrimText = trimText.Trim();
-        if (extraTrimText.None('\n'))
+        if (
+            extraTrimText.Length < Options.LineLength - leadingWhitespace
+            && extraTrimText.None(c => c == '\n')
+        )
         {
             textWriter.Write(extraTrimText.ToString());
             unhandledNewLineAfterElementStart = false;

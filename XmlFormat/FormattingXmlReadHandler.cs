@@ -361,9 +361,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             return;
         }
 
-        HandleNewLineAfterElementStart();
-
         // eat leading newlines
+        HandleNewLineAfterElementStart();
         int leadingNewlines = trimmedTextExceptNewLines.CountStart(c => c == '\n');
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();

@@ -354,11 +354,7 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             return;
         }
 
-        if (
-            !fullyTrimmedText.IsEmpty
-            && fullyTrimmedText.None(c => c == '\n')
-            && fullyTrimmedText.Length < Options.LineLength - leadingWhitespace
-        )
+        if (fullyTrimmedText.None(c => c == '\n') && fullyTrimmedText.Length < Options.LineLength - leadingWhitespace)
         {
             textWriter.Write(fullyTrimmedText.ToString());
             unhandledNewLineAfterElementStart = false;

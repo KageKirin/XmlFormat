@@ -331,9 +331,11 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
     /// <param name="column">The column number where the text starts.</param>
     public override void OnText(ReadOnlySpan<char> text, int line, int column)
     {
-        var trimText = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
+        var trimmedTextExceptNewLines = text.Trim(c => char.IsWhiteSpace(c) && c != '\n');
+        var fullyTrimmedText = trimmedTextExceptNewLines.Trim();
+        int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
 
-        if (trimText.IsEmpty)
+        if (trimmedTextExceptNewLines.IsEmpty)
         {
             unhandledNewLineAfterElementStart = false; //< allows empty inline elements `<element></element>`
             // alternative:
@@ -341,12 +343,25 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
             return;
         }
 
-        int totalNewlines = trimText.Count(c => c == '\n');
-        int leadingNewlines = trimText.CountStart(c => c == '\n');
-        int trailingNewlines = trimText.CountEnd(c => c == '\n');
+        if (
+            !fullyTrimmedText.IsEmpty
+            && fullyTrimmedText.None(c => c == '\n')
+            && fullyTrimmedText.Length < Options.LineLength - leadingWhitespace
+        )
+        {
+            textWriter.Write(fullyTrimmedText.ToString());
+            unhandledNewLineAfterElementStart = false;
+            return;
+        }
+
+        HandleNewLineAfterElementStart();
+
+        int totalNewlines = trimmedTextExceptNewLines.Count(c => c == '\n');
+        int leadingNewlines = trimmedTextExceptNewLines.CountStart(c => c == '\n');
+        int trailingNewlines = trimmedTextExceptNewLines.CountEnd(c => c == '\n');
 
         // eat newlines: text is just newlines, and reduce any amount of newlines to max 2
-        if (trimText.IsWhiteSpace())
+        if (trimmedTextExceptNewLines.IsWhiteSpace())
         {
             for (int i = 0; i < Math.Min(totalNewlines - 1, Options.MaxEmptyLines); i++)
                 textWriter.WriteLineNoTabs();
@@ -358,23 +373,8 @@ public class FormattingXmlReadHandler : XmlReadHandlerBase
         for (int i = 0; i < Math.Min(leadingNewlines - 1, Options.MaxEmptyLines); i++)
             textWriter.WriteLineNoTabs();
 
-        int leadingWhitespace = textWriter.Indent * Options.Tabs.Length * Options.TabsRepeat;
-        var extraTrimText = trimText.Trim();
-        if (
-            extraTrimText.Length < Options.LineLength - leadingWhitespace
-            && extraTrimText.None(c => c == '\n')
-        )
-        {
-            textWriter.Write(extraTrimText.ToString());
-            unhandledNewLineAfterElementStart = false;
-        }
-        else
-        {
-            HandleNewLineAfterElementStart();
-
-            foreach (var token in extraTrimText.Tokenize('\n'))
-                textWriter.WriteLine(token.Trim().ToString());
-        }
+        foreach (var token in fullyTrimmedText.Tokenize('\n'))
+            textWriter.WriteLine(token.Trim().ToString());
 
         // eat trailing newlines
         // note: due to textWriter.WriteLine() above, we have to discount 1 trailing newline

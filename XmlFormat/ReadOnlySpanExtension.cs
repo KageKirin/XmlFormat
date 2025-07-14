@@ -193,4 +193,25 @@ public static class ReadOnlySpanCharExtensions
         }
         return true;
     }
+
+    /// <summary>
+    /// Finds the zero-based index of the first character in the span that matches the conditions defined by the specified predicate.
+    /// </summary>
+    /// <param name="span">The read-only character span to search.</param>
+    /// <param name="match">The predicate that defines the conditions of the character to search for.</param>
+    /// <returns>
+    /// The zero-based index of the first occurrence of a character that matches the conditions defined by <paramref name="match"/> within the entire <see cref="ReadOnlySpan{T}"/>, if found; otherwise, –1.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int IndexOf(this ReadOnlySpan<char> span, Func<char, bool> match)
+    {
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (match(span[i]))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

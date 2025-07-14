@@ -29,12 +29,16 @@ public class FormatterTest
     [InlineData("<element>test</element> ", "<element>test</element>")]
     [InlineData("<element>test test</element> ", "<element>test test</element>")]
     [InlineData("<element>test test test</element> ", "<element>test test test</element>")]
+    [InlineData("<element>test test test test</element> ", "<element>test test test test</element>")]
+    [InlineData("<element>test test test test test</element> ", "<element>\ntest test test test test\n</element>")]
     [InlineData("<element>test\ntest</element> ", "<element>\ntest\ntest\n</element>")]
     [InlineData("<element attribute=\"1\"></element> ", "<element attribute=\"1\"></element>")]
     [InlineData("<element attribute=\"1\">\n</element> ", "<element attribute=\"1\">\n</element>")]
     [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">test</element>")]
     [InlineData("<element attribute=\"1\">test test</element> ", "<element attribute=\"1\">test test</element>")]
     [InlineData("<element attribute=\"1\">test test test</element> ", "<element attribute=\"1\">test test test</element>")]
+    [InlineData("<element attribute=\"1\">test test test test</element> ", "<element attribute=\"1\">test test test test</element>")]
+    [InlineData("<element attribute=\"1\">test test test test test</element> ", "<element attribute=\"1\">\ntest test test test test\n</element>")]
     [InlineData("<element attribute=\"1\">test\ntest</element> ", "<element attribute=\"1\">\ntest\ntest\n</element>")]
     public void IdentityTest(string input, string expected)
     {
@@ -75,12 +79,16 @@ public class FormatterTest
     [InlineData("<element>test</element> ", "<element>test</element>")]
     [InlineData("<element>test test</element> ", "<element>test test</element>")]
     [InlineData("<element>test test test</element> ", "<element>test test test</element>")]
+    [InlineData("<element>test test test test</element> ", "<element>test test test test</element>")]
+    [InlineData("<element>test test test test test</element> ", "<element>\ntest test test test test\n</element>")]
     [InlineData("<element>test\ntest</element> ", "<element>\ntest\ntest\n</element>")]
     [InlineData("<element attribute=\"1\"></element> ", "<element attribute=\"1\"></element>")]
     [InlineData("<element attribute=\"1\">\n</element> ", "<element attribute=\"1\">\n</element>")]
     [InlineData("<element attribute=\"1\">test</element> ", "<element attribute=\"1\">test</element>")]
     [InlineData("<element attribute=\"1\">test test</element> ", "<element attribute=\"1\">test test</element>")]
     [InlineData("<element attribute=\"1\">test test test</element> ", "<element attribute=\"1\">test test test</element>")]
+    [InlineData("<element attribute=\"1\">test test test test</element> ", "<element attribute=\"1\">test test test test</element>")]
+    [InlineData("<element attribute=\"1\">test test test test test</element> ", "<element attribute=\"1\">\ntest test test test test\n</element>")]
     [InlineData("<element attribute=\"1\">test\ntest</element> ", "<element attribute=\"1\">\ntest\ntest\n</element>")]
     public void IdentityTestStream(string input, string expected)
     {

@@ -263,4 +263,27 @@ public static class ReadOnlySpanCharExtensions
         }
         return -1;
     }
+
+    /// <summary>
+    /// Creates a tokenizer that enumerates the segments of a span, separated by characters that match the specified predicate.
+    /// </summary>
+    /// <param name="span">The source span to tokenize.</param>
+    /// <param name="separator">The predicate that defines the separator character(s).</param>
+    /// <returns>A <see cref="PredicatedReadOnlySpanTokenizer"/> for the specified span.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static PredicatedReadOnlySpanTokenizer Tokenize(this ReadOnlySpan<char> span, Func<char, bool> separator)
+    {
+        return new(span, separator);
+    }
+
+    /// <summary>
+    /// Splits a span into segments based on a separator defined by a predicate.
+    /// </summary>
+    /// <param name="span">The source span to split.</param>
+    /// <param name="separator">The predicate that defines the separator character(s).</param>
+    /// <returns>A <see cref="PredicatedReadOnlySpanTokenizer"/> that can be used to iterate over the segments.</returns>
+    /// <remarks>This method is an alias for the <see cref="Tokenize"/> method.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static PredicatedReadOnlySpanTokenizer Split(this ReadOnlySpan<char> span, Func<char, bool> separator) =>
+        span.Tokenize(separator);
 }

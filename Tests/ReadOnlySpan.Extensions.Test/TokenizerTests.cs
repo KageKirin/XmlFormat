@@ -39,13 +39,8 @@ public class TokenizerTest
     public void CountTokens(string input_, int expectedCount)
     {
         ReadOnlySpan<char> input = input_.AsSpan();
-        int count = 0;
         var tokens = input.Tokenize(Char.IsWhiteSpace);
-        while (tokens.MoveNext())
-        {
-            Console.WriteLine($"token[{count}]: {tokens.Current}");
-            count++;
-        }
+        int count = tokens.Count();
         Assert.Equal(expectedCount, count);
     }
 

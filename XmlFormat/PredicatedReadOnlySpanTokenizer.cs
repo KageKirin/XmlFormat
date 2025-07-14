@@ -85,3 +85,15 @@ public ref struct PredicatedReadOnlySpanTokenizer
         get => this.span.Slice(this.start, this.end - this.start);
     }
 }
+
+public static class PredicatedReadOnlySpanTokenizerExtension
+{
+    public static int Count(this PredicatedReadOnlySpanTokenizer tokenizer)
+    {
+        int count = 0;
+        foreach (var c in tokenizer)
+            count++;
+
+        return count;
+    }
+}

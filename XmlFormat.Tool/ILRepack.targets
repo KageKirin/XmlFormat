@@ -28,10 +28,11 @@
 
     <ILRepack
       Parallel="false"
-      DebugInfo="true"
-      Verbose="true"
+      DebugInfo="false"
+      LogVerbose="false"
       Internalize="true"
       RenameInternalized="false"
+
       InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       FilterAssemblies="@(FilterAssemblies)"

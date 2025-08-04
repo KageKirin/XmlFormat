@@ -28,9 +28,10 @@
     <ILRepack
       Parallel="false"
       DebugInfo="true"
-      Verbose="true"
+      LogVerbose="true"
       Internalize="true"
       RenameInternalized="false"
+
       InputAssemblies="@(MainAssembly);@(InputAssemblies)"
       LibraryPaths="@(LibraryPath)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"

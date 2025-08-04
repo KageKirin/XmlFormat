@@ -27,8 +27,8 @@
 
     <ILRepack
       Parallel="false"
-      DebugInfo="true"
-      LogVerbose="true"
+      DebugInfo="false"
+      LogVerbose="false"
       Internalize="true"
       RenameInternalized="false"
 

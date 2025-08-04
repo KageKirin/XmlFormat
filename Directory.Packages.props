@@ -46,7 +46,7 @@
     <!-- structured build logger -->
     <GlobalPackageReference Include="MSBuild.StructuredLogger" Version="2.3.17" PrivateAssets="All" />
     <!-- ILRepack -->
-    <GlobalPackageReference Include="KageKirin.ILRepack.Tool.MSBuild.Task" Version="0.3.5" PrivateAssets="All" />
+    <GlobalPackageReference Include="KageKirin.ILRepack.Lib.MSBuild.Task" Version="0.3.5" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

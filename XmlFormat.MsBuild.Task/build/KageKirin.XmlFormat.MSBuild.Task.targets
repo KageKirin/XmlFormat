@@ -3,7 +3,7 @@
 
   <!-- Declare the pass to the MSBuild assembly as variable -->
   <PropertyGroup>
-    <XmlFormatAssembly>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\XmlFormat.MsBuild.Task.dll</XmlFormatAssembly>
+    <XmlFormatAssembly>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\XmlFormat.MSBuild.Task.dll</XmlFormatAssembly>
   </PropertyGroup>
 
   <!-- Select TaskFactory class depending on MSBuild version -->

@@ -2,5 +2,24 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ILRepackTarget>true</ILRepackTarget>
+    <ILRepackIncludeReferenceAssemblies>true</ILRepackIncludeReferenceAssemblies>
+    <ILRepackSkipConfigMerge>true</ILRepackSkipConfigMerge>
+    <ILRepackNoRepackRes>true</ILRepackNoRepackRes>
+    <ILRepackUnionMerge>true</ILRepackUnionMerge>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ILRepackInputAssemblies Include="$(PkgMicrosoft_Build_Utilities_Core)\lib\net472\*.dll" />
+    <ILRepackInputAssemblies Include="$(PkgMicrosoft_Build_Framework)\lib\net472\*.dll" />
+
+    <ILRepackLibraryPaths Include="$(PkgMicrosoft_Build_Utilities_Core)\lib\net472" />
+    <ILRepackLibraryPaths Include="$(PkgMicrosoft_Build_Framework)\lib\net472" />
+
+    <ILRepackFilterAssemblies Include="Microsoft.Toolkit.HighPerformance" />
+    <ILRepackFilterAssemblies Include="Microsoft.Extensions" />
+    <ILRepackFilterAssemblies Include="Alexinea.Extensions" />
+    <ILRepackFilterAssemblies Include="Nett" />
+    <ILRepackFilterAssemblies Include="Superpower" />
+    <ILRepackFilterAssemblies Include="XmlFormat" />
+  </ItemGroup>
 </Project>

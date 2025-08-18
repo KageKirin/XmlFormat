@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="ILRepacker" AfterTargets="Compile" DependsOnTargets="ResolveAssemblyReferences">
+<!--
+  <Target Name="ILRepacker"
+    AfterTargets="Compile"
+    DependsOnTargets="ResolveAssemblyReferences"
+    Condition="'$(ILRepackTarget)' == 'false'"
+  >
 
     <Message Text="Repacking $(IntermediateOutputPath)" Importance="high" />
 
@@ -42,5 +47,5 @@
     />
 
   </Target>
-
+-->
 </Project>

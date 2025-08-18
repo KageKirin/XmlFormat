@@ -5,7 +5,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>XmlFormat.MsBuild.Task</AssemblyName>
+    <AssemblyName>XmlFormat.MSBuild.Task</AssemblyName>
     <IsPackable>true</IsPackable>
     <IsPublishable>true</IsPublishable>
     <PackRelease>true</PackRelease>

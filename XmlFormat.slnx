@@ -1,0 +1,21 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/MsBuild.Task.Test/MsBuild.Task.Test.csproj" />
+    <Project Path="Tests/ReadOnlySpan.Extensions.Test/ReadOnlySpan.Extensions.Test.csproj" />
+    <Project Path="Tests/SAX.EventHandler.Test/SAX.EventHandler.Test.csproj" />
+    <Project Path="Tests/SAX.Formatter.Test/SAX.Formatter.Test.csproj" />
+    <Project Path="Tests/SAX.Tokenizer.Negative.Test/SAX.Tokenizer.Negative.Test.csproj" />
+    <Project Path="Tests/SAX.Tokenizer.Test/SAX.Tokenizer.Test.csproj" />
+    <Project Path="Tests/SAX.TokenParser.Test/SAX.TokenParser.Test.csproj" />
+    <Project Path="Tests/XmlFormat.Test.Assets/XmlFormat.Test.Assets.csproj" />
+  </Folder>
+  <Project Path="XmlFormat.MsBuild.Task/XmlFormat.MsBuild.Task.csproj" />
+  <Project Path="XmlFormat.SAX/XmlFormat.SAX.csproj" />
+  <Project Path="XmlFormat.Tool/XmlFormat.Tool.csproj" />
+  <Project Path="XmlFormat/XmlFormat.csproj" />
+</Solution>

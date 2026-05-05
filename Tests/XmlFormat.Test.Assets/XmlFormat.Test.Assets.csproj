@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup Label="package dependencies">
-    <PackageReference Include=" xunit.v3.assert" />
+    <PackageReference Include="xunit.v3.assert" />
   </ItemGroup>
 
 </Project>
